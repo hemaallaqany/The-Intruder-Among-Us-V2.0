@@ -390,7 +390,7 @@
     background: var(--surface2);
     display: flex;
     flex-direction: column;
-    height: 180px;
+    height: 220px;
     margin-top: 12px;
     overflow: hidden;
   }
@@ -407,13 +407,37 @@
     line-height: 1.4;
     word-break: break-word;
     background: rgba(255,255,255,0.03);
-    padding: 4px 8px;
+    padding: 6px 10px;
     border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .chat-msg-row:hover {
+    background: rgba(255,255,255,0.08);
   }
   .chat-msg-sender {
     color: var(--gold);
     font-weight: 700;
     margin-left: 4px;
+  }
+  .chat-reply-preview {
+    background: rgba(0,0,0,0.2);
+    border-right: 3px solid var(--teal);
+    padding: 4px 8px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 4px;
+    border-radius: 4px;
+  }
+  .chat-reply-bar {
+    background: var(--surface2);
+    border-top: 1px solid var(--border);
+    padding: 6px 10px;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--teal);
   }
 
   /* ── REVEAL SCREEN ── */
@@ -674,12 +698,45 @@
       
       <div class="scrollable-content" id="discuss-scroll-area">
         <div id="online-answers-list" class="answers-block"></div>
+      </div>
+      
+      <button class="btn btn-primary" id="discuss-action-btn" onclick="showReveal()">كشف الأسئلة ←</button>
+    </div>
+  </div>
+
+  <div id="screen-reveal" class="screen">
+    <div class="card">
+      <div style="text-align: center; flex-shrink: 0;">
+        <div class="big-emoji" style="margin:0;">🎭</div>
+        <h2>الأسئلة الحالية والنقاش...</h2>
+      </div>
+      
+      <div class="scrollable-content" id="reveal-scroll-area">
+        <div class="q-reveal-row normal">
+          <div class="q-reveal-label">📗 سؤال اللاعبين العاديين</div>
+          <div class="q-reveal-text" id="reveal-qa">—</div>
+        </div>
         
-        <!-- نظام الشات المصغر -->
+        <div class="q-reveal-row imposter" id="reveal-imposter-question-row">
+          <div class="q-reveal-label">🔴 سؤال الدخيل</div>
+          <div class="q-reveal-text" id="reveal-qb">—</div>
+        </div>
+
+        <!-- عرض الإجابات لتسهيل النقاش المتزامن مع الشات -->
+        <div id="reveal-answers-list" class="answers-block" style="margin-bottom:12px;"></div>
+        
+        <!-- نظام الشات السحابي المتطور مع الردود -->
         <div id="online-chat-section" style="display: none;">
-          <div style="font-size:0.9rem; font-weight:700; margin-top:14px; color:var(--teal);">💬 شات النقاش السريع:</div>
+          <div style="font-size:0.9rem; font-weight:700; margin-top:14px; color:var(--teal);">💬 شات النقاش السريع (اضغط على رسالة للرد):</div>
           <div class="chat-box-container">
             <div id="chat-messages" class="chat-messages"></div>
+            
+            <!-- شريط معاينة الرد قبل الإرسال -->
+            <div id="chat-reply-bar" class="chat-reply-bar">
+              <span id="chat-reply-text">الرد على: </span>
+              <button style="background:none; border:none; color:var(--accent); font-weight:bold; cursor:pointer;" onclick="cancelReply()">✕ إلغاء</button>
+            </div>
+
             <div class="input-row" style="margin:0; padding:4px; background:var(--surface);">
               <input type="text" id="chat-input" placeholder="اكتب رسالة للنقاش..." onkeydown="if(event.key==='Enter')sendChatMessage()">
               <button class="btn btn-teal btn-sm" style="padding:6px 12px;" onclick="sendChatMessage()">إرسال</button>
@@ -688,28 +745,6 @@
         </div>
       </div>
       
-      <button class="btn btn-primary" id="discuss-action-btn" onclick="showReveal()">كشف الأسئلة ←</button>
-    </div>
-  </div>
-
-  <div id="screen-reveal" class="screen">
-    <div class="card" style="justify-content: center;">
-      <div class="big-emoji">🎭</div>
-      <h2>الأسئلة الحالية...</h2>
-      
-      <div class="q-reveal-row normal">
-        <div class="q-reveal-label">📗 سؤال اللاعبين العاديين</div>
-        <div class="q-reveal-text" id="reveal-qa">—</div>
-      </div>
-      
-      <div class="q-reveal-row imposter" id="reveal-imposter-question-row">
-        <div class="q-reveal-label">🔴 سؤال الدخيل</div>
-        <div class="q-reveal-text" id="reveal-qb">—</div>
-      </div>
-      
-      <div class="instruction-box" style="margin-top:14px; border-right-color:var(--accent);" id="reveal-instructions">
-        تناقشوا سريعاً لربط الإجابات بالأسئلة، ثم ابدأوا التصويت السري!
-      </div>
       <button class="btn btn-primary" id="reveal-action-btn" onclick="startVoting()">🗳️ بدء التصويت السري</button>
     </div>
   </div>
@@ -885,7 +920,8 @@ let state = {
 let dbRef = null;
 let timerInterval = null;
 let modalCallback = null;
-let initialPlayersCount = 0; // لتعقب النقص المفاجئ في عدد اللاعبين
+let initialPlayersCount = 0; 
+let currentReplyTarget = null; // يحمل كائن الرسالة التي يتم الرد عليها حالياً
 
 function saveLibrary() {
   localStorage.setItem('imp_categories_library', JSON.stringify(state.library));
@@ -1052,7 +1088,6 @@ function listenToRoomUpdates() {
       return;
     }
 
-    // ── الطرد التلقائي عند خروج لاعب أثناء الجولة ──
     if (data.status !== 'waiting' && data.players.length < initialPlayersCount) {
       customAlert('خرج أحد اللاعبين أثناء اللعب! تم إلغاء الجولة لتأمين نزاهة الغرفة وطرد الجميع.', '🛑');
       if (state.gameMode === 'online-host') {
@@ -1091,13 +1126,12 @@ function listenToRoomUpdates() {
       if (!document.getElementById('screen-discuss').classList.contains('active')) {
         startOnlineDiscussPhase();
       }
-      // تحديث الشات الفوري
-      renderChatMessages(data.chat);
     }
     else if (data.status === 'reveal-phase') {
       if (!document.getElementById('screen-reveal').classList.contains('active')) {
         startOnlineRevealPhase();
       }
+      renderChatMessages(data.chat);
     }
     else if (data.status === 'vote-phase') {
       if (!document.getElementById('screen-vote').classList.contains('active') && !document.getElementById('screen-waiting').classList.contains('active')) {
@@ -1208,7 +1242,7 @@ function clickStartGame() {
       questionImposter: shuffledQuestions[1],
       answers: {},
       votes: {},
-      chat: {}, // تهيئة الشات للجولة الجديدة
+      chat: {}, 
       readyToVoteCount: 0
     });
   }
@@ -1272,8 +1306,6 @@ function nextAfterQuestion() {
   } else {
     document.getElementById('discuss-cat-display').textContent = state.currentCategoryName;
     document.getElementById('online-answers-list').innerHTML = `<p style="color:var(--muted); text-align:center;">في الوضع الأوفلاين، يقوم كل لاعب الآن بالإفصاح عن إجابته شفهياً أمام الحاضرين بالترتيب!</p>`;
-    document.getElementById('online-chat-section').style.display = 'none';
-    document.getElementById('discuss-action-btn').textContent = "كشف الأسئلة ←";
     showScreen('screen-discuss');
   }
 }
@@ -1329,21 +1361,7 @@ function checkAnswersCompletion() {
 
 function startOnlineDiscussPhase() {
   document.getElementById('discuss-cat-display').textContent = state.currentCategoryName;
-  const container = document.getElementById('online-answers-list');
   
-  container.innerHTML = state.players.map(p => {
-    const ans = state.answers[p] || "بدون إجابة";
-    return `
-      <div class="answer-card">
-        <strong style="color:var(--gold);">${esc(p)}:</strong> <span>${esc(ans)}</span>
-      </div>`;
-  }).join('');
-  
-  // تفعيل الشات للأونلاين فقط
-  document.getElementById('online-chat-section').style.display = 'block';
-  document.getElementById('chat-messages').innerHTML = '';
-  document.getElementById('chat-input').value = '';
-
   if (state.gameMode === 'online-host') {
     document.getElementById('discuss-action-btn').textContent = "توجيه الجميع لكشف الأسئلة 📢";
     document.getElementById('discuss-action-btn').disabled = false;
@@ -1354,42 +1372,33 @@ function startOnlineDiscussPhase() {
   showScreen('screen-discuss');
 }
 
-// ── إرسال رسائل الشات وقراءتها ──
-function sendChatMessage() {
-  const inp = document.getElementById('chat-input');
-  const msg = inp.value.trim();
-  if (!msg) return;
-  
-  const msgRef = dbRef.child('chat').push();
-  msgRef.set({
-    sender: state.myPlayerName,
-    text: msg,
-    timestamp: firebase.database.ServerValue.TIMESTAMP
-  });
-  inp.value = '';
-}
-
-function renderChatMessages(chatData) {
-  const chatMessagesBox = document.getElementById('chat-messages');
-  if (!chatData) return;
-  
-  const sortedMsgs = Object.values(chatData).sort((a, b) => a.timestamp - b.timestamp);
-  
-  chatMessagesBox.innerHTML = sortedMsgs.map(m => `
-    <div class="chat-msg-row">
-      <span class="chat-msg-sender">${esc(m.sender)}:</span>
-      <span>${esc(m.text)}</span>
-    </div>
-  `).join('');
-  
-  chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
-}
-
 function startOnlineRevealPhase() {
   document.getElementById('reveal-qa').textContent = state.questionNormal;
-  document.getElementById('reveal-qb').textContent = "🔒 مخفي ومكتوم حتى انتهاء التصويت النهائي!";
-  document.getElementById('reveal-imposter-question-row').style.display = 'block'; 
   
+  const myIdx = state.players.indexOf(state.myPlayerName);
+  if (myIdx === state.imposterIdx) {
+    document.getElementById('reveal-qb').textContent = state.questionImposter;
+  } else {
+    document.getElementById('reveal-qb').textContent = "🔒 مخفي ومكتوم حتى انتهاء التصويت النهائي!";
+  }
+  document.getElementById('reveal-imposter-question-row').style.display = 'block'; 
+
+  // بناء قائمة الإجابات في صفحة الكشف لتسهيل ربط الأسئلة
+  const revealAnswersContainer = document.getElementById('reveal-answers-list');
+  revealAnswersContainer.innerHTML = state.players.map(p => {
+    const ans = state.answers[p] || "بدون إجابة";
+    return `
+      <div class="answer-card">
+        <strong style="color:var(--gold);">${esc(p)}:</strong> <span>${esc(ans)}</span>
+      </div>`;
+  }).join('');
+  
+  // تفعيل الشات والردود في صفحة الكشف
+  document.getElementById('online-chat-section').style.display = 'block';
+  document.getElementById('chat-messages').innerHTML = '';
+  document.getElementById('chat-input').value = '';
+  cancelReply();
+
   if (state.gameMode === 'online-host') {
     document.getElementById('reveal-action-btn').textContent = "🗳️ فتح التصويت السري للجميع";
     document.getElementById('reveal-action-btn').disabled = false;
@@ -1398,6 +1407,71 @@ function startOnlineRevealPhase() {
     document.getElementById('reveal-action-btn').disabled = true;
   }
   showScreen('screen-reveal');
+}
+
+// ── إدارة نظام الشات الفوري والردود ──
+function setReplyTarget(senderName, textContent) {
+  currentReplyTarget = { sender: senderName, text: textContent };
+  const replyBar = document.getElementById('chat-reply-bar');
+  const replyText = document.getElementById('chat-reply-text');
+  
+  replyText.textContent = `رد على [${senderName}]: "${textContent.substring(0, 20)}${textContent.length > 20 ? '...' : ''}"`;
+  replyBar.style.display = 'flex';
+  document.getElementById('chat-input').focus();
+}
+
+function cancelReply() {
+  currentReplyTarget = null;
+  document.getElementById('chat-reply-bar').style.display = 'none';
+}
+
+function sendChatMessage() {
+  const inp = document.getElementById('chat-input');
+  const msg = inp.value.trim();
+  if (!msg) return;
+  
+  const msgRef = dbRef.child('chat').push();
+  const messagePayload = {
+    sender: state.myPlayerName,
+    text: msg,
+    timestamp: firebase.database.ServerValue.TIMESTAMP
+  };
+
+  if (currentReplyTarget) {
+    messagePayload.replyTo = currentReplyTarget;
+  }
+  
+  msgRef.set(messagePayload);
+  inp.value = '';
+  cancelReply();
+}
+
+function renderChatMessages(chatData) {
+  const chatMessagesBox = document.getElementById('chat-messages');
+  if (!chatData) return;
+  
+  const sortedMsgs = Object.values(chatData).sort((a, b) => a.timestamp - b.timestamp);
+  
+  chatMessagesBox.innerHTML = sortedMsgs.map(m => {
+    let replyMarkup = '';
+    if (m.replyTo) {
+      replyMarkup = `
+        <div class="chat-reply-preview">
+          ↪️ رداً على <strong>${esc(m.replyTo.sender)}</strong>: ${esc(m.replyTo.text)}
+        </div>`;
+    }
+    
+    // عند الضغط على الرسالة يتم استدعاء الـ Reply
+    return `
+      <div class="chat-msg-row" onclick="setReplyTarget('${esc(m.sender)}', '${esc(m.text)}')">
+        ${replyMarkup}
+        <span class="chat-msg-sender">${esc(m.sender)}:</span>
+        <span>${esc(m.text)}</span>
+      </div>
+    `;
+  }).join('');
+  
+  chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
 }
 
 function startOnlineVotePhase() {
@@ -1428,6 +1502,8 @@ function showReveal() {
     document.getElementById('reveal-imposter-question-row').style.display = 'none'; 
     document.getElementById('reveal-action-btn').textContent = "🗳️ بدء التصويت السري التناوبي";
     document.getElementById('reveal-action-btn').disabled = false;
+    document.getElementById('reveal-answers-list').innerHTML = '';
+    document.getElementById('online-chat-section').style.display = 'none';
     showScreen('screen-reveal');
   } else {
     if (state.gameMode === 'online-host') {
@@ -1452,7 +1528,7 @@ function startVoting() {
 function showOfflineVotePass() {
   const idx = state.voteOrder[state.voteIdx];
   document.getElementById('vote-pass-name').textContent = state.players[idx];
-  document.getElementById('vote-timer-div').style.none = 'none';
+  document.getElementById('vote-timer-div').style.display = 'none';
   showScreen('screen-vote-pass');
 }
 
