@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#0a0a12">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="./icon-192.png">
+<link class="apple-touch-icon" href="./icon-192.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎭</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght=400;600;700;900&display=swap" rel="stylesheet">
 
@@ -930,7 +930,7 @@ function selectGameMode(mode) {
 
 function joinOnlineRoom() {
   const code = document.getElementById('join-room-code').value.trim();
-  if (!code) { customAlert('الرجاء إدخال كود الغرفة', '✏️'); return; }
+  if (!code) { customAlert('الرجاء إدخل كود الغرفة', '✏️'); return; }
   
   firebase.database().ref('rooms/' + code).once('value', (snapshot) => {
     if (!snapshot.exists()) {
@@ -1298,6 +1298,7 @@ function startOnlineDiscussPhase() {
   
   if (state.gameMode === 'online-host') {
     document.getElementById('discuss-action-btn').textContent = "توجيه الجميع لكشف الأسئلة 📢";
+    document.getElementById('discuss-action-btn').disabled = false;
   } else {
     document.getElementById('discuss-action-btn').textContent = "بانتظار الهوست لكشف الأسئلة... ⏳";
     document.getElementById('discuss-action-btn').disabled = true;
@@ -1307,9 +1308,9 @@ function startOnlineDiscussPhase() {
 
 function startOnlineRevealPhase() {
   document.getElementById('reveal-qa').textContent = state.questionNormal;
-  document.getElementById('reveal-qb').textContent = state.questionImposter;
   
-  // في نمط الأونلاين يتم إظهار التوجيهات
+  // ⚡ التعديل الجوهري: إخفاء سؤال الدخيل تماماً في الأونلاين لكي لا ينحرق قبل التصويت ⚡
+  document.getElementById('reveal-qb').textContent = "🔒 مخفي ومكتوم حتى انتهاء التصويت النهائي!";
   document.getElementById('reveal-imposter-question-row').style.display = 'block'; 
   
   if (state.gameMode === 'online-host') {
@@ -1500,7 +1501,7 @@ function displayFinalCalculatedResults() {
 function renderFinalUIElements(imposterName, success, V, roundScores) {
   document.getElementById('result-imposter').textContent = imposterName;
   
-  // إظهار سؤال الدخيل للعلن هنا فقط في نهاية الجولة بالأوفلاين والأونلاين
+  // ✨ هنا تظهر الحقيقة! يتم إظهار سؤال الدخيل للجميع بشكل علني في الشاشة النهائية فقط ✨
   document.getElementById('result-imposter-q-display').textContent = state.questionImposter;
   
   const outBox = document.getElementById('outcome-box');
@@ -1678,11 +1679,13 @@ function importLibrary(event) {
   const reader = new FileReader();
   reader.onload = function(e) {
     try {
-      const importedData = JSON.parse(e.target.result);
-      if (Array.isArray(importedData)) {
-        state.library = importedData; saveLibrary(); renderLibrary();
-        customAlert('تم استيراد مكتبة الأسئلة بنجاح!', '✅');
-      }
+      try {
+        const importedData = JSON.parse(e.target.result);
+        if (Array.isArray(importedData)) {
+          state.library = importedData; saveLibrary(); renderLibrary();
+          customAlert('تم استيراد مكتبة الأسئلة بنجاح!', '✅');
+        }
+      } catch (err) { customAlert('فشل قراءة الملف المختار.', '❌'); }
     } catch (err) { customAlert('فشل قراءة الملف المختار.', '❌'); }
   };
   reader.readAsText(file);
