@@ -781,10 +781,9 @@
 </div>
 
 <script>
-// 🚨 إعداد مشروع Firebase السحابي المجاني الخاص بك 🚨
-// يمكنك تركه كما هو للتجربة الفورية، أو استبداله ببيانات مشروع Firebase الخاص بك لاحقاً لضمان الخصوصية التامة.
+// 🚨 إعداد مشروع Firebase السحابي المخصص الخاص بك 🚨
 const firebaseConfig = {
-  databaseURL: "https://imposter-game-default-rtdb.firebaseio.com" 
+  databaseURL: "https://the-intruder-among-us-default-rtdb.firebaseio.com" 
 };
 if (typeof firebase !== 'undefined') {
   firebase.initializeApp(firebaseConfig);
@@ -1352,7 +1351,7 @@ function showReveal() {
   if (state.gameMode === 'offline') {
     document.getElementById('reveal-qa').textContent = state.questionNormal;
     
-    // 🚨 التعديل المطلوب لـ offline mode: إخفاء سؤال الدخيل تماماً من هذه الشاشة 🚨
+    // إخفاء سؤال الدخيل تماماً من هذه الشاشة لمنع الغش بالنمط المحلي
     document.getElementById('reveal-imposter-question-row').style.display = 'none'; 
     
     document.getElementById('reveal-action-btn').textContent = "🗳️ بدء التصويت السري التناوبي";
@@ -1501,7 +1500,7 @@ function displayFinalCalculatedResults() {
 function renderFinalUIElements(imposterName, success, V, roundScores) {
   document.getElementById('result-imposter').textContent = imposterName;
   
-  // 📗 إظهار سؤال الدخيل للعلن هنا فقط في نهاية الجولة بالأوفلاين والأونلاين
+  // إظهار سؤال الدخيل للعلن هنا فقط في نهاية الجولة بالأوفلاين والأونلاين
   document.getElementById('result-imposter-q-display').textContent = state.questionImposter;
   
   const outBox = document.getElementById('outcome-box');
