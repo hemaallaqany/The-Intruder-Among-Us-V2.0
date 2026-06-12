@@ -107,7 +107,6 @@
   .scrollable-content::-webkit-scrollbar { width: 4px; }
   .scrollable-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-  /* ── TYPOGRAPHY ── */
   .game-title {
     font-size: 2.8rem;
     font-weight: 900;
@@ -137,7 +136,6 @@
   }
   .section-title span { font-size: 1.3rem; }
 
-  /* ── BUTTONS ── */
   .btn {
     display: block;
     width: 100%;
@@ -186,7 +184,6 @@
   .btn-gap { margin-top: 10px; }
   .back-btn { align-self: flex-start; margin-bottom: 14px; padding: 6px 12px; font-size: 0.85rem; }
 
-  /* ── INPUTS ── */
   .input-row {
     display: flex;
     gap: 8px;
@@ -208,7 +205,6 @@
   input[type="text"]:focus, input[type="number"]:focus { border-color: var(--accent); }
   input[type="text"]::placeholder { color: var(--muted); }
 
-  /* ── CUSTOM DROPDOWN ── */
   .custom-dropdown {
     position: relative;
     width: 100%;
@@ -274,7 +270,6 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* ── LISTS ── */
   .player-list { display: flex; flex-direction: column; gap: 8px; }
   .list-item {
     background: var(--surface2);
@@ -294,7 +289,6 @@
 
   .divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; flex-shrink: 0; }
 
-  /* ── PASS SCREEN ── */
   .pass-name {
     font-size: 2rem;
     font-weight: 900;
@@ -305,7 +299,6 @@
   }
   .pass-label { color: var(--muted); text-align: center; font-size: 1rem; }
 
-  /* ── TIMER ── */
   .game-timer {
     font-size: 1.2rem;
     font-weight: 700;
@@ -317,7 +310,6 @@
     border-radius: var(--radius-sm);
   }
 
-  /* ── QUESTION REVEAL ── */
   .question-box {
     background: var(--surface2);
     border: 2px dashed var(--border);
@@ -346,76 +338,38 @@
   .tap-hint {
     position: absolute;
     bottom: 10px;
-    left: 50%; transform: translateX(-50%);
-    font-size: 0.78rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
     color: var(--muted);
+    background: var(--surface);
+    padding: 2px 8px;
+    border-radius: 20px;
   }
-  .question-box.revealed .tap-hint { display: none; }
 
-  .room-banner {
+  .custom-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .custom-grid-item {
     background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     padding: 10px;
-    font-size: 0.85rem;
-    margin-bottom: 14px;
-    line-height: 1.5;
-    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
+  .custom-grid-item label { font-size: 0.75rem; color: var(--muted); }
 
-  /* ── MODAL SYSTEM ── */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(5,5,10,0.85);
-    backdrop-filter: blur(6px);
-    z-index: 10000;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-  .modal-overlay.active { display: flex; }
-  .modal-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px;
-    width: 100%;
-    max-width: 360px;
-    box-shadow: var(--shadow);
-    text-align: center;
-    animation: modalSlideUp 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
-  @keyframes modalSlideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-  .modal-icon { font-size: 2.2rem; margin-bottom: 12px; }
-  .modal-text { font-size: 1.05rem; font-weight: 600; margin-bottom: 18px; color: var(--text); }
-  .modal-input {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text);
-    font-family: inherit;
-    font-size: 0.95rem;
-    padding: 12px 14px;
-    outline: none;
-    text-align: right;
-    margin-bottom: 16px;
-    transition: border-color 0.2s;
-  }
-  .modal-input:focus { border-color: var(--accent); }
-  .modal-buttons { display: flex; gap: 10px; justify-content: center; }
-
-  /* ── ALERTS ── */
   #custom-alert {
     position: fixed;
-    top: 24px; left: 50%;
-    transform: translateX(-50%) translateY(-40px);
-    background: rgba(19,19,31,0.95);
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    background: var(--surface2);
     border: 1px solid var(--border);
     padding: 12px 20px;
     border-radius: 40px;
@@ -430,7 +384,6 @@
   }
   #custom-alert.active { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-  /* ── CHAT & MESSAGES ── */
   .chat-box {
     background: var(--surface2);
     border: 1px solid var(--border);
@@ -463,99 +416,209 @@
   .msg-me { background: rgba(6,214,160,0.08); border-right: 3px solid var(--teal); }
   .msg-reply { background: rgba(123,45,139,0.15); border-right: 3px solid var(--purple); }
 
-  /* ── TREE LIBRARY DESIGN ── */
-  .tree-category {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    margin-bottom: 12px;
-    overflow: hidden;
-  }
-  .tree-cat-header {
-    background: rgba(255,255,255,0.02);
-    padding: 12px 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-weight: 700;
-  }
-  .tree-children {
-    margin-right: 14px;
-    padding-top: 6px;
-    border-right: 2px dashed var(--border);
-    padding-right: 10px;
-  }
-  .badge-btn {
-    padding: 4px 10px;
-    font-size: 0.8rem;
-    background: var(--accent);
-    border: none;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
-    margin-right: 5px;
-    font-family: inherit;
-  }
-  .badge-add { background: var(--teal); color: #000; font-weight: 700; }
-  .empty-state { color: var(--muted); text-align: center; padding: 20px 0; font-size: 0.9rem; }
+  .tree-category { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 12px; overflow: hidden; }
+  .tree-cat-header { background: rgba(255,255,255,0.02); padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; }
+  .tree-sub-list { padding: 8px 14px; border-top: 1px solid var(--border); background: rgba(0,0,0,0.1); display: flex; flex-direction: column; gap: 8px; }
+  .tree-sub-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px; }
+  .empty-state { text-align: center; color: var(--muted); padding: 30px 10px; font-size: 0.9rem; }
 </style>
 </head>
 <body>
 
 <div id="custom-alert">
-  <span id="alert-icon">🔔</span>
-  <span id="alert-text">...</span>
-</div>
-
-<div class="modal-overlay" id="custom-prompt-modal">
-  <div class="modal-box">
-    <div class="modal-icon" id="custom-prompt-icon">📝</div>
-    <div class="modal-text" id="custom-prompt-title">إدخال بيانات جديدة</div>
-    <input type="text" class="modal-input" id="custom-prompt-input" placeholder="...">
-    <div class="modal-buttons">
-      <button class="btn btn-primary btn-sm" id="custom-prompt-save" style="min-width: 80px;">حفظ</button>
-      <button class="btn btn-secondary btn-sm" id="custom-prompt-cancel" style="min-width: 80px;">إلغاء</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-overlay">
-  <div class="modal-box">
-    <div class="modal-icon" id="modal-icon">🛑</div>
-    <div class="modal-text" id="modal-text">هل أنت متأكد؟</div>
-    <div class="modal-buttons">
-      <button class="btn btn-primary btn-sm" id="modal-yes-btn">نعم</button>
-      <button class="btn btn-secondary btn-sm" id="modal-no-btn">تراجع</button>
-    </div>
-  </div>
+  <span id="custom-alert-icon">⚠️</span>
+  <span id="custom-alert-text">تنبيه!</span>
 </div>
 
 <div class="app">
   <div class="screen active" id="screen-menu">
     <div class="card" style="justify-content: center; text-align: center;">
-      <div class="game-title">بيننا دخيل</div>
-      <div class="game-subtitle">النسخة المتقدمة • الإصدار الذكي 🎭</div>
-      <div class="input-row">
-        <input type="text" id="main-player-name" placeholder="اكتب اسمك المستعار هنا...">
+      <h1 class="game-title">بيننا دخيل</h1>
+      <p class="game-subtitle">النسخة المتقدمة بالفئات والمجموعات 🎭</p>
+      
+      <div class="input-row" style="margin-bottom: 20px;">
+        <input type="text" id="player-name-input" placeholder="اكتب اسمك المستعار هنا...">
       </div>
-      <button class="btn btn-primary btn-gap" onclick="goToLobbySetup('offline')">🎮 للعب أوفلاين (جهاز واحد)</button>
-      <button class="btn btn-teal btn-gap" onclick="goToLobbySetup('online-host')">🏠 إنشاء غرفة أونلاين</button>
-      <div class="divider"></div>
-      <div class="input-row" style="margin-bottom: 8px;">
-        <input type="text" id="join-room-code" placeholder="كود الغرفة المكون من 4 رموز...">
+
+      <button class="btn btn-primary" onclick="startOfflineMode()">🎮 لعب محلي (جهاز واحد)</button>
+      <div style="margin-top: 12px; display: flex; gap: 8px;">
+        <button class="btn btn-teal" style="flex: 1;" onclick="createOnlineRoom()">✨ إنشاء غرفة</button>
+        <button class="btn btn-secondary" style="flex: 1; border-color: var(--teal);" onclick="showScreen('screen-join')">🚪 انضمام</button>
       </div>
-      <button class="btn btn-secondary" onclick="joinOnlineRoom()">🔑 انضمام لغرفة قائمة</button>
+      
       <div class="divider"></div>
       <button class="btn btn-gold" onclick="showScreen('screen-library')">📚 إدارة مكتبة الأسئلة والفئات</button>
     </div>
   </div>
 
-  <div class="screen" id="screen-library">
-    <div class="card" style="display: flex; flex-direction: column; height: 100%; overflow: hidden;">
-      <button class="btn btn-secondary back-btn" onclick="showScreen('screen-menu')">⬅️ عودة للقائمة</button>
-      <h2 style="flex-shrink: 0; margin-bottom: 12px;">إدارة الفئات والمجموعات</h2>
+  <div class="screen" id="screen-join">
+    <div class="card">
+      <button class="btn btn-secondary back-btn" onclick="showScreen('screen-menu')">⬅️ عودة</button>
+      <h2>الانضمام لغرفة أونلاين</h2>
+      <div class="scrollable-content" style="display:flex; flex-direction:column; justify-content:center;">
+        <div class="input-row">
+          <input type="text" id="join-room-code" placeholder="كود الغرفة المكون من 4 رموز...">
+        </div>
+        <button class="btn btn-primary" onclick="joinOnlineRoom()">🔑 انضمام لغرفة قائمة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-setup-offline">
+    <div class="card">
+      <button class="btn btn-secondary back-btn" onclick="showScreen('screen-menu')">⬅️ القائمة الرئيسية</button>
+      <h2>إعداد اللعب المحلي</h2>
       
-      <div class="scrollable-content" id="lib-list" style="flex: 1; overflow-y: auto; margin-bottom: 12px;"></div>
+      <div class="scrollable-content">
+        <div class="custom-grid">
+          <div class="custom-grid-item">
+            <label>عدد الجواسيس</label>
+            <input type="number" id="offline-spy-count" value="1" min="1">
+          </div>
+          <div class="custom-grid-item">
+            <label>عدد الدخلاء</label>
+            <input type="number" id="offline-imposter-count" value="1" min="0">
+          </div>
+        </div>
+
+        <div class="custom-dropdown" id="drop-cat-offline">
+          <div class="dropdown-select" onclick="toggleDropdown('drop-cat-offline')">اختر الفئة الرئيسية</div>
+          <div class="dropdown-options" id="options-cat-offline"></div>
+        </div>
+
+        <div class="custom-dropdown" id="drop-sub-offline" style="margin-bottom: 16px;">
+          <div class="dropdown-select" onclick="toggleDropdown('drop-sub-offline')">اختر المجموعة الفرعية</div>
+          <div class="dropdown-options" id="options-sub-offline"></div>
+        </div>
+
+        <div class="divider"></div>
+        <h3 class="section-title">👥 أسماء اللاعبين (<span id="offline-p-count">0</span>):</h3>
+        
+        <div class="input-row">
+          <input type="text" id="offline-player-name" placeholder="اسم لاعب جديد...">
+          <button class="btn btn-primary btn-sm" onclick="addOfflinePlayer()">➕ أضف</button>
+        </div>
+
+        <div class="player-list" id="offline-players-list"></div>
+      </div>
+
+      <button class="btn btn-teal" onclick="launchOfflineGame()">🚀 ابدأ توزيع الأدوار</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-lobby-online">
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-shrink:0;">
+        <button class="btn btn-secondary btn-sm" onclick="leaveOnlineRoom()">🚪 مغادرة</button>
+        <div>غرفة: <span id="lobby-code-display" style="color:var(--gold); font-weight:900; font-size:1.2rem;">----</span></div>
+      </div>
+
+      <div class="scrollable-content">
+        <div id="host-controls" style="display:none; background:rgba(255,255,255,0.02); padding:10px; border-radius:var(--radius-sm); margin-bottom:12px; border:1px solid var(--border);">
+          <h3 style="font-size:0.85rem; color:var(--gold); margin-bottom:8px;">⚙️ إعدادات الغرفة (المضيف):</h3>
+          <div class="custom-grid" style="margin-bottom:8px;">
+            <div class="custom-grid-item">
+              <label>الجواسيس</label>
+              <input type="number" id="online-spy-count" value="1" min="1" onchange="updateOnlineSettings()">
+            </div>
+            <div class="custom-grid-item">
+              <label>الدخلاء</label>
+              <input type="number" id="online-imposter-count" value="1" min="0" onchange="updateOnlineSettings()">
+            </div>
+          </div>
+          <div class="custom-dropdown" id="drop-cat-online">
+            <div class="dropdown-select" onclick="toggleDropdown('drop-cat-online')">اختر الفئة أونلاين</div>
+            <div class="dropdown-options" id="options-cat-online"></div>
+          </div>
+          <div class="custom-dropdown" id="drop-sub-online">
+            <div class="dropdown-select" onclick="toggleDropdown('drop-sub-online')">اختر المجموعة أونلاين</div>
+            <div class="dropdown-options" id="options-sub-online"></div>
+          </div>
+        </div>
+
+        <div id="client-settings-view" style="background:rgba(0,0,0,0.2); padding:10px; border-radius:var(--radius-sm); font-size:0.85rem; margin-bottom:12px; border:1px solid var(--border);">
+          📌 الفئة المختارة: <span id="client-view-cat" style="color:var(--gold);">---</span> | المجموعة: <span id="client-view-sub" style="color:var(--teal);">---</span>
+        </div>
+
+        <h3 class="section-title">👥 المتواجدون الآن (<span id="online-p-count">0</span>):</h3>
+        <div class="player-list" id="online-players-list" style="margin-bottom:16px;"></div>
+
+        <h3 class="section-title">💬 المحادثة السريعة:</h3>
+        <div class="chat-box">
+          <div class="chat-messages" id="chat-messages"></div>
+        </div>
+        <div class="input-row" style="margin-bottom:0;">
+          <input type="text" id="chat-input" placeholder="اكتب رسالة سريعة...">
+          <button class="btn btn-teal btn-sm" onclick="sendChatMessage()">ارسل</button>
+        </div>
+      </div>
+
+      <button class="btn btn-teal" id="start-online-btn" style="display:none;" onclick="launchOnlineGame()">🚀 ابدأ اللعبة الآن</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-pass">
+    <div class="card" style="justify-content: space-between;">
+      <h2>سري للغاية 🤫</h2>
+      <div style="margin: auto 0; text-align: center;">
+        <p class="pass-label">مرر الجهاز إلى اللاعب:</p>
+        <p class="pass-name" id="pass-player-name">---</p>
+      </div>
+      <button class="btn btn-primary" onclick="showRevealScreen()">👀 أنا جاهز لرؤية الكلمة</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-reveal">
+    <div class="card" style="justify-content: space-between;">
+      <h2>دورك السري 🎭</h2>
+      <div class="scrollable-content" style="display:flex; flex-direction:column; justify-content:center; margin-bottom:0;">
+        <p style="text-align:center; color:var(--muted); font-size:0.95rem;">اضغط مع الاستمرار لرؤية الكلمة / الهوية:</p>
+        <div class="question-box hidden-q" id="reveal-box" onmousedown="revealWord(true)" onmouseup="revealWord(false)" ontouchstart="revealWord(true)" ontouchend="revealWord(false)">
+          <div class="blur-text" id="reveal-word-text">------</div>
+          <div class="tap-hint">اضغط مطولاً لرؤية الهوية 🛡️</div>
+        </div>
+        <p id="reveal-role-desc" style="text-align:center; font-weight:700; min-height:24px; color:var(--gold);"></p>
+      </div>
+      <button class="btn btn-primary" id="reveal-next-btn" onclick="nextPlayerPass()">التالي ⬅️</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-playing">
+    <div class="card">
+      <h2>نقاش واكتشاف الدخيل 🔎</h2>
+      <div class="game-timer" id="game-timer-display">00:00</div>
+      
+      <div class="scrollable-content">
+        <div style="background:var(--surface2); border:1px solid var(--border); padding:12px; border-radius:var(--radius-sm); text-align:center; margin-bottom:14px;">
+          <p style="font-size:0.8rem; color:var(--muted); margin-bottom:4px;">تذكير بكلمتك السرية (خاص بك):</p>
+          <div style="font-size:1.1rem; font-weight:700; color:var(--gold);" id="playing-my-word">---</div>
+        </div>
+
+        <h3 class="section-title">👥 قائمة اللاعبين الحية:</h3>
+        <div class="player-list" id="playing-players-list"></div>
+      </div>
+
+      <button class="btn btn-primary" id="end-round-btn" style="display:none;" onclick="finishRoundHost()">📊 إنهاء الجولة ورؤية النتائج</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-results">
+    <div class="card">
+      <h2>الهويات وكشف المستور 👁️</h2>
+      <div class="scrollable-content">
+        <div id="results-word-summary" style="background:rgba(255,255,255,0.02); border:1px solid var(--border); padding:12px; border-radius:var(--radius-sm); margin-bottom:14px; font-size:0.9rem; line-height:1.6;"></div>
+        <h3 class="section-title">🎭 هويات اللاعبين بالتفصيل:</h3>
+        <div class="player-list" id="results-players-list"></div>
+      </div>
+      <button class="btn btn-primary" id="results-next-btn" onclick="backToLobbyOrMenu()">🔄 العودة مجدداً</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-library">
+    <div class="card">
+      <button class="btn btn-secondary back-btn" onclick="showScreen('screen-menu')">⬅️ عودة للقائمة</button>
+      <h2>إدارة الفئات والمجموعات</h2>
+      <div class="scrollable-content" id="lib-list"></div>
       
       <div style="flex-shrink: 0; background: var(--surface); padding-top: 8px; border-top: 1px solid var(--border);">
         <div class="card" style="padding: 12px; margin-bottom: 8px; background: var(--surface2); height: auto; box-shadow: none;">
@@ -565,7 +628,6 @@
             <button class="btn btn-primary" style="width: auto; padding: 10px 14px;" onclick="addCategory()">حفظ</button>
           </div>
         </div>
-        
         <div style="display: flex; gap: 8px; margin-bottom: 4px;">
           <button class="btn btn-secondary btn-sm" style="flex: 1; padding: 11px;" onclick="exportLibrary()">📥 تصدير JSON</button>
           <button class="btn btn-secondary btn-sm" style="flex: 1; padding: 11px; position: relative;">
@@ -580,98 +642,112 @@
 </div>
 
 <script>
-// الحالة والبيانات الافتراضية
+// تهيئة Firebase برابط مشروعك المباشر والمصلح
+const firebaseConfig = {
+  databaseURL: "https://the-intruder-among-us-default-rtdb.firebaseio.com/"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
 let state = {
   myPlayerName: "",
-  gameMode: "offline",
+  gameMode: "offline", 
   roomCode: "",
-  players: [],
-  scores: {},
-  library: [
-    {
-      category: "📂 مأكولات ومشروبات",
-      subcategories: [
-        { name: "شاورما 🌯", questions: ["شاورما دجاج", "شاورما لحم"] },
-        { name: "إفطار 🍳", questions: ["فول مدمس", "فلافل سخنة"] }
-      ]
-    },
-    {
-      category: "📂 تكنولوجيا وعاب",
-      subcategories: [
-        { name: "ألعاب الفيديو 🎮", questions: ["ببجي موبايل", "كول اوف ديوتي"] }
-      ]
-    }
-  ]
+  players: [], 
+  library: [], 
+  
+  selectedCatIdx: null,
+  selectedSubIdx: null,
+  
+  spiesCount: 1,
+  impostersCount: 1,
+  
+  passIndex: 0,
+  assignments: [], 
+  gameWords: { normal: "", spy: "", imposter: "" },
+  
+  onlineSync: null, 
+  isHost: false,
+  timerInterval: null
 };
 
-// تهيئة وإدارة الـ Custom Input Modal بدلاً من الـ prompt الافتراضية
-let activePromptCallback = null;
+// البيانات الافتراضية الصالحة والمؤمنة
+const defaultTreeLibrary = [
+  {
+    category: "فواكه وخضروات 🍏",
+    subcategories: [
+      { name: "حمضيات", questions: ["ليمون", "برتقال", "يوسفي", "جريب فروت"] },
+      { name: "فواكه صيفية", questions: ["بطيخ", "شمان", "مانجو", "خوخ"] }
+    ]
+  },
+  {
+    category: "وسائل مواصلات 🚗",
+    subcategories: [
+      { name: "مركبات برية", questions: ["سيارة", "شاحنة", "دراجة نارية", "حافلة"] },
+      { name: "وسائل طيران", questions: ["طائرة مدنية", "مروحية", "طائرة حربية", "منطاد"] }
+    ]
+  }
+];
 
-function showCustomPrompt(title, placeholder, icon, callback) {
-  document.getElementById('custom-prompt-title').textContent = title;
-  const inputEl = document.getElementById('custom-prompt-input');
-  inputEl.value = "";
-  inputEl.placeholder = placeholder;
-  document.getElementById('custom-prompt-icon').textContent = icon;
-  
-  document.getElementById('custom-prompt-modal').classList.add('active');
-  inputEl.focus();
-  
-  activePromptCallback = callback;
+window.addEventListener('DOMContentLoaded', () => {
+  loadLibrary();
+  if(!state.library || state.library.length === 0) {
+    state.library = JSON.parse(JSON.stringify(defaultTreeLibrary));
+    saveLibrary();
+  }
+  renderLibrary();
+  setupDropdownClosing();
+});
+
+function customAlert(txt, icon="⚠️") {
+  document.getElementById('custom-alert-icon').innerText = icon;
+  document.getElementById('custom-alert-text').innerText = txt;
+  const el = document.getElementById('custom-alert');
+  el.classList.add('active');
+  setTimeout(() => el.classList.remove('active'), 2500);
 }
 
-document.getElementById('custom-prompt-save').addEventListener('click', () => {
-  const val = document.getElementById('custom-prompt-input').value.trim();
-  document.getElementById('custom-prompt-modal').classList.remove('active');
-  if (activePromptCallback) {
-    activePromptCallback(val);
-    activePromptCallback = null;
-  }
-});
-
-document.getElementById('custom-prompt-cancel').addEventListener('click', () => {
-  document.getElementById('custom-prompt-modal').classList.remove('active');
-  activePromptCallback = null;
-});
-
-// التنقل بين الشاشات
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const target = document.getElementById(id);
   if(target) target.classList.add('active');
-  if (id === 'screen-library') renderLibrary();
+  closeAllDropdowns();
 }
 
-// تنبيهات اللعبة المخصصة
-function customAlert(txt, icon = '🔔') {
-  document.getElementById('alert-icon').textContent = icon;
-  document.getElementById('alert-text').textContent = txt;
-  const alertEl = document.getElementById('custom-alert');
-  alertEl.classList.add('active');
-  setTimeout(() => alertEl.classList.remove('active'), 2500);
+function setupDropdownClosing() {
+  document.addEventListener('click', (e) => {
+    if(!e.target.closest('.custom-dropdown')) {
+      closeAllDropdowns();
+    }
+  });
+}
+function closeAllDropdowns() {
+  document.querySelectorAll('.custom-dropdown').forEach(d => d.classList.remove('open'));
+}
+function toggleDropdown(id) {
+  const el = document.getElementById(id);
+  const isOpen = el.classList.contains('open');
+  closeAllDropdowns();
+  if(!isOpen) el.classList.add('open');
 }
 
-// إدارة وقراءة كاش الذاكرة المحلية للمكتبة
 function loadLibrary() {
   const saved = localStorage.getItem('imposter_tree_lib');
   if(saved) {
-    try { state.library = JSON.parse(saved); } catch(e) {}
+    try { state.library = JSON.parse(saved); } catch(e){}
   }
 }
 function saveLibrary() {
   localStorage.setItem('imposter_tree_lib', JSON.stringify(state.library));
 }
 
-// عرض شجرة الفئات والمجموعات
 function renderLibrary() {
   const container = document.getElementById('lib-list');
   if(!container) return;
-  
   if(!state.library || state.library.length === 0) {
     container.innerHTML = `<div class="empty-state">المكتبة فارغة حالياً! أضف فئة جديدة بالأسفل.</div>`;
     return;
   }
-  
   container.innerHTML = state.library.map((catObj, cIdx) => {
     let subHtml = "";
     if(catObj.subcategories && catObj.subcategories.length > 0) {
@@ -679,120 +755,691 @@ function renderLibrary() {
         let qHtml = "";
         if(sub.questions && sub.questions.length > 0) {
           qHtml = sub.questions.map((q, qIdx) => `
-            <div style="font-size:0.85rem; padding:4px 8px; background:rgba(255,255,255,0.02); margin-top:3px; border-radius:4px; display:flex; justify-content:between; align-items:center;">
+            <div style="font-size:0.85rem; padding:4px 8px; background:rgba(255,255,255,0.02); margin-top:3px; border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
               <span style="color:var(--text); font-weight:normal;">🔹 ${q}</span>
-              <button class="list-item-del" style="font-size:0.8rem;" onclick="deleteQuestion(${cIdx}, ${sIdx}, ${qIdx})">🗑️</button>
+              <button class="list-item-del" style="font-size:0.8rem; padding:0 4px;" onclick="deleteQuestion(${cIdx},${sIdx},${qIdx})">❌</button>
             </div>
           `).join('');
-        } else {
-          qHtml = `<div class="empty-state" style="padding:4px 0; font-size:0.75rem;">لا توجد كلمات/أسئلة هنا.</div>`;
         }
-        
         return `
-          <div style="background:rgba(255,255,255,0.03); padding:8px; border-radius:6px; margin-bottom:8px;">
-            <div style="display:flex; justify-content:between; align-items:center; margin-bottom:4px;">
-              <strong style="color:var(--gold); font-size:0.9rem;">📦 ${sub.name}</strong>
-              <div>
-                <button class="badge-btn badge-add" onclick="promptAddQuestion(${cIdx}, ${sIdx})">➕ كلمة</button>
-                <button class="list-item-del" onclick="deleteSubcategory(${cIdx}, ${sIdx})">🗑️</button>
-              </div>
+          <div class="tree-sub-item">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="color:var(--teal); font-size:0.9rem;">📦 مجموعة: ${sub.name}</strong>
+              <button class="list-item-del" onclick="deleteSubcategory(${cIdx},${sIdx})">🗑️</button>
             </div>
-            <div style="padding-right:10px; border-right:1px dotted var(--border);">
+            <div style="margin-top:6px; padding-left:6px; border-left:1px dashed var(--border);">
               ${qHtml}
+              <div class="input-row" style="margin-top:6px; margin-bottom:0; gap:4px;">
+                <input type="text" id="add-q-input-${cIdx}-${sIdx}" placeholder="إضافة كلمة سرية..." style="padding:6px; font-size:0.8rem;">
+                <button class="btn btn-teal btn-sm" style="padding:6px 10px;" onclick="addQuestion(${cIdx},${sIdx})">➕</button>
+              </div>
             </div>
           </div>
         `;
       }).join('');
     } else {
-      subHtml = `<div class="empty-state" style="font-size:0.8rem;">لا توجد مجموعات داخل هذه الفئة.</div>`;
+      subHtml = `<div class="empty-state" style="padding:10px;">لا توجد مجموعات فرعية هنا بعد.</div>`;
     }
-    
+
     return `
       <div class="tree-category">
         <div class="tree-cat-header">
-          <span>${catObj.category}</span>
-          <div>
-            <button class="badge-btn badge-add" onclick="promptAddSubcategory(${cIdx})">➕ مجموعة</button>
-            <button class="list-item-del" style="color:var(--accent);" onclick="deleteCategoryFromTree(${cIdx})">🗑️ فئة</button>
-          </div>
+          <span style="font-weight:700; color:var(--gold);">📁 ${catObj.category}</span>
+          <button class="list-item-del" onclick="deleteCategory(${cIdx})">🗑️ حذف الفئة</button>
         </div>
-        <div class="tree-children" style="padding:10px;">
+        <div class="tree-sub-list">
           ${subHtml}
+          <div style="background:rgba(255,255,255,0.01); padding:8px; border-radius:var(--radius-sm); border:1px dashed var(--border); margin-top:4px;">
+            <label style="font-size:0.75rem; color:var(--muted); display:block; margin-bottom:4px;">➕ إضافة مجموعة فرعية جديدة:</label>
+            <div class="input-row" style="margin-bottom:0; gap:4px;">
+              <input type="text" id="add-sub-input-${cIdx}" placeholder="اسم المجموعة..." style="padding:6px; font-size:0.8rem;">
+              <button class="btn btn-primary btn-sm" style="padding:6px 10px;" onclick="addSubcategory(${cIdx})">حفظ</button>
+            </div>
+          </div>
         </div>
       </div>
     `;
   }).join('');
 }
 
-// العمليات على الفئات والمجموعات باستخدام نظام الـ Input Modal الحديث
 function addCategory() {
   const input = document.getElementById('new-category-input');
   const val = input.value.trim();
-  if(!val) { customAlert('يرجى كتابة اسم الفئة أولاً!', '⚠️'); return; }
-  state.library.push({ category: "📂 " + val, subcategories: [] });
-  input.value = "";
-  saveLibrary(); renderLibrary();
-  customAlert('تم إضافة الفئة الكبرى بنجاح!', '✅');
+  if(!val) return;
+  state.library.push({ category: val, subcategories: [] });
+  input.value = ""; saveLibrary(); renderLibrary();
+  customAlert("تمت إضافة الفئة بنجاح!", "✅");
 }
-
-function promptAddSubcategory(cIdx) {
-  showCustomPrompt('إنشاء مجموعة داخل الفئة', 'اسم المجموعة (مثال: سيارات رياضية 🏎️)...', '📦', (name) => {
-    if(!name) return;
-    state.library[cIdx].subcategories.push({ name: name, questions: [] });
-    saveLibrary(); renderLibrary();
-    customAlert('تم إضافة المجموعة بنجاح!', '✅');
-  });
+function deleteCategory(cIdx) {
+  state.library.splice(cIdx,1); saveLibrary(); renderLibrary();
 }
-
-function promptAddQuestion(cIdx, sIdx) {
-  showCustomPrompt('إضافة كلمة سرية جديدة', 'اكتب الكلمة أو السؤال...', '🔹', (q) => {
-    if(!q) return;
-    state.library[cIdx].subcategories[sIdx].questions.push(q);
-    saveLibrary(); renderLibrary();
-    customAlert('تم حفظ الكلمة السرية بنجاح!', '✅');
-  });
+function addSubcategory(cIdx) {
+  const input = document.getElementById(`add-sub-input-${cIdx}`);
+  const val = input.value.trim();
+  if(!val) return;
+  state.library[cIdx].subcategories.push({ name: val, questions: [] });
+  input.value = ""; saveLibrary(); renderLibrary();
 }
-
-// الحذف والمعالجة
-function deleteCategoryFromTree(cIdx) {
-  state.library.splice(cIdx, 1);
-  saveLibrary(); renderLibrary();
-}
-
 function deleteSubcategory(cIdx, sIdx) {
-  state.library[cIdx].subcategories.splice(sIdx, 1);
-  saveLibrary(); renderLibrary();
+  state.library[cIdx].subcategories.splice(sIdx,1); saveLibrary(); renderLibrary();
 }
-
+function addQuestion(cIdx, sIdx) {
+  const input = document.getElementById(`add-q-input-${cIdx}-${sIdx}`);
+  const val = input.value.trim();
+  if(!val) return;
+  state.library[cIdx].subcategories[sIdx].questions.push(val);
+  input.value = ""; saveLibrary(); renderLibrary();
+}
 function deleteQuestion(cIdx, sIdx, qIdx) {
-  state.library[cIdx].subcategories[sIdx].questions.splice(qIdx, 1);
-  saveLibrary(); renderLibrary();
+  state.library[cIdx].subcategories[sIdx].questions.splice(qIdx, 1); saveLibrary(); renderLibrary();
 }
-
-// تصدير واستيراد
 function exportLibrary() {
   const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.library, null, 2));
   const dl = document.createElement('a');
   dl.setAttribute("href", dataStr); dl.setAttribute("download", "imposter_tree_library.json");
   document.body.appendChild(dl); dl.click(); dl.remove();
 }
-
 function importLibrary(event) {
-  const file = event.target.files[0]; if (!file) return;
+  const file = event.target.files[0]; if(!file) return;
   const reader = new FileReader();
   reader.onload = function(e) {
     try {
       const parsed = JSON.parse(e.target.result);
-      if (Array.isArray(parsed)) {
+      if(Array.isArray(parsed)) {
         state.library = parsed; saveLibrary(); renderLibrary();
         customAlert('تم استيراد قائمة الفئات والمجموعات بنجاح!', '✅');
       }
-    } catch (err) { customAlert('الملف غير صالح أو تالف!', '❌'); }
+    } catch(err){ customAlert('الملف غير صالح أو تالف!', '❌'); }
   };
   reader.readAsText(file);
 }
 
-// المساعدات الشاملة (Shuffler)
+function getPlayerNameInput() {
+  const input = document.getElementById('player-name-input');
+  let name = input.value.trim();
+  if(!name) {
+    name = "لاعب_" + Math.floor(1000 + Math.random()*9000);
+    input.value = name;
+  }
+  state.myPlayerName = name;
+  return name;
+}
+
+function startOfflineMode() {
+  getPlayerNameInput();
+  state.gameMode = "offline";
+  state.isHost = true;
+  state.players = [state.myPlayerName];
+  
+  showScreen('screen-setup-offline');
+  buildDropdownTree('offline');
+  renderOfflinePlayers();
+}
+
+function buildDropdownTree(prefix) {
+  const catOptions = document.getElementById(`options-cat-${prefix}`);
+  if(!catOptions) return;
+  
+  if(state.library.length === 0) {
+    catOptions.innerHTML = `<div class="dropdown-option">المكتبة فارغة!</div>`;
+    return;
+  }
+
+  catOptions.innerHTML = state.library.map((c, idx) => `
+    <div class="dropdown-option" onclick="selectCatTree('${prefix}', ${idx})">${c.category}</div>
+  `).join('');
+
+  if(prefix === 'offline') {
+    selectCatTree('offline', 0);
+  } else if(prefix === 'online' && state.isHost) {
+    selectCatTree('online', 0);
+  }
+}
+
+function selectCatTree(prefix, idx) {
+  state.selectedCatIdx = idx;
+  const catBox = document.getElementById(`drop-cat-${prefix}`);
+  if(catBox && state.library[idx]) {
+    catBox.querySelector('.dropdown-select').innerText = state.library[idx].category;
+  }
+  closeAllDropdowns();
+
+  const subOptions = document.getElementById(`options-sub-${prefix}`);
+  if(!subOptions) return;
+
+  const subs = state.library[idx] ? state.library[idx].subcategories : [];
+  if(!subs || subs.length === 0) {
+    subOptions.innerHTML = `<div class="dropdown-option">لا توجد مجموعات فرعية</div>`;
+    const subBox = document.getElementById(`drop-sub-${prefix}`);
+    if(subBox) subBox.querySelector('.dropdown-select').innerText = "لا توجد مجموعات";
+    state.selectedSubIdx = null;
+    if(prefix === 'online' && state.isHost) updateOnlineSettings();
+    return;
+  }
+
+  subOptions.innerHTML = subs.map((s, sIdx) => `
+    <div class="dropdown-option" onclick="selectSubTree('${prefix}', ${sIdx})">${s.name}</div>
+  `).join('');
+
+  selectSubTree(prefix, 0);
+}
+
+function selectSubTree(prefix, sIdx) {
+  state.selectedSubIdx = sIdx;
+  const subBox = document.getElementById(`drop-sub-${prefix}`);
+  if(subBox && state.library[state.selectedCatIdx] && state.library[state.selectedCatIdx].subcategories[sIdx]) {
+    subBox.querySelector('.dropdown-select').innerText = state.library[state.selectedCatIdx].subcategories[sIdx].name;
+  }
+  closeAllDropdowns();
+
+  if(prefix === 'online' && state.isHost) {
+    updateOnlineSettings();
+  }
+}
+
+function renderOfflinePlayers() {
+  document.getElementById('offline-p-count').innerText = state.players.length;
+  const list = document.getElementById('offline-players-list');
+  list.innerHTML = state.players.map((p, idx) => `
+    <div class="list-item">
+      <span>👤 ${p} ${idx === 0 ? '<small style="color:var(--gold);">(أنت)</small>':''}</span>
+      ${idx > 0 ? `<button class="list-item-del" onclick="removeOfflinePlayer(${idx})">❌</button>` : ''}
+    </div>
+  `).join('');
+}
+function addOfflinePlayer() {
+  const input = document.getElementById('offline-player-name');
+  const name = input.value.trim();
+  if(!name) return;
+  if(state.players.includes(name)) { customAlert("هذا الاسم موجود بالفعل!"); return; }
+  state.players.push(name);
+  input.value = ""; renderOfflinePlayers();
+}
+function removeOfflinePlayer(idx) {
+  state.players.splice(idx,1); renderOfflinePlayers();
+}
+
+function launchOfflineGame() {
+  const spiesInput = document.getElementById('offline-spy-count');
+  const imposterInput = document.getElementById('offline-imposter-count');
+  state.spiesCount = parseInt(spiesInput.value) || 1;
+  state.impostersCount = parseInt(imposterInput.value) || 0;
+
+  if(state.players.length < 3) { customAlert("يجب توفر 3 لاعبين على الأقل للعب!"); return; }
+  if((state.spiesCount + state.impostersCount) >= state.players.length) {
+    customAlert("عدد الأطوار الخاصة كبير جداً بالنسبة لعدد اللاعبين!"); return;
+  }
+
+  if(state.selectedCatIdx === null || state.selectedSubIdx === null) {
+    customAlert("الرجاء اختيار فئة ومجموعة صالحة أولاً!"); return;
+  }
+  const sub = state.library[state.selectedCatIdx].subcategories[state.selectedSubIdx];
+  if(!sub || !sub.questions || sub.questions.length < 2) {
+    customAlert("المجموعة المختار يجب أن تحتوي على كلمتين سرية على الأقل!"); return;
+  }
+
+  generateRoleAssignments(sub.questions);
+  state.passIndex = 0;
+  startPassSequence();
+}
+
+function generateRoleAssignments(questionsArray) {
+  let pool = [...questionsArray];
+  shuffle(pool);
+  const normalWord = pool[0];
+  const alternativeWord = pool[1]; 
+
+  state.gameWords = {
+    normal: normalWord,
+    spy: "أنت الجاسوس 🕵️‍♂️ (لا تملك كلمة)",
+    imposter: alternativeWord
+  };
+
+  let roles = [];
+  for(let i=0; i < state.spiesCount; i++) roles.push("spy");
+  for(let i=0; i < state.impostersCount; i++) roles.push("imposter");
+  while(roles.length < state.players.length) roles.push("normal");
+  shuffle(roles);
+
+  state.assignments = state.players.map((p, idx) => {
+    return { name: p, role: roles[idx], isDead: false };
+  });
+}
+
+function startPassSequence() {
+  if(state.gameMode === 'online') {
+    const myOnlineObj = state.assignments.find(a => a.name === state.myPlayerName);
+    state.passIndex = state.players.indexOf(state.myPlayerName);
+    showScreen('screen-reveal');
+    prepareRevealBox(myOnlineObj);
+    document.getElementById('reveal-next-btn').innerText = "الدخول لساحة النقاش 🎮";
+    return;
+  }
+
+  if(state.passIndex >= state.players.length) {
+    launchPlayingScreen();
+    return;
+  }
+  showScreen('screen-pass');
+  document.getElementById('pass-player-name').innerText = state.players[state.passIndex];
+}
+
+function showRevealScreen() {
+  showScreen('screen-reveal');
+  const currentObj = state.assignments[state.passIndex];
+  prepareRevealBox(currentObj);
+
+  if(state.passIndex === state.players.length - 1) {
+    document.getElementById('reveal-next-btn').innerText = "ابدأ النقاش التنافسي 🚀";
+  } else {
+    document.getElementById('reveal-next-btn').innerText = "تمت الرؤية، تمرير الجهاز ⬅️";
+  }
+}
+
+function prepareRevealBox(obj) {
+  const wordTxt = document.getElementById('reveal-word-text');
+  const roleDesc = document.getElementById('reveal-role-desc');
+  const box = document.getElementById('reveal-box');
+
+  box.classList.add('hidden-q');
+  box.classList.remove('revealed');
+  roleDesc.innerText = "";
+
+  let secureWord = "";
+  let roleTitle = "";
+
+  if(obj.role === 'normal') {
+    secureWord = state.gameWords.normal;
+    roleTitle = "أنت مواطن صالح 😇";
+  } else if(obj.role === 'spy') {
+    secureWord = state.gameWords.spy;
+    roleTitle = "أنت الجاسوس 🕵️‍♂️";
+  } else if(obj.role === 'imposter') {
+    secureWord = state.gameWords.imposter;
+    roleTitle = "أنت الدخيل 🎭 (لديك كلمة مختلفة!)";
+  }
+
+  box.dataset.word = secureWord;
+  box.dataset.roleTitle = roleTitle;
+  wordTxt.innerText = "••••••";
+}
+
+function revealWord(isPressed) {
+  const box = document.getElementById('reveal-box');
+  const wordTxt = document.getElementById('reveal-word-text');
+  const roleDesc = document.getElementById('reveal-role-desc');
+
+  if(isPressed) {
+    box.classList.remove('hidden-q');
+    box.classList.add('revealed');
+    wordTxt.innerText = box.dataset.word;
+    roleDesc.innerText = box.dataset.roleTitle;
+  } else {
+    box.classList.add('hidden-q');
+    box.classList.remove('revealed');
+    wordTxt.innerText = "••••••";
+    roleDesc.innerText = "";
+  }
+}
+
+function nextPlayerPass() {
+  if(state.gameMode === 'online') {
+    launchPlayingScreen();
+    return;
+  }
+  state.passIndex++;
+  startPassSequence();
+}
+
+function launchPlayingScreen() {
+  showScreen('screen-playing');
+  
+  const myObj = state.assignments.find(a => a.name === state.myPlayerName);
+  const pWordContainer = document.getElementById('playing-my-word');
+  if(myObj.role === 'normal') pWordContainer.innerText = state.gameWords.normal;
+  else if(myObj.role === 'spy') pWordContainer.innerText = "🕵️‍♂️ لا توجد كلمة (أنت الجاسوس)";
+  else if(myObj.role === 'imposter') pWordContainer.innerText = state.gameWords.imposter + " (دخيل)";
+
+  if(state.isHost) {
+    document.getElementById('end-round-btn').style.display = "block";
+  } else {
+    document.getElementById('end-round-btn').style.display = "none";
+  }
+
+  renderPlayingPlayersList();
+  startTimerCount(300); 
+}
+
+function startTimerCount(durationSeconds) {
+  clearInterval(state.timerInterval);
+  let timeRemaining = durationSeconds;
+  const display = document.getElementById('game-timer-display');
+
+  function updateVisual() {
+    let mins = Math.floor(timeRemaining / 60);
+    let secs = timeRemaining % 60;
+    display.innerText = (mins<10?"0":"")+mins + ":" + (secs<10?"0":"")+secs;
+    if(timeRemaining <= 0) {
+      clearInterval(state.timerInterval);
+      customAlert("انتهى وقت النقاش القانوني الرسمي!");
+    }
+    timeRemaining--;
+  }
+  updateVisual();
+  state.timerInterval = setInterval(updateVisual, 1000);
+}
+
+function renderPlayingPlayersList() {
+  const container = document.getElementById('playing-players-list');
+  container.innerHTML = state.assignments.map((p, idx) => {
+    return `
+      <div class="list-item" style="${p.isDead ? 'opacity:0.35; text-decoration:line-through;':''}">
+        <span>👤 ${p.name} ${p.name === state.myPlayerName ? '<small>(أنت)</small>':''} ${p.isDead?'(تم إقصاؤه 🟥)':''}</span>
+        ${state.isHost && !p.isDead ? `<button class="btn btn-secondary btn-sm" style="padding:4px 8px; font-size:0.75rem; color:var(--accent);" onclick="togglePlayerLifeHost(${idx})">إقصاء 🏹</button>` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+function togglePlayerLifeHost(idx) {
+  state.assignments[idx].isDead = !state.assignments[idx].isDead;
+  if(state.gameMode === 'online') {
+    db.ref('rooms/' + state.roomCode + '/assignments').set(state.assignments);
+  } else {
+    renderPlayingPlayersList();
+  }
+}
+
+function finishRoundHost() {
+  clearInterval(state.timerInterval);
+  if(state.gameMode === 'online') {
+    db.ref('rooms/' + state.roomCode + '/status').set('results');
+  } else {
+    showResultsScreen();
+  }
+}
+
+function showResultsScreen() {
+  showScreen('screen-results');
+  
+  const wordSummary = document.getElementById('results-word-summary');
+  wordSummary.innerHTML = `
+    🟢 كلمة المواطنين الصالحين: <strong style="color:var(--teal);">${state.gameWords.normal}</strong><br>
+    🔴 كلمة الدخلاء (الكلمة البديلة): <strong style="color:var(--accent2);">${state.gameWords.imposter}</strong>
+  `;
+
+  const container = document.getElementById('results-players-list');
+  container.innerHTML = state.assignments.map(p => {
+    let rTxt = "";
+    if(p.role === 'normal') rTxt = "🟢 مواطن صالح";
+    else if(p.role === 'spy') rTxt = "🕵️‍♂️ جاسوس علني";
+    else if(p.role === 'imposter') rTxt = "🎭 دخيل ذكي";
+
+    return `
+      <div class="list-item">
+        <span><strong>${p.name}</strong></span>
+        <span style="color:var(--gold);">${rTxt} ${p.isDead?'(ميت)':''}</span>
+      </div>
+    `;
+  }).join('');
+
+  const nextBtn = document.getElementById('results-next-btn');
+  if(state.gameMode === 'online') {
+    nextBtn.innerText = state.isHost ? "🔄 إعادة اللعب (تنظيف الغرفة)" : "⏳ بانتظار المضيف للملف...";
+    if(!state.isHost) nextBtn.disabled = true;
+    else nextBtn.disabled = false;
+  } else {
+    nextBtn.innerText = "🔄 عودة للقائمة الرئيسية";
+    nextBtn.disabled = false;
+  }
+}
+
+function backToLobbyOrMenu() {
+  if(state.gameMode === 'online') {
+    if(state.isHost) {
+      db.ref('rooms/' + state.roomCode).update({
+        status: 'lobby',
+        assignments: null
+      });
+    }
+  } else {
+    showScreen('screen-menu');
+  }
+}
+
+function generateRandomCode() {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let c = "";
+  for(let i=0; i<4; i++) c += chars.charAt(Math.floor(Math.random()*chars.length));
+  return c;
+}
+
+function createOnlineRoom() {
+  getPlayerNameInput();
+  state.gameMode = "online";
+  state.isHost = true;
+  state.roomCode = generateRandomCode();
+
+  // التأكد من رفع مكتبة الأسئلة الافتراضية إذا كانت قاعدة البيانات فارغة تماماً
+  const roomData = {
+    code: state.roomCode,
+    status: "lobby",
+    host: state.myPlayerName,
+    settings: {
+      spies: 1,
+      imposters: 0,
+      selectedCat: 0,
+      selectedSub: 0
+    },
+    players: {},
+    library: state.library
+  };
+  
+  roomData.players[state.myPlayerName] = { name: state.myPlayerName, active: true };
+
+  db.ref('rooms/' + state.roomCode).set(roomData)
+    .then(() => {
+      document.getElementById('lobby-code-display').innerText = state.roomCode;
+      document.getElementById('host-controls').style.display = "block";
+      document.getElementById('start-online-btn').style.display = "block";
+      document.getElementById('client-settings-view').style.display = "none";
+      
+      showScreen('screen-lobby-online');
+      buildDropdownTree('online');
+      attachOnlineListeners();
+    })
+    .catch(err => customAlert("فشل الاتصال بـ Firebase!"));
+}
+
+function joinOnlineRoom() {
+  getPlayerNameInput();
+  const codeIn = document.getElementById('join-room-code');
+  const code = codeIn.value.trim().toUpperCase();
+  if(!code) { customAlert("يرجى إدخال كود صالحة!"); return; }
+
+  db.ref('rooms/' + code).once('value', snapshot => {
+    if(!snapshot.exists()) {
+      customAlert("هذه الغرفة غير موجودة!"); return;
+    }
+    const data = snapshot.val();
+    if(data.status !== 'lobby') {
+      customAlert("عذراً، اللعبة بدأت بالفعل في هذه الغرفة!"); return;
+    }
+
+    state.gameMode = "online";
+    state.isHost = false;
+    state.roomCode = code;
+
+    db.ref('rooms/' + code + '/players/' + state.myPlayerName).set({
+      name: state.myPlayerName, active: true
+    }).then(() => {
+      document.getElementById('lobby-code-display').innerText = state.roomCode;
+      document.getElementById('host-controls').style.display = "none";
+      document.getElementById('start-online-btn').style.display = "none";
+      document.getElementById('client-settings-view').style.display = "block";
+
+      showScreen('screen-lobby-online');
+      attachOnlineListeners();
+    });
+  });
+}
+
+function attachOnlineListeners() {
+  if(state.onlineSync) state.onlineSync.off();
+  state.onlineSync = db.ref('rooms/' + state.roomCode);
+
+  state.onlineSync.on('value', snapshot => {
+    if(!snapshot.exists()) {
+      customAlert("تم إغلاق الغرفة من قبل السيرفر.");
+      leaveOnlineRoom(); return;
+    }
+    const data = snapshot.val();
+
+    if (data.library) {
+      state.library = data.library;
+    }
+
+    if(data.players) {
+      state.players = Object.keys(data.players);
+      renderOnlinePlayersList(data.players);
+    }
+
+    if(data.settings) {
+      state.spiesCount = data.settings.spies || 1;
+      state.impostersCount = data.settings.imposters || 0;
+      state.selectedCatIdx = data.settings.selectedCat ?? null;
+      state.selectedSubIdx = data.settings.selectedSub ?? null;
+
+      if(!state.isHost) {
+        const catName = (state.library[state.selectedCatIdx]) ? state.library[state.selectedCatIdx].category : "لم يتم التحديد";
+        const subName = (state.library[state.selectedCatIdx] && state.library[state.selectedCatIdx].subcategories[state.selectedSubIdx]) 
+                        ? state.library[state.selectedCatIdx].subcategories[state.selectedSubIdx].name : "لم يتم التحديد";
+        document.getElementById('client-view-cat').innerText = catName;
+        document.getElementById('client-view-sub').innerText = subName;
+      }
+    }
+
+    if(data.messages) {
+      renderChatMessages(data.messages);
+    }
+
+    if(data.gameWords) {
+      state.gameWords = data.gameWords;
+    }
+    if(data.assignments) {
+      state.assignments = data.assignments;
+    }
+
+    if(data.status === 'lobby') {
+      if(document.getElementById('screen-lobby-online').classList.contains('active') === false &&
+         document.getElementById('screen-menu').classList.contains('active') === false &&
+         document.getElementById('screen-join').classList.contains('active') === false) {
+         showScreen('screen-lobby-online');
+      }
+    } else if(data.status === 'reveal') {
+      const activeScreen = document.querySelector('.screen.active');
+      if(activeScreen && activeScreen.id !== 'screen-reveal' && activeScreen.id !== 'screen-playing' && activeScreen.id !== 'screen-results') {
+        startPassSequence();
+      }
+    } else if(data.status === 'playing') {
+      const activeScreen = document.querySelector('.screen.active');
+      if(activeScreen && activeScreen.id === 'screen-reveal') {
+        launchPlayingScreen();
+      } else if(activeScreen && activeScreen.id === 'screen-playing') {
+        renderPlayingPlayersList();
+      }
+    } else if(data.status === 'results') {
+      showResultsScreen();
+    }
+  });
+}
+
+function updateOnlineSettings() {
+  if(!state.isHost) return;
+  const spies = parseInt(document.getElementById('online-spy-count').value) || 1;
+  const imposters = parseInt(document.getElementById('online-imposter-count').value) || 0;
+  
+  db.ref('rooms/' + state.roomCode + '/settings').set({
+    spies: spies,
+    imposters: imposters,
+    selectedCat: state.selectedCatIdx,
+    selectedSub: state.selectedSubIdx
+  });
+}
+
+function renderOnlinePlayersList(playersObj) {
+  document.getElementById('online-p-count').innerText = Object.keys(playersObj).length;
+  const list = document.getElementById('online-players-list');
+  list.innerHTML = Object.keys(playersObj).map(k => `
+    <div class="list-item">
+      <span>👤 ${playersObj[k].name} ${playersObj[k].name === state.myPlayerName ? '<small style="color:var(--gold);">(أنت)</small>':''}</span>
+      ${state.isHost && playersObj[k].name !== state.myPlayerName ? `<button class="list-item-del" onclick="kickOnlinePlayer('${playersObj[k].name}')">❌</button>` : ''}
+    </div>
+  `).join('');
+}
+
+function kickOnlinePlayer(name) {
+  db.ref('rooms/' + state.roomCode + '/players/' + name).remove();
+}
+
+function leaveOnlineRoom() {
+  if(state.onlineSync) { state.onlineSync.off(); state.onlineSync = null; }
+  if(state.roomCode) {
+    if(state.isHost) {
+      db.ref('rooms/' + state.roomCode).remove();
+    } else {
+      db.ref('rooms/' + state.roomCode + '/players/' + state.myPlayerName).remove();
+    }
+  }
+  clearInterval(state.timerInterval);
+  state.roomCode = ""; state.isHost = false; state.gameMode = "offline";
+  showScreen('screen-menu');
+}
+
+function sendChatMessage() {
+  const input = document.getElementById('chat-input');
+  const txt = input.value.trim();
+  if(!txt) return;
+  const msgRef = db.ref('rooms/' + state.roomCode + '/messages').push();
+  msgRef.set({ sender: state.myPlayerName, text: txt });
+  input.value = "";
+}
+
+function renderChatMessages(msgObj) {
+  const box = document.getElementById('chat-messages');
+  box.innerHTML = Object.keys(msgObj).map(k => {
+    const m = msgObj[k];
+    let typeClass = "msg-reply";
+    if(m.sender === "SYSTEM") typeClass = "msg-system";
+    else if(m.sender === state.myPlayerName) typeClass = "msg-me";
+    return `<div class="msg ${typeClass}"><strong>${m.sender}:</strong> ${m.text}</div>`;
+  }).join('');
+  box.scrollTop = box.scrollHeight;
+}
+
+function launchOnlineGame() {
+  if(!state.isHost) return;
+  if(state.players.length < 3) { customAlert("ي... لا يمكن بدء أونلاين بأقل من 3 لاعبين!"); return; }
+  if((state.spiesCount + state.impostersCount) >= state.players.length) {
+    customAlert("عدد الأطوار المتقدمة يتخطى عدد اللاعبين المشتركين!"); return;
+  }
+  if(state.selectedCatIdx === null || state.selectedSubIdx === null) {
+    customAlert("يرجى اختيار فئة ومجموعة للغرفة!"); return;
+  }
+  const sub = state.library[state.selectedCatIdx].subcategories[state.selectedSubIdx];
+  if(!sub || !sub.questions || sub.questions.length < 2) {
+    customAlert("المجموعة لا تحتوي على كلمات كافية!"); return;
+  }
+
+  generateRoleAssignments(sub.questions);
+
+  db.ref('rooms/' + state.roomCode).update({
+    status: 'reveal',
+    gameWords: state.gameWords,
+    assignments: state.assignments
+  });
+}
+
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -800,14 +1447,6 @@ function shuffle(arr) {
   }
   return arr;
 }
-
-function esc(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-window.addEventListener('load', () => {
-  loadLibrary();
-});
 </script>
 </body>
 </html>
