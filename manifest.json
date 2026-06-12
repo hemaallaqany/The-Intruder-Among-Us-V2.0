@@ -3,7 +3,6 @@
   "short_name": "بيننا دخيل",
   "description": "لعبة صيد الجاسوس والإمبوستر الجماعية والممتعة أوفلاين وأونلاين",
   "start_url": "./index.html",
-  "scope": "./",
   "display": "standalone",
   "background_color": "#0a0a12",
   "theme_color": "#0a0a12",
