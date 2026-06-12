@@ -663,7 +663,6 @@
         </div>
       </div>
 
-      <!-- عرض الفئة المختارة في الـ lobby للأونلاين والأوفلاين -->
       <div style="margin-bottom:12px;">
         <div style="font-size:0.9rem; font-weight:600; color:var(--gold); text-align:center; background:rgba(255,209,102,0.1); padding:8px; border-radius:var(--radius-sm);">
           الفئة المحددة للعبة: <span id="lobby-category-display">عشوائية</span>
@@ -684,7 +683,6 @@
       <div class="scrollable-content">
         <div id="player-list" class="player-list"></div>
         
-        <!-- نافذة شات الانتظار البسيطة المضافة للأونلاين -->
         <div id="lobby-chat-section" style="display: none; margin-top: 14px;">
           <div style="font-size:0.9rem; font-weight:700; color:var(--teal); margin-bottom: 6px;">💬 شات الانتظار (اضغط على رسالة للرد):</div>
           <div class="chat-box-container" style="height: 160px;">
@@ -786,16 +784,13 @@
           <div class="q-reveal-text" id="reveal-qb">—</div>
         </div>
 
-        <!-- عرض الإجابات لتسهيل النقاش المتزامن مع الشات -->
         <div id="reveal-answers-list" class="answers-block" style="margin-bottom:12px;"></div>
         
-        <!-- نظام الشات السحابي المتطور مع الردود -->
         <div id="online-chat-section" style="display: none;">
           <div style="font-size:0.9rem; font-weight:700; margin-top:14px; color:var(--teal);">💬 شات النقاش السريع (اضغط على رسالة للرد):</div>
           <div class="chat-box-container">
             <div id="chat-messages" class="chat-messages"></div>
             
-            <!-- شريط معاينة الرد قبل الإرسال -->
             <div id="chat-reply-bar" class="chat-reply-bar">
               <span id="chat-reply-text">الرد على: </span>
               <button style="background:none; border:none; color:var(--accent); font-weight:bold; cursor:pointer;" onclick="cancelReply()">✕ إلغاء</button>
@@ -883,7 +878,6 @@
         <div id="lib-list"></div>
       </div>
 
-      <!-- تم تعديل أبعاد ومكان عناصر الإضافة لمنع الـ Overlapping تماماً واختفاء الأزرار السفلى -->
       <div style="flex-shrink: 0; border-top: 1px solid var(--border); padding-top: 8px;">
         <h3 style="font-size:0.95rem; margin-bottom:6px;">📁 إضافة فئة جديدة</h3>
         <div class="input-row" style="margin-bottom:8px;">
@@ -914,7 +908,6 @@
 
 </div>
 
-<!-- نافذة المودال المخصصة (تستخدم للتنبيهات وأيضاً لاستبدال الـ Text Boxes الافتراضية بنوافذ متناسقة) -->
 <div id="custom-modal" class="modal-overlay">
   <div class="modal-box">
     <div id="modal-icon" class="modal-icon">⚠️</div>
@@ -946,7 +939,7 @@ const defaultLibrary = [
         name: "شخصيات رئيسية",
         questions: [
           "شخصية غنية جداً وتمتلك نفوذ",
-          "شخصية فقيرة وتكافح من أجل لقمة العيش",
+          "شفقيرة وتكافح من أجل لقمة العيش",
           "شخصية ذكية جداً وتخطط بعبقرية",
           "شخصية غبية ومضحكة وتسبب المشاكل",
           "شخصية تمتلك قوة خارقة مدمرة",
@@ -1247,6 +1240,11 @@ function listenToRoomUpdates() {
     if (data.status === 'waiting') {
       initialPlayersCount = state.players.length; 
       renderLobbyChatMessages(data.lobbyChat);
+      
+      // التعديل: إرجاع اللاعبين الآخرين تلقائياً إلى الـ Lobby عند تحول الحالة لـ waiting
+      if (!document.getElementById('screen-players').classList.contains('active')) {
+        showScreen('screen-players');
+      }
     }
 
     if (document.getElementById('screen-players').classList.contains('active')) {
@@ -1616,7 +1614,7 @@ function startOnlineDiscussPhase() {
   document.getElementById('discuss-cat-display').textContent = state.currentCategoryName;
   
   if (state.gameMode === 'online-host') {
-    document.getElementById('discuss-action-btn').textContent = "توججه الجميع لكشف الأسئلة 📢";
+    document.getElementById('discuss-action-btn').textContent = "توجيه الجميع لكشف الأسئلة 📢";
     document.getElementById('discuss-action-btn').disabled = false;
   } else {
     document.getElementById('discuss-action-btn').textContent = "بانتظار الهوست لكشف الأسئلة... ⏳";
@@ -1660,6 +1658,7 @@ function startOnlineRevealPhase() {
   showScreen('screen-reveal');
 }
 
+// ── إدارة الردود في شات النقاش الأونلاين ──
 function setReplyTarget(senderName, textContent) {
   currentReplyTarget = { sender: senderName, text: textContent };
   const replyBar = document.getElementById('chat-reply-bar');
@@ -2164,7 +2163,6 @@ function renderLibrary() {
   `).join('');
 }
 
-// استبدال الـ prompt الافتراضي بنافذة الإدخال المخصصة المتناسقة مع الستايل للـ Category
 function addCategory() {
   const input = document.getElementById('new-category-name');
   const name = input.value.trim();
@@ -2182,7 +2180,6 @@ function deleteCategory(idx) {
   });
 }
 
-// استبدال الـ prompt الافتراضي للمتصفح لإدخل اسم المجموعة بـ Custom Prompt متناسق تماماً
 function addSubcategoryToCategory() {
   const catIdx = document.getElementById('select-category-target').value;
   if (catIdx === "") {
@@ -2211,7 +2208,6 @@ function deleteSubcategory(catIdx, subIdx) {
   });
 }
 
-// استبدال الـ prompt الافتراضي للمتصفح لإدخال نص السؤال بـ Custom Prompt متناسق تماماً
 function addQuestionToSubcategory() {
   const catIdx = document.getElementById('select-category-target').value;
   const subIdx = document.getElementById('select-subcategory-target').value;
