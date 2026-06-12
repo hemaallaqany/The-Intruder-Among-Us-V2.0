@@ -998,7 +998,6 @@ function saveLibrary() {
   localStorage.setItem('imp_categories_library', JSON.stringify(state.library));
 }
 
-// تخصيص نافذة الـ Modal لتعمل كـ Custom Alert أو Custom Prompt متناسق تماماً مع ألوان اللعبة
 function customAlert(text, icon = "⚠️", showCancel = false, callback = null) {
   document.getElementById('custom-prompt-container').style.display = "none";
   document.getElementById('modal-text').textContent = text;
@@ -1232,7 +1231,6 @@ function listenToRoomUpdates() {
     state.votes = data.votes || {};
     state.readyToVoteCount = data.readyToVoteCount || 0;
     
-    // مزامنة وعرض الفئة المحددة لجميع اللاعبين في الـ lobby
     if(data.chosenCategoryName) {
       document.getElementById('lobby-category-display').textContent = data.chosenCategoryName;
     }
@@ -1241,7 +1239,6 @@ function listenToRoomUpdates() {
       initialPlayersCount = state.players.length; 
       renderLobbyChatMessages(data.lobbyChat);
       
-      // التعديل: إرجاع اللاعبين الآخرين تلقائياً إلى الـ Lobby عند تحول الحالة لـ waiting
       if (!document.getElementById('screen-players').classList.contains('active')) {
         showScreen('screen-players');
       }
@@ -1345,7 +1342,6 @@ function removePlayer(i) {
   renderPlayerList();
 }
 
-// ── إدارة اختيار الفئات من الـ Lobby ──
 function toggleLobbyDropdown() {
   const dropdown = document.getElementById('lobby-category-dropdown');
   const optionsBox = document.getElementById('lobby-dropdown-options-box');
@@ -1373,7 +1369,6 @@ function renderLobbyCategoryDropdown() {
   const optionsBox = document.getElementById('lobby-dropdown-options-box');
   let html = `<div class="dropdown-option" onclick="selectLobbyCategory('-1', 'عشوائية')">🎲 فئة عشوائية</div>`;
   state.library.forEach((cat, idx) => {
-    // نتحقق من أن الفئة تحتوي على الأقل على مجموعة واحدة بها سؤالين
     const hasValidSub = cat.subcategories && cat.subcategories.some(sub => sub.questions && sub.questions.length >= 2);
     if (hasValidSub) {
       html += `<div class="dropdown-option" onclick="selectLobbyCategory('${idx}', '${esc(cat.category)}')">📁 ${esc(cat.category)}</div>`;
@@ -1396,7 +1391,6 @@ function selectLobbyCategory(idx, name) {
   }
 }
 
-// الدالة المسؤولة عن انتقاء الأسئلة بشكل عشوائي تمامًا من المجموعات دون ثنائيات ثابتة
 function pickRandomQuestionsFromCategory(catObj) {
   const validSubs = catObj.subcategories.filter(sub => sub.questions && sub.questions.length >= 2);
   if (validSubs.length === 0) return null;
@@ -1414,7 +1408,6 @@ function clickStartGame() {
     dbRef.child('timerDuration').set(chosenTimer);
   }
   
-  // تصفية الفئات التي تحتوي على مجموعات صالحة للعب
   const validCategories = state.library.filter(c => c.subcategories && c.subcategories.some(sub => sub.questions && sub.questions.length >= 2));
   if (validCategories.length === 0) {
     customAlert("يجب أن تحتوي فئة واحدة على الأقل على مجموعة بها (سؤالين) لتوزيع الأسئلة!", "⚠️");
@@ -1470,7 +1463,6 @@ function startOfflineRound() {
   showOfflinePassScreen();
 }
 
-// ── إدارة شات الانتظار في الـ Lobby ──
 function setLobbyReplyTarget(senderName, textContent) {
   currentLobbyReplyTarget = { sender: senderName, text: textContent };
   const replyBar = document.getElementById('lobby-chat-reply-bar');
@@ -1600,6 +1592,7 @@ function submitOnlineAnswer(isAuto = false) {
   }
 }
 
+// إصلاح: الـ Host يتحقق بـ once لمرة واحدة متفاديًا تداخل المستمعات
 function checkAnswersCompletion() {
   dbRef.child('answers').on('value', function checkAns(snap) {
     const ansData = snap.val() || {};
@@ -1658,7 +1651,6 @@ function startOnlineRevealPhase() {
   showScreen('screen-reveal');
 }
 
-// ── إدارة الردود في شات النقاش الأونلاين ──
 function setReplyTarget(senderName, textContent) {
   currentReplyTarget = { sender: senderName, text: textContent };
   const replyBar = document.getElementById('chat-reply-bar');
@@ -1822,6 +1814,7 @@ function confirmVote() {
   }
 }
 
+// إصلاح: الـ Host يتحقق بـ once من اكتمال التصويت لتفادي الـ loops
 function checkVotesCompletion() {
   dbRef.child('votes').on('value', function checkVot(snap) {
     const votData = snap.val() || {};
@@ -1857,6 +1850,7 @@ function calcOfflineAndDisplayResults() {
   renderFinalUIElements(imposterName, success, V, roundScores);
 }
 
+// إصلاح: الـ Host فقط هو من يحدث النقاط التراكمية في قاعدة البيانات السحابية
 function displayFinalCalculatedResults() {
   const n = state.players.length;
   const imposterName = state.players[state.imposterIdx];
@@ -1945,7 +1939,6 @@ function nextAfterQuestion() {
   }
 }
 
-// زر "جولة جديدة" ليعمل وفق القواعد الجديدة (سؤالين جديدين من مجموعة عشوائية من نفس الفئة)
 function newRound() {
   if (state.gameMode === 'offline') {
     let finalCatObj = null;
@@ -1986,7 +1979,6 @@ function newRound() {
   }
 }
 
-// زر "لعبة جديدة": العودة لغرفة الانتظار (Lobby) أو شاشة اختيار الفئة مع تصفير الإعدادات السابقة
 function newGame() {
   if (state.gameMode === 'online-host') {
     dbRef.update({
@@ -2016,7 +2008,6 @@ function startCountdown(seconds, displayId, onFinish) {
   }, 1000);
 }
 
-// =================== إدارة المجموعات والدروب داونز للمكتبة المحدثة ===================
 function toggleDropdown() {
   const dropdown = document.getElementById('category-dropdown');
   const optionsBox = document.getElementById('dropdown-options-box');
@@ -2047,7 +2038,6 @@ function selectDropdownOption(idx, name) {
   displayEl.style.color = 'var(--gold)';
   document.getElementById('category-dropdown').classList.remove('open', 'open-up');
   
-  // إعادة تعيين وإعادة بناء قائمة المجموعات بناءً على الفئة المختارة
   document.getElementById('select-subcategory-target').value = "";
   const subDisplayEl = document.querySelector('#subcategory-dropdown .dropdown-select');
   subDisplayEl.textContent = "اختر المجموعة المستهدفة...";
