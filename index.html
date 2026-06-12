@@ -683,6 +683,24 @@
 
       <div class="scrollable-content">
         <div id="player-list" class="player-list"></div>
+        
+        <!-- نافذة شات الانتظار البسيطة المضافة للأونلاين -->
+        <div id="lobby-chat-section" style="display: none; margin-top: 14px;">
+          <div style="font-size:0.9rem; font-weight:700; color:var(--teal); margin-bottom: 6px;">💬 شات الانتظار (اضغط على رسالة للرد):</div>
+          <div class="chat-box-container" style="height: 160px;">
+            <div id="lobby-chat-messages" class="chat-messages"></div>
+            
+            <div id="lobby-chat-reply-bar" class="chat-reply-bar">
+              <span id="lobby-chat-reply-text">الرد على: </span>
+              <button style="background:none; border:none; color:var(--accent); font-weight:bold; cursor:pointer;" onclick="cancelLobbyReply()">✕ إلغاء</button>
+            </div>
+
+            <div class="input-row" style="margin:0; padding:4px; background:var(--surface);">
+              <input type="text" id="lobby-chat-input" placeholder="دردش مع اللاعبين هنا..." onkeydown="if(event.key==='Enter')sendLobbyChatMessage()">
+              <button class="btn btn-teal btn-sm" style="padding:6px 12px;" onclick="sendLobbyChatMessage()">⬆️</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div style="flex-shrink: 0;">
@@ -718,7 +736,7 @@
         <div style="font-size:0.85rem; margin-bottom:6px; color:var(--muted);">اكتب إجابتك الذكية والمموّهة هنا:</div>
         <div class="input-row">
           <input type="text" id="online-player-answer" placeholder="إجابتك المموهة...">
-          <button class="btn btn-teal btn-sm" onclick="submitOnlineAnswer()">إرسال</button>
+          <button class="btn btn-teal btn-sm" onclick="submitOnlineAnswer()">⬆️</button>
         </div>
       </div>
       
@@ -785,7 +803,7 @@
 
             <div class="input-row" style="margin:0; padding:4px; background:var(--surface);">
               <input type="text" id="chat-input" placeholder="اكتب رسالة للنقاش..." onkeydown="if(event.key==='Enter')sendChatMessage()">
-              <button class="btn btn-teal btn-sm" style="padding:6px 12px;" onclick="sendChatMessage()">إرسال</button>
+              <button class="btn btn-teal btn-sm" style="padding:6px 12px;" onclick="sendChatMessage()">⬆️</button>
             </div>
           </div>
         </div>
@@ -981,6 +999,7 @@ let timerInterval = null;
 let modalCallback = null;
 let initialPlayersCount = 0; 
 let currentReplyTarget = null; 
+let currentLobbyReplyTarget = null;
 
 function saveLibrary() {
   localStorage.setItem('imp_categories_library', JSON.stringify(state.library));
@@ -1063,6 +1082,7 @@ function selectGameMode(mode) {
     document.getElementById('lobby-back-btn').textContent = "← رجوع";
     document.getElementById('lobby-category-dropdown').style.display = 'block';
     document.getElementById('lobby-category-display').textContent = "عشوائية";
+    document.getElementById('lobby-chat-section').style.display = 'none';
     state.players = [];
     showScreen('screen-players');
   } 
@@ -1077,6 +1097,10 @@ function selectGameMode(mode) {
     document.getElementById('lobby-back-btn').textContent = "← إغلاق الغرفة";
     document.getElementById('lobby-category-dropdown').style.display = 'block';
     document.getElementById('lobby-category-display').textContent = "عشوائية";
+    document.getElementById('lobby-chat-section').style.display = 'block';
+    document.getElementById('lobby-chat-messages').innerHTML = '';
+    document.getElementById('lobby-chat-input').value = '';
+    cancelLobbyReply();
     
     dbRef = firebase.database().ref('rooms/' + state.roomCode);
     dbRef.remove(); 
@@ -1093,7 +1117,8 @@ function selectGameMode(mode) {
       players: state.players,
       scores: state.scores,
       timerDuration: 30,
-      chosenCategoryName: "عشوائية"
+      chosenCategoryName: "عشوائية",
+      lobbyChat: {}
     });
     
     listenToRoomUpdates();
@@ -1139,6 +1164,10 @@ function joinOnlineRoom() {
     document.getElementById('offline-add-player-row').style.display = 'none';
     document.getElementById('lobby-back-btn').textContent = "← مغادرة الغرفة";
     document.getElementById('lobby-category-dropdown').style.display = 'none';
+    document.getElementById('lobby-chat-section').style.display = 'block';
+    document.getElementById('lobby-chat-messages').innerHTML = '';
+    document.getElementById('lobby-chat-input').value = '';
+    cancelLobbyReply();
     
     listenToRoomUpdates();
     showScreen('screen-players');
@@ -1217,6 +1246,7 @@ function listenToRoomUpdates() {
 
     if (data.status === 'waiting') {
       initialPlayersCount = state.players.length; 
+      renderLobbyChatMessages(data.lobbyChat);
     }
 
     if (document.getElementById('screen-players').classList.contains('active')) {
@@ -1442,6 +1472,74 @@ function startOfflineRound() {
   showOfflinePassScreen();
 }
 
+// ── إدارة شات الانتظار في الـ Lobby ──
+function setLobbyReplyTarget(senderName, textContent) {
+  currentLobbyReplyTarget = { sender: senderName, text: textContent };
+  const replyBar = document.getElementById('lobby-chat-reply-bar');
+  const replyText = document.getElementById('lobby-chat-reply-text');
+  
+  replyText.textContent = `رد على [${senderName}]: "${textContent.substring(0, 20)}${textContent.length > 20 ? '...' : ''}"`;
+  replyBar.style.display = 'flex';
+  document.getElementById('lobby-chat-input').focus();
+}
+
+function cancelLobbyReply() {
+  currentLobbyReplyTarget = null;
+  document.getElementById('lobby-chat-reply-bar').style.display = 'none';
+}
+
+function sendLobbyChatMessage() {
+  const inp = document.getElementById('lobby-chat-input');
+  const msg = inp.value.trim();
+  if (!msg) return;
+  
+  const msgRef = dbRef.child('lobbyChat').push();
+  const messagePayload = {
+    sender: state.myPlayerName,
+    text: msg,
+    timestamp: firebase.database.ServerValue.TIMESTAMP
+  };
+
+  if (currentLobbyReplyTarget) {
+    messagePayload.replyTo = currentLobbyReplyTarget;
+  }
+  
+  msgRef.set(messagePayload);
+  inp.value = '';
+  cancelLobbyReply();
+}
+
+function renderLobbyChatMessages(chatData) {
+  const chatMessagesBox = document.getElementById('lobby-chat-messages');
+  if (!chatMessagesBox) return;
+  if (!chatData) {
+    chatMessagesBox.innerHTML = '<div style="color:var(--muted); font-size:0.8rem; text-align:center; padding-top:10px;">لا توجد رسائل بعد، أرسل سلاماً للاعبين! 👋</div>';
+    return;
+  }
+  
+  const sortedMsgs = Object.values(chatData).sort((a, b) => a.timestamp - b.timestamp);
+  
+  chatMessagesBox.innerHTML = sortedMsgs.map(m => {
+    let replyMarkup = '';
+    if (m.replyTo) {
+      replyMarkup = `
+        <div class="chat-reply-preview">
+          ↪️ رداً على <strong>${esc(m.replyTo.sender)}</strong>: ${esc(m.replyTo.text)}
+        </div>`;
+    }
+    
+    return `
+      <div class="chat-msg-row" onclick="setLobbyReplyTarget('${esc(m.sender)}', '${esc(m.text)}')">
+        ${replyMarkup}
+        <span class="chat-msg-sender">${esc(m.sender)}:</span>
+        <span>${esc(m.text)}</span>
+      </div>
+    `;
+  }).join('');
+  
+  chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
+}
+
 function showOfflinePassScreen() {
   const idx = state.passOrder[state.passIdx];
   document.getElementById('pass-name').textContent = state.players[idx];
@@ -1518,7 +1616,7 @@ function startOnlineDiscussPhase() {
   document.getElementById('discuss-cat-display').textContent = state.currentCategoryName;
   
   if (state.gameMode === 'online-host') {
-    document.getElementById('discuss-action-btn').textContent = "توجيه الجميع لكشف الأسئلة 📢";
+    document.getElementById('discuss-action-btn').textContent = "توججه الجميع لكشف الأسئلة 📢";
     document.getElementById('discuss-action-btn').disabled = false;
   } else {
     document.getElementById('discuss-action-btn').textContent = "بانتظار الهوست لكشف الأسئلة... ⏳";
