@@ -491,6 +491,7 @@
   .score-total { color: var(--gold); font-weight: 700; }
   .badge-imposter { background: rgba(230,57,70,0.2); color: var(--accent2); border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; margin-right: 4px; }
 
+  /* ── LIBRARY LAYOUT MODIFICATIONS ── */
   .category-box {
     background: var(--surface2);
     border: 1px solid var(--border);
@@ -507,11 +508,27 @@
     margin-bottom: 6px;
     font-size: 0.95rem;
   }
+  .subcategory-box {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(42,42,64,0.6);
+    border-radius: var(--radius-sm);
+    padding: 8px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+  .subcategory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    color: var(--teal);
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+  }
   .category-questions-list {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    margin-top: 6px;
     padding-right: 6px;
     border-right: 2px solid var(--border);
   }
@@ -575,6 +592,22 @@
     gap: 10px;
     margin: 10px 0;
   }
+
+  /* ── CUSTOM PROMPT MODAL STYLES ── */
+  .custom-prompt-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 10px 14px;
+    outline: none;
+    margin-bottom: 20px;
+    text-align: right;
+  }
+  .custom-prompt-input:focus { border-color: var(--accent); }
 </style>
 </head>
 <body>
@@ -628,6 +661,19 @@
             <span>ثانية</span>
           </div>
         </div>
+      </div>
+
+      <!-- عرض الفئة المختارة في الـ lobby للأونلاين والأوفلاين -->
+      <div style="margin-bottom:12px;">
+        <div style="font-size:0.9rem; font-weight:600; color:var(--gold); text-align:center; background:rgba(255,209,102,0.1); padding:8px; border-radius:var(--radius-sm);">
+          الفئة المحددة للعبة: <span id="lobby-category-display">عشوائية</span>
+        </div>
+      </div>
+
+      <div class="custom-dropdown" id="lobby-category-dropdown">
+        <div class="dropdown-select" onclick="toggleLobbyDropdown()">اختر الفئة لبدء اللعبة...</div>
+        <div class="dropdown-options" id="lobby-dropdown-options-box"></div>
+        <input type="hidden" id="select-lobby-category-target" value="">
       </div>
 
       <div class="input-row" id="offline-add-player-row">
@@ -799,7 +845,7 @@
       
       <div style="flex-shrink: 0;">
         <button class="btn btn-teal" id="result-next-round-btn" onclick="newRound()">🔄 جولة جديدة</button>
-        <button class="btn btn-secondary btn-gap" id="result-reset-game-btn" onclick="newGame()">🏠 إعادة تصفير اللعبة</button>
+        <button class="btn btn-secondary btn-gap" id="result-reset-game-btn" onclick="newGame()">🏠 لعبة جديدة</button>
       </div>
     </div>
   </div>
@@ -819,24 +865,30 @@
         <div id="lib-list"></div>
       </div>
 
-      <div style="flex-shrink: 0;">
-        <hr class="divider">
-        <h3>📁 إضافة فئة جديدة</h3>
-        <div class="input-row">
+      <!-- تم تعديل أبعاد ومكان عناصر الإضافة لمنع الـ Overlapping تماماً واختفاء الأزرار السفلى -->
+      <div style="flex-shrink: 0; border-top: 1px solid var(--border); padding-top: 8px;">
+        <h3 style="font-size:0.95rem; margin-bottom:6px;">📁 إضافة فئة جديدة</h3>
+        <div class="input-row" style="margin-bottom:8px;">
           <input type="text" id="new-category-name" placeholder="مثال: مسلسلات وأفلام">
-          <button class="btn btn-gold btn-sm" onclick="addCategory()">إنشاء</button>
+          <button class="btn btn-gold btn-sm" onclick="addCategory()">إنشاء فئة</button>
         </div>
 
-        <h3>➕ إضافة سؤال لفئة</h3>
-        <div class="custom-dropdown" id="category-dropdown">
+        <h3 style="font-size:0.95rem; margin-bottom:6px;">➕ إضافة مجموعة أو سؤال</h3>
+        <div class="custom-dropdown" id="category-dropdown" style="margin-bottom:6px;">
           <div class="dropdown-select" onclick="toggleDropdown()">اختر الفئة المستهدفة...</div>
           <div class="dropdown-options" id="dropdown-options-box"></div>
           <input type="hidden" id="select-category-target" value="">
         </div>
+
+        <div class="custom-dropdown" id="subcategory-dropdown" style="margin-bottom:6px;">
+          <div class="dropdown-select" onclick="toggleSubcategoryDropdown()">اختر المجموعة المستهدفة...</div>
+          <div class="dropdown-options" id="subcategory-dropdown-options-box"></div>
+          <input type="hidden" id="select-subcategory-target" value="">
+        </div>
         
-        <div class="input-row">
-          <input type="text" id="new-question-text" placeholder="مثال: شخصية غنية جداً">
-          <button class="btn btn-teal btn-sm" onclick="addQuestionToCategory()">إضافة</button>
+        <div style="display:flex; gap:6px;">
+          <button class="btn btn-secondary btn-sm" style="flex:1; padding:10px;" onclick="addSubcategoryToCategory()">➕ إنشاء مجموعة</button>
+          <button class="btn btn-teal btn-sm" style="flex:1; padding:10px;" onclick="addQuestionToSubcategory()">📝 إضافة سؤال</button>
         </div>
       </div>
     </div>
@@ -844,10 +896,14 @@
 
 </div>
 
+<!-- نافذة المودال المخصصة (تستخدم للتنبيهات وأيضاً لاستبدال الـ Text Boxes الافتراضية بنوافذ متناسقة) -->
 <div id="custom-modal" class="modal-overlay">
   <div class="modal-box">
     <div id="modal-icon" class="modal-icon">⚠️</div>
     <div id="modal-text" class="modal-text">هذا نص التنبيه المخصص.</div>
+    <div id="custom-prompt-container" style="display:none;">
+      <input type="text" id="custom-prompt-field" class="custom-prompt-input" placeholder="">
+    </div>
     <div class="modal-buttons">
       <button id="modal-cancel-btn" class="modal-btn modal-btn-cancel" onclick="closeCustomModal(false)">إلغاء</button>
       <button id="modal-confirm-btn" class="modal-btn modal-btn-confirm" onclick="closeCustomModal(true)">حسناً</button>
@@ -863,34 +919,36 @@ if (typeof firebase !== 'undefined') {
   firebase.initializeApp(firebaseConfig);
 }
 
+// هيكلة المكتبة الجديدة: فئات -> مجموعات -> أسئلة مباشرة بدون ثنائيات ثابتة
 const defaultLibrary = [
   {
     category: "أنمي وكرتون",
-    questions: [
-      "شخصية غنية جداً وتمتلك نفوذ",
-      "شخصية فقيرة وتكافح من أجل لقمة العيش",
-      "شخصية ذكية جداً وتخطط بعبقرية",
-      "شخصية غبية ومضحكة وتسبب المشاكل",
-      "شخصية تمتلك قوة خارقة مدمرة",
-      "شخصية عادية لا تملك أي قوة وتعتمد على أدواتها"
+    subcategories: [
+      {
+        name: "شخصيات رئيسية",
+        questions: [
+          "شخصية غنية جداً وتمتلك نفوذ",
+          "شخصية فقيرة وتكافح من أجل لقمة العيش",
+          "شخصية ذكية جداً وتخطط بعبقرية",
+          "شخصية غبية ومضحكة وتسبب المشاكل",
+          "شخصية تمتلك قوة خارقة مدمرة",
+          "شخصية عادية لا تملك أي قوة وتعتمد على أدواتها"
+        ]
+      }
     ]
   },
   {
     category: "أفلام ومسلسلات",
-    questions: [
-      "شخصية شريرة مرعبة والجميع يخافها",
-      "شخصية بطولية تضحي من أجل الآخرين",
-      "شخصية غامضة لا تتحدث كثيراً",
-      "شخصية ثرثارة وكوميدية طوال الوقت"
-    ]
-  },
-  {
-    category: "أسلوب حياة وعادات",
-    questions: [
-      "شخصية نشيطة جداً تستيقظ مبكراً وتعمل دائماً",
-      "شخصية كسولة جداً وتنام طوال اليوم وتكره العمل",
-      "شخصية تعشق تناول الطعام والحلويات بكثرة",
-      "شخصية تتبع نظاماً غذائياً صارماً وتكره الدهون"
+    subcategories: [
+      {
+        name: "طباع وصفات",
+        questions: [
+          "شخصية شريرة مرعبة والجميع يخافها",
+          "شخصية بطولية تضحي من أجل الآخرين",
+          "شخصية غامضة لا تتحدث كثيراً",
+          "شخصية ثرثارة وكوميدية طوال الوقت"
+        ]
+      }
     ]
   }
 ];
@@ -904,6 +962,7 @@ let state = {
   scores: {},
   imposterIdx: -1,
   currentCategoryName: "",
+  chosenCategoryIdx: -1, // لتثبيت الفئة طوال الجولات الممتدة
   questionNormal: "",
   questionImposter: "",
   passOrder: [],
@@ -921,13 +980,15 @@ let dbRef = null;
 let timerInterval = null;
 let modalCallback = null;
 let initialPlayersCount = 0; 
-let currentReplyTarget = null; // يحمل كائن الرسالة التي يتم الرد عليها حالياً
+let currentReplyTarget = null; 
 
 function saveLibrary() {
   localStorage.setItem('imp_categories_library', JSON.stringify(state.library));
 }
 
+// تخصيص نافذة الـ Modal لتعمل كـ Custom Alert أو Custom Prompt متناسق تماماً مع ألوان اللعبة
 function customAlert(text, icon = "⚠️", showCancel = false, callback = null) {
+  document.getElementById('custom-prompt-container').style.display = "none";
   document.getElementById('modal-text').textContent = text;
   document.getElementById('modal-icon').textContent = icon;
   const cancelBtn = document.getElementById('modal-cancel-btn');
@@ -936,10 +997,28 @@ function customAlert(text, icon = "⚠️", showCancel = false, callback = null)
   document.getElementById('custom-modal').classList.add('active');
 }
 
+function customPrompt(text, placeholder, icon = "📝", callback = null) {
+  document.getElementById('modal-text').textContent = text;
+  document.getElementById('modal-icon').textContent = icon;
+  const container = document.getElementById('custom-prompt-container');
+  const field = document.getElementById('custom-prompt-field');
+  container.style.display = "block";
+  field.value = "";
+  field.placeholder = placeholder;
+  const cancelBtn = document.getElementById('modal-cancel-btn');
+  cancelBtn.style.display = "inline-block";
+  modalCallback = (isConfirmed) => {
+    if (isConfirmed && callback) {
+      callback(field.value.trim());
+    }
+  };
+  document.getElementById('custom-modal').classList.add('active');
+}
+
 function closeCustomModal(isConfirmed = true) {
   document.getElementById('custom-modal').classList.remove('active');
-  if (isConfirmed && modalCallback) {
-    modalCallback();
+  if (modalCallback) {
+    modalCallback(isConfirmed);
   }
   modalCallback = null;
 }
@@ -947,8 +1026,24 @@ function closeCustomModal(isConfirmed = true) {
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  if (id === 'screen-library') renderLibrary();
-  if (id === 'screen-players') renderPlayerList();
+  if (id === 'screen-library') {
+    renderLibrary();
+    resetLibraryInputs();
+  }
+  if (id === 'screen-players') {
+    renderPlayerList();
+    renderLobbyCategoryDropdown();
+  }
+}
+
+function resetLibraryInputs() {
+  document.getElementById('select-category-target').value = "";
+  document.querySelector('#category-dropdown .dropdown-select').textContent = "اختر الفئة المستهدفة...";
+  document.querySelector('#category-dropdown .dropdown-select').style.color = "var(--text)";
+  document.getElementById('select-subcategory-target').value = "";
+  document.querySelector('#subcategory-dropdown .dropdown-select').textContent = "اختر المجموعة المستهدفة...";
+  document.querySelector('#subcategory-dropdown .dropdown-select').style.color = "var(--text)";
+  document.getElementById('subcategory-dropdown-options-box').innerHTML = "";
 }
 
 function selectGameMode(mode) {
@@ -958,6 +1053,7 @@ function selectGameMode(mode) {
     return;
   }
   state.myPlayerName = nameInput;
+  state.chosenCategoryIdx = -1; 
 
   if (mode === 'offline') {
     state.gameMode = 'offline';
@@ -965,6 +1061,8 @@ function selectGameMode(mode) {
     document.getElementById('online-room-info').style.display = 'none';
     document.getElementById('offline-add-player-row').style.display = 'flex';
     document.getElementById('lobby-back-btn').textContent = "← رجوع";
+    document.getElementById('lobby-category-dropdown').style.display = 'block';
+    document.getElementById('lobby-category-display').textContent = "عشوائية";
     state.players = [];
     showScreen('screen-players');
   } 
@@ -977,6 +1075,8 @@ function selectGameMode(mode) {
     document.getElementById('host-settings').style.display = 'block';
     document.getElementById('offline-add-player-row').style.display = 'none';
     document.getElementById('lobby-back-btn').textContent = "← إغلاق الغرفة";
+    document.getElementById('lobby-category-dropdown').style.display = 'block';
+    document.getElementById('lobby-category-display').textContent = "عشوائية";
     
     dbRef = firebase.database().ref('rooms/' + state.roomCode);
     dbRef.remove(); 
@@ -992,7 +1092,8 @@ function selectGameMode(mode) {
       status: 'waiting',
       players: state.players,
       scores: state.scores,
-      timerDuration: 30
+      timerDuration: 30,
+      chosenCategoryName: "عشوائية"
     });
     
     listenToRoomUpdates();
@@ -1029,7 +1130,6 @@ function joinOnlineRoom() {
     
     currentPlayers.push(state.myPlayerName);
     dbRef.child('players').set(currentPlayers);
-    
     dbRef.child('scores/' + state.myPlayerName).set(0);
     
     document.getElementById('lobby-mode-text').textContent = "أونلاين (عضو)";
@@ -1038,6 +1138,7 @@ function joinOnlineRoom() {
     document.getElementById('host-settings').style.display = 'none';
     document.getElementById('offline-add-player-row').style.display = 'none';
     document.getElementById('lobby-back-btn').textContent = "← مغادرة الغرفة";
+    document.getElementById('lobby-category-dropdown').style.display = 'none';
     
     listenToRoomUpdates();
     showScreen('screen-players');
@@ -1109,6 +1210,11 @@ function listenToRoomUpdates() {
     state.votes = data.votes || {};
     state.readyToVoteCount = data.readyToVoteCount || 0;
     
+    // مزامنة وعرض الفئة المحددة لجميع اللاعبين في الـ lobby
+    if(data.chosenCategoryName) {
+      document.getElementById('lobby-category-display').textContent = data.chosenCategoryName;
+    }
+
     if (data.status === 'waiting') {
       initialPlayersCount = state.players.length; 
     }
@@ -1211,35 +1317,113 @@ function removePlayer(i) {
   renderPlayerList();
 }
 
+// ── إدارة اختيار الفئات من الـ Lobby ──
+function toggleLobbyDropdown() {
+  const dropdown = document.getElementById('lobby-category-dropdown');
+  const optionsBox = document.getElementById('lobby-dropdown-options-box');
+  const selectBtn = dropdown.querySelector('.dropdown-select');
+  if (dropdown.classList.contains('open') || dropdown.classList.contains('open-up')) {
+    dropdown.classList.remove('open', 'open-up'); return;
+  }
+  const rect = selectBtn.getBoundingClientRect();
+  const spaceBelow = window.innerHeight - rect.bottom;
+  const optionsHeight = Math.min(state.library.length * 45 + 50, 180);
+
+  if (spaceBelow < optionsHeight && rect.top > optionsHeight) {
+    dropdown.classList.add('open-up');
+    optionsBox.style.top = (rect.top - optionsHeight - 4) + 'px';
+  } else {
+    dropdown.classList.add('open');
+    optionsBox.style.top = (rect.bottom + 4) + 'px';
+  }
+  optionsBox.style.maxHeight = optionsHeight + 'px';
+  optionsBox.style.left = rect.left + 'px';
+  optionsBox.style.width = rect.width + 'px';
+}
+
+function renderLobbyCategoryDropdown() {
+  const optionsBox = document.getElementById('lobby-dropdown-options-box');
+  let html = `<div class="dropdown-option" onclick="selectLobbyCategory('-1', 'عشوائية')">🎲 فئة عشوائية</div>`;
+  state.library.forEach((cat, idx) => {
+    // نتحقق من أن الفئة تحتوي على الأقل على مجموعة واحدة بها سؤالين
+    const hasValidSub = cat.subcategories && cat.subcategories.some(sub => sub.questions && sub.questions.length >= 2);
+    if (hasValidSub) {
+      html += `<div class="dropdown-option" onclick="selectLobbyCategory('${idx}', '${esc(cat.category)}')">📁 ${esc(cat.category)}</div>`;
+    }
+  });
+  optionsBox.innerHTML = html;
+}
+
+function selectLobbyCategory(idx, name) {
+  state.chosenCategoryIdx = parseInt(idx);
+  document.getElementById('select-lobby-category-target').value = idx;
+  const displayEl = document.querySelector('#lobby-category-dropdown .dropdown-select');
+  displayEl.textContent = name;
+  displayEl.style.color = 'var(--gold)';
+  document.getElementById('lobby-category-dropdown').classList.remove('open', 'open-up');
+  document.getElementById('lobby-category-display').textContent = name;
+
+  if (state.gameMode === 'online-host') {
+    dbRef.child('chosenCategoryName').set(name);
+  }
+}
+
+// الدالة المسؤولة عن انتقاء الأسئلة بشكل عشوائي تمامًا من المجموعات دون ثنائيات ثابتة
+function pickRandomQuestionsFromCategory(catObj) {
+  const validSubs = catObj.subcategories.filter(sub => sub.questions && sub.questions.length >= 2);
+  if (validSubs.length === 0) return null;
+  const randomSub = validSubs[Math.floor(Math.random() * validSubs.length)];
+  const shuffledQuestions = shuffle([...randomSub.questions]);
+  return {
+    normal: shuffledQuestions[0],
+    imposter: shuffledQuestions[1]
+  };
+}
+
 function clickStartGame() {
   if (state.gameMode === 'online-host') {
     const chosenTimer = parseInt(document.getElementById('host-timer-input').value) || 30;
     dbRef.child('timerDuration').set(chosenTimer);
   }
   
-  const validCategories = state.library.filter(c => c.questions.length >= 2);
+  // تصفية الفئات التي تحتوي على مجموعات صالحة للعب
+  const validCategories = state.library.filter(c => c.subcategories && c.subcategories.some(sub => sub.questions && sub.questions.length >= 2));
   if (validCategories.length === 0) {
-    customAlert("يجب أن تحتوي فئة واحدة على الأقل على (سؤالين) لتوزيع الأسئلة بشكل عادل بين اللاعبين والدخيل!", "⚠️");
+    customAlert("يجب أن تحتوي فئة واحدة على الأقل على مجموعة بها (سؤالين) لتوزيع الأسئلة!", "⚠️");
     showScreen('screen-library');
     return;
   }
 
+  let finalCatObj = null;
+  if (state.chosenCategoryIdx !== -1 && state.library[state.chosenCategoryIdx]) {
+    finalCatObj = state.library[state.chosenCategoryIdx];
+  } else {
+    finalCatObj = validCategories[Math.floor(Math.random() * validCategories.length)];
+  }
+
+  const pickedData = pickRandomQuestionsFromCategory(finalCatObj);
+  if (!pickedData) {
+    customAlert("الفئة المحددة لا تحتوي على أسئلة كافية في مجموعاتها!", "⚠️");
+    return;
+  }
+
   if (state.gameMode === 'offline') {
+    state.currentCategoryName = finalCatObj.category;
+    state.questionNormal = pickedData.normal;
+    state.questionImposter = pickedData.imposter;
     state.players.forEach(p => { if (!(p in state.scores)) state.scores[p] = 0; });
     startOfflineRound();
   } else {
     const n = state.players.length;
     initialPlayersCount = n; 
     const impIdx = Math.floor(Math.random() * n);
-    const chosenCat = validCategories[Math.floor(Math.random() * validCategories.length)];
-    const shuffledQuestions = shuffle([...chosenCat.questions]);
     
     dbRef.update({
       status: 'question-phase',
       imposterIdx: impIdx,
-      currentCategoryName: chosenCat.category,
-      questionNormal: shuffledQuestions[0],
-      questionImposter: shuffledQuestions[1],
+      currentCategoryName: finalCatObj.category,
+      questionNormal: pickedData.normal,
+      questionImposter: pickedData.imposter,
       answers: {},
       votes: {},
       chat: {}, 
@@ -1250,17 +1434,8 @@ function clickStartGame() {
 
 // =================== النمط الأوفلاين (OFFLINE) ===================
 function startOfflineRound() {
-  const validCategories = state.library.filter(c => c.questions.length >= 2);
   const n = state.players.length;
   state.imposterIdx = Math.floor(Math.random() * n);
-  
-  const chosenCat = validCategories[Math.floor(Math.random() * validCategories.length)];
-  state.currentCategoryName = chosenCat.category;
-  
-  const shuffledQuestions = shuffle([...chosenCat.questions]);
-  state.questionNormal = shuffledQuestions[0];
-  state.questionImposter = shuffledQuestions[1];
-
   state.passOrder = shuffle([...Array(n).keys()]);
   state.passIdx = 0;
   state.votes = {};
@@ -1288,26 +1463,6 @@ function onReady() {
   document.getElementById('q-text').textContent = q;
   document.getElementById('q-next-btn').style.display = 'none';
   showScreen('screen-question');
-}
-
-function revealQuestion() {
-  const qBox = document.getElementById('q-box');
-  qBox.classList.add('revealed');
-  qBox.classList.remove('hidden-q');
-  if (state.gameMode === 'offline') {
-    document.getElementById('q-next-btn').style.display = 'block';
-  }
-}
-
-function nextAfterQuestion() {
-  state.passIdx++;
-  if (state.passIdx < state.passOrder.length) {
-    showOfflinePassScreen();
-  } else {
-    document.getElementById('discuss-cat-display').textContent = state.currentCategoryName;
-    document.getElementById('online-answers-list').innerHTML = `<p style="color:var(--muted); text-align:center;">في الوضع الأوفلاين، يقوم كل لاعب الآن بالإفصاح عن إجابته شفهياً أمام الحاضرين بالترتيب!</p>`;
-    showScreen('screen-discuss');
-  }
 }
 
 // =================== النمط الأونلاين (ONLINE REALTIME) ===================
@@ -1383,7 +1538,6 @@ function startOnlineRevealPhase() {
   }
   document.getElementById('reveal-imposter-question-row').style.display = 'block'; 
 
-  // بناء قائمة الإجابات في صفحة الكشف لتسهيل ربط الأسئلة
   const revealAnswersContainer = document.getElementById('reveal-answers-list');
   revealAnswersContainer.innerHTML = state.players.map(p => {
     const ans = state.answers[p] || "بدون إجابة";
@@ -1393,7 +1547,6 @@ function startOnlineRevealPhase() {
       </div>`;
   }).join('');
   
-  // تفعيل الشات والردود في صفحة الكشف
   document.getElementById('online-chat-section').style.display = 'block';
   document.getElementById('chat-messages').innerHTML = '';
   document.getElementById('chat-input').value = '';
@@ -1409,7 +1562,6 @@ function startOnlineRevealPhase() {
   showScreen('screen-reveal');
 }
 
-// ── إدارة نظام الشات الفوري والردود ──
 function setReplyTarget(senderName, textContent) {
   currentReplyTarget = { sender: senderName, text: textContent };
   const replyBar = document.getElementById('chat-reply-bar');
@@ -1461,7 +1613,6 @@ function renderChatMessages(chatData) {
         </div>`;
     }
     
-    // عند الضغط على الرسالة يتم استدعاء الـ Reply
     return `
       <div class="chat-msg-row" onclick="setReplyTarget('${esc(m.sender)}', '${esc(m.text)}')">
         ${replyMarkup}
@@ -1495,7 +1646,6 @@ function startOnlineVotePhase() {
   });
 }
 
-// =================== شاشات كشف الحسابات المشتركة ===================
 function showReveal() {
   if (state.gameMode === 'offline') {
     document.getElementById('reveal-qa').textContent = state.questionNormal;
@@ -1585,7 +1735,6 @@ function checkVotesCompletion() {
   });
 }
 
-// =================== الحسابات الإحصائية ونظام النقاط الدقيق ===================
 function calcOfflineAndDisplayResults() {
   const n = state.players.length;
   const imposterName = state.players[state.imposterIdx];
@@ -1679,26 +1828,80 @@ function renderFinalUIElements(imposterName, success, V, roundScores) {
   showScreen('screen-results');
 }
 
-function newRound() {
+function revealQuestion() {
+  const qBox = document.getElementById('q-box');
+  qBox.classList.add('revealed');
+  qBox.classList.remove('hidden-q');
   if (state.gameMode === 'offline') {
-    startOfflineRound();
-  } else if (state.gameMode === 'online-host') {
-    clickStartGame();
+    document.getElementById('q-next-btn').style.display = 'block';
   }
 }
 
-function newGame() {
-  customAlert("هل أنت متأكد من تصفير النقاط والعودة للقائمة الرئيسية؟", "⚠️", true, () => {
-    if (state.gameMode === 'online-host') {
-      dbRef.remove();
-      detachRoomListener();
-    } else if (state.gameMode === 'online-guest') {
-      detachRoomListener();
+function nextAfterQuestion() {
+  state.passIdx++;
+  if (state.passIdx < state.passOrder.length) {
+    showOfflinePassScreen();
+  } else {
+    document.getElementById('discuss-cat-display').textContent = state.currentCategoryName;
+    document.getElementById('online-answers-list').innerHTML = `<p style="color:var(--muted); text-align:center;">في الوضع الأوفلاين، يقوم كل لاعب الآن بالإفصاح عن إجابته شفهياً أمام الحاضرين بالترتيب!</p>`;
+    showScreen('screen-discuss');
+  }
+}
+
+// زر "جولة جديدة" ليعمل وفق القواعد الجديدة (سؤالين جديدين من مجموعة عشوائية من نفس الفئة)
+function newRound() {
+  if (state.gameMode === 'offline') {
+    let finalCatObj = null;
+    if (state.chosenCategoryIdx !== -1 && state.library[state.chosenCategoryIdx]) {
+      finalCatObj = state.library[state.chosenCategoryIdx];
+    } else {
+      const validCategories = state.library.filter(c => c.subcategories && c.subcategories.some(sub => sub.questions && sub.questions.length >= 2));
+      finalCatObj = validCategories[Math.floor(Math.random() * validCategories.length)];
     }
-    state.scores = {};
-    state.players = [];
-    showScreen('screen-menu');
-  });
+    const pickedData = pickRandomQuestionsFromCategory(finalCatObj);
+    state.currentCategoryName = finalCatObj.category;
+    state.questionNormal = pickedData.normal;
+    state.questionImposter = pickedData.imposter;
+    startOfflineRound();
+  } else if (state.gameMode === 'online-host') {
+    let finalCatObj = null;
+    if (state.chosenCategoryIdx !== -1 && state.library[state.chosenCategoryIdx]) {
+      finalCatObj = state.library[state.chosenCategoryIdx];
+    } else {
+      const validCategories = state.library.filter(c => c.subcategories && c.subcategories.some(sub => sub.questions && sub.questions.length >= 2));
+      finalCatObj = validCategories[Math.floor(Math.random() * validCategories.length)];
+    }
+    const pickedData = pickRandomQuestionsFromCategory(finalCatObj);
+    const n = state.players.length;
+    const impIdx = Math.floor(Math.random() * n);
+    
+    dbRef.update({
+      status: 'question-phase',
+      imposterIdx: impIdx,
+      currentCategoryName: finalCatObj.category,
+      questionNormal: pickedData.normal,
+      questionImposter: pickedData.imposter,
+      answers: {},
+      votes: {},
+      chat: {}, 
+      readyToVoteCount: 0
+    });
+  }
+}
+
+// زر "لعبة جديدة": العودة لغرفة الانتظار (Lobby) أو شاشة اختيار الفئة مع تصفير الإعدادات السابقة
+function newGame() {
+  if (state.gameMode === 'online-host') {
+    dbRef.update({
+      status: 'waiting',
+      answers: {},
+      votes: {},
+      chat: {}
+    });
+    showScreen('screen-players');
+  } else if (state.gameMode === 'offline') {
+    showScreen('screen-players');
+  }
 }
 
 function startCountdown(seconds, displayId, onFinish) {
@@ -1716,7 +1919,7 @@ function startCountdown(seconds, displayId, onFinish) {
   }, 1000);
 }
 
-// =================== إدارة المبيعات والدروب داون للمكتبة الكلاسيكية ===================
+// =================== إدارة المجموعات والدروب داونز للمكتبة المحدثة ===================
 function toggleDropdown() {
   const dropdown = document.getElementById('category-dropdown');
   const optionsBox = document.getElementById('dropdown-options-box');
@@ -1725,8 +1928,17 @@ function toggleDropdown() {
     dropdown.classList.remove('open', 'open-up'); return;
   }
   const rect = selectBtn.getBoundingClientRect();
-  dropdown.classList.add('open');
-  optionsBox.style.top = (rect.bottom + 4) + 'px';
+  const spaceBelow = window.innerHeight - rect.bottom;
+  const optionsHeight = Math.min(state.library.length * 45 + 10, 180);
+
+  if (spaceBelow < optionsHeight && rect.top > optionsHeight) {
+    dropdown.classList.add('open-up');
+    optionsBox.style.top = (rect.top - optionsHeight - 4) + 'px';
+  } else {
+    dropdown.classList.add('open');
+    optionsBox.style.top = (rect.bottom + 4) + 'px';
+  }
+  optionsBox.style.maxHeight = optionsHeight + 'px';
   optionsBox.style.left = rect.left + 'px';
   optionsBox.style.width = rect.width + 'px';
 }
@@ -1737,11 +1949,73 @@ function selectDropdownOption(idx, name) {
   displayEl.textContent = name;
   displayEl.style.color = 'var(--gold)';
   document.getElementById('category-dropdown').classList.remove('open', 'open-up');
+  
+  // إعادة تعيين وإعادة بناء قائمة المجموعات بناءً على الفئة المختارة
+  document.getElementById('select-subcategory-target').value = "";
+  const subDisplayEl = document.querySelector('#subcategory-dropdown .dropdown-select');
+  subDisplayEl.textContent = "اختر المجموعة المستهدفة...";
+  subDisplayEl.style.color = "var(--text)";
+  
+  renderSubcategoryDropdown(idx);
+}
+
+function toggleSubcategoryDropdown() {
+  const catIdx = document.getElementById('select-category-target').value;
+  if (catIdx === "") {
+    customAlert("يرجى اختيار الفئة أولاً لعرض مجموعاتها!", "⚠️");
+    return;
+  }
+  const dropdown = document.getElementById('subcategory-dropdown');
+  const optionsBox = document.getElementById('subcategory-dropdown-options-box');
+  const selectBtn = dropdown.querySelector('.dropdown-select');
+  if (dropdown.classList.contains('open') || dropdown.classList.contains('open-up')) {
+    dropdown.classList.remove('open', 'open-up'); return;
+  }
+  const rect = selectBtn.getBoundingClientRect();
+  const spaceBelow = window.innerHeight - rect.bottom;
+  const cat = state.library[catIdx];
+  const itemsCount = (cat && cat.subcategories) ? cat.subcategories.length : 0;
+  const optionsHeight = Math.min(itemsCount * 45 + 10, 180);
+
+  if (spaceBelow < optionsHeight && rect.top > optionsHeight) {
+    dropdown.classList.add('open-up');
+    optionsBox.style.top = (rect.top - optionsHeight - 4) + 'px';
+  } else {
+    dropdown.classList.add('open');
+    optionsBox.style.top = (rect.bottom + 4) + 'px';
+  }
+  optionsBox.style.maxHeight = optionsHeight + 'px';
+  optionsBox.style.left = rect.left + 'px';
+  optionsBox.style.width = rect.width + 'px';
+}
+
+function renderSubcategoryDropdown(catIdx) {
+  const optionsBox = document.getElementById('subcategory-dropdown-options-box');
+  const cat = state.library[catIdx];
+  if (!cat || !cat.subcategories || cat.subcategories.length === 0) {
+    optionsBox.innerHTML = '<div class="dropdown-option" style="color:var(--muted);">لا توجد مجموعات حالية</div>';
+    return;
+  }
+  optionsBox.innerHTML = cat.subcategories.map((sub, idx) => `
+    <div class="dropdown-option" onclick="selectSubcategoryOption('${idx}', '${esc(sub.name)}')">📦 ${esc(sub.name)}</div>
+  `).join('');
+}
+
+function selectSubcategoryOption(idx, name) {
+  document.getElementById('select-subcategory-target').value = idx;
+  const displayEl = document.querySelector('#subcategory-dropdown .dropdown-select');
+  displayEl.textContent = name;
+  displayEl.style.color = 'var(--teal)';
+  document.getElementById('subcategory-dropdown').classList.remove('open', 'open-up');
 }
 
 document.addEventListener('click', function(e) {
   const dropdown = document.getElementById('category-dropdown');
   if (dropdown && !dropdown.contains(e.target)) dropdown.classList.remove('open', 'open-up');
+  const subDropdown = document.getElementById('subcategory-dropdown');
+  if (subDropdown && !subDropdown.contains(e.target)) subDropdown.classList.remove('open', 'open-up');
+  const lobbyDropdown = document.getElementById('lobby-category-dropdown');
+  if (lobbyDropdown && !lobbyDropdown.contains(e.target)) lobbyDropdown.classList.remove('open', 'open-up');
 });
 
 function renderLibrary() {
@@ -1750,58 +2024,118 @@ function renderLibrary() {
   if (!state.library.length) { 
     el.innerHTML = '<div class="empty-state">المكتبة فارغة تماماً. قم بإنشاء فئة جديدة أدناه!</div>'; return; 
   }
-  el.innerHTML = state.library.map((cat, catIdx) => `
-    <div class="category-box">
-      <div class="category-header">
-        <span>📁 ${esc(cat.category)} (${cat.questions.length})</span>
-        <button class="list-item-del" onclick="deleteCategory(${catIdx})">✕</button>
+  
+  el.innerHTML = state.library.map((cat, catIdx) => {
+    let subsHtml = '';
+    if (cat.subcategories && cat.subcategories.length > 0) {
+      subsHtml = cat.subcategories.map((sub, subIdx) => `
+        <div class="subcategory-box">
+          <div class="subcategory-header">
+            <span>📦 ${esc(sub.name)} (${sub.questions ? sub.questions.length : 0} أسئلة)</span>
+            <button class="list-item-del" onclick="deleteSubcategory(${catIdx}, ${subIdx})">✕</button>
+          </div>
+          <div class="category-questions-list">
+            ${!sub.questions || sub.questions.length === 0 ? '<div style="color:var(--muted); font-size:0.8rem;">لا توجد أسئلة هنا بعد.</div>' : 
+              sub.questions.map((q, qIdx) => `
+                <div class="q-item">
+                  <span>• ${esc(q)}</span>
+                  <button class="list-item-del" onclick="deleteQuestion(${catIdx}, ${subIdx}, ${qIdx})" style="font-size:0.8rem;">✕</button>
+                </div>
+              `).join('')
+            }
+          </div>
+        </div>
+      `).join('');
+    } else {
+      subsHtml = '<div style="color:var(--muted); font-size:0.8rem; padding:6px;">لا توجد مجموعات مضافة في هذه الفئة بعد.</div>';
+    }
+
+    return `
+      <div class="category-box">
+        <div class="category-header">
+          <span>📁 الفئة: ${esc(cat.category)}</span>
+          <button class="list-item-del" onclick="deleteCategory(${catIdx})">✕</button>
+        </div>
+        ${subsHtml}
       </div>
-      <div class="category-questions-list">
-        ${cat.questions.length === 0 ? '<div style="color:var(--muted); font-size:0.8rem;">لا توجد أسئلة بعد.</div>' : 
-          cat.questions.map((q, qIdx) => `
-            <div class="q-item">
-              <span>• ${esc(q)}</span>
-              <button class="list-item-del" onclick="deleteQuestion(${catIdx}, ${qIdx})" style="font-size:0.8rem;">✕</button>
-            </div>
-          `).join('')
-        }
-      </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
+
   optionsBox.innerHTML = state.library.map((cat, idx) => `
     <div class="dropdown-option" onclick="selectDropdownOption('${idx}', '${esc(cat.category)}')">📁 ${esc(cat.category)}</div>
   `).join('');
 }
 
+// استبدال الـ prompt الافتراضي بنافذة الإدخال المخصصة المتناسقة مع الستايل للـ Category
 function addCategory() {
   const input = document.getElementById('new-category-name');
   const name = input.value.trim();
   if (!name) return;
-  state.library.push({ category: name, questions: [] });
+  state.library.push({ category: name, subcategories: [] });
   saveLibrary();
   input.value = '';
   renderLibrary();
+  renderLobbyCategoryDropdown();
 }
 
 function deleteCategory(idx) {
-  customAlert("هل أنت متأكد من حذف هذه الفئة بالكامل؟", "🗑️", true, () => {
-    state.library.splice(idx, 1); saveLibrary(); renderLibrary();
+  customAlert("هل أنت متأكد من حذف هذه الفئة بالكامل مع كل مجموعاتها وأسئلتها؟", "🗑️", true, () => {
+    state.library.splice(idx, 1); saveLibrary(); renderLibrary(); renderLobbyCategoryDropdown();
   });
 }
 
-function addQuestionToCategory() {
-  const selectIdx = document.getElementById('select-category-target').value;
-  const input = document.getElementById('new-question-text');
-  const qText = input.value.trim();
-  if (selectIdx === "" || !qText) return;
-  state.library[selectIdx].questions.push(qText);
-  saveLibrary();
-  input.value = '';
-  renderLibrary();
+// استبدال الـ prompt الافتراضي للمتصفح لإدخل اسم المجموعة بـ Custom Prompt متناسق تماماً
+function addSubcategoryToCategory() {
+  const catIdx = document.getElementById('select-category-target').value;
+  if (catIdx === "") {
+    customAlert("يرجى اختيار الفئة المستهدفة أولاً من القائمة!", "⚠️");
+    return;
+  }
+  
+  customPrompt("أدخل اسم المجموعة الجديدة (المجموعة الفرعية):", "مثال: شخصيات غامضة", "📦", (subName) => {
+    if (!subName) return;
+    if (!state.library[catIdx].subcategories) {
+      state.library[catIdx].subcategories = [];
+    }
+    state.library[catIdx].subcategories.push({ name: subName, questions: [] });
+    saveLibrary();
+    renderLibrary();
+    renderSubcategoryDropdown(catIdx);
+  });
 }
 
-function deleteQuestion(catIdx, qIdx) {
-  state.library[catIdx].questions.splice(qIdx, 1);
+function deleteSubcategory(catIdx, subIdx) {
+  customAlert("هل أنت متأكد من حذف هذه المجموعة بالكامل مع كل الأسئلة التي بداخلها؟", "🗑️", true, () => {
+    state.library[catIdx].subcategories.splice(subIdx, 1);
+    saveLibrary();
+    renderLibrary();
+    resetLibraryInputs();
+  });
+}
+
+// استبدال الـ prompt الافتراضي للمتصفح لإدخال نص السؤال بـ Custom Prompt متناسق تماماً
+function addQuestionToSubcategory() {
+  const catIdx = document.getElementById('select-category-target').value;
+  const subIdx = document.getElementById('select-subcategory-target').value;
+  
+  if (catIdx === "" || subIdx === "") {
+    customAlert("يرجى اختيار الفئة والمجموعة المستهدفة أولاً!", "⚠️");
+    return;
+  }
+
+  customPrompt("أدخل نص السؤال الجديد الحاد والذكي:", "مثال: يمتلك قبعة القش الشهيرة", "📝", (qText) => {
+    if (!qText) return;
+    if (!state.library[catIdx].subcategories[subIdx].questions) {
+      state.library[catIdx].subcategories[subIdx].questions = [];
+    }
+    state.library[catIdx].subcategories[subIdx].questions.push(qText);
+    saveLibrary();
+    renderLibrary();
+  });
+}
+
+function deleteQuestion(catIdx, subIdx, qIdx) {
+  state.library[catIdx].subcategories[subIdx].questions.splice(qIdx, 1);
   saveLibrary(); renderLibrary();
 }
 
@@ -1819,10 +2153,10 @@ function importLibrary(event) {
     try {
       const importedData = JSON.parse(e.target.result);
       if (Array.isArray(importedData)) {
-        state.library = importedData; saveLibrary(); renderLibrary();
+        state.library = importedData; saveLibrary(); renderLibrary(); renderLobbyCategoryDropdown();
         customAlert('تم استيراد مكتبة الأسئلة بنجاح!', '✅');
       }
-    } catch (err) { customAlert('فشل قراءة الملف المختار.', '❌'); }
+    } catch (err) { customAlert('فشل قراءة الملف المختار. تأكد من مطابقة البنية.', '❌'); }
   };
   reader.readAsText(file);
 }
