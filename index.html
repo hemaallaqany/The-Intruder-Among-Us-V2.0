@@ -241,10 +241,6 @@
     transform: rotate(180deg);
     color: var(--accent);
   }
-  .custom-dropdown.open-up .dropdown-select::after {
-    transform: rotate(180deg);
-    color: var(--accent);
-  }
   
   .dropdown-options {
     position: fixed;
@@ -258,8 +254,7 @@
     display: none;
     animation: dropdownFade 0.2s ease;
   }
-  .custom-dropdown.open .dropdown-options,
-  .custom-dropdown.open-up .dropdown-options {
+  .custom-dropdown.open .dropdown-options {
     display: block;
   }
   .dropdown-option {
@@ -357,1459 +352,429 @@
   }
   .question-box.revealed .tap-hint { display: none; }
 
-  /* ── DISCUSS SCREEN ── */
-  .big-emoji { font-size: 3rem; text-align: center; margin: 8px 0 12px; }
-  .instruction-box {
-    background: var(--surface2);
-    border-right: 4px solid var(--teal);
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: var(--muted);
-    margin-bottom: 16px;
-  }
-  .answers-block {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 12px;
-  }
-  .answer-card {
-    background: var(--surface2);
-    padding: 10px 14px;
-    border-radius: var(--radius-sm);
-    border-right: 3px solid var(--gold);
-    font-size: 0.9rem;
-  }
-
-  /* ── CHAT SYSTEM SYSTEM ── */
-  .chat-box-container {
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    background: var(--surface2);
-    display: flex;
-    flex-direction: column;
-    height: 220px;
-    margin-top: 12px;
-    overflow: hidden;
-  }
-  .chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .chat-msg-row {
-    font-size: 0.85rem;
-    line-height: 1.4;
-    word-break: break-word;
-    background: rgba(255,255,255,0.03);
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .chat-msg-row:hover {
-    background: rgba(255,255,255,0.08);
-  }
-  .chat-msg-sender {
-    color: var(--gold);
-    font-weight: 700;
-    margin-left: 4px;
-  }
-  .chat-reply-preview {
-    background: rgba(0,0,0,0.2);
-    border-right: 3px solid var(--teal);
-    padding: 4px 8px;
-    font-size: 0.78rem;
-    color: var(--muted);
-    margin-bottom: 4px;
-    border-radius: 4px;
-  }
-  .chat-reply-bar {
-    background: var(--surface2);
-    border-top: 1px solid var(--border);
-    padding: 6px 10px;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    color: var(--teal);
-  }
-
-  /* ── REVEAL SCREEN ── */
-  .q-reveal-row {
-    background: var(--surface2);
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
-    margin-bottom: 10px;
-    border-right: 4px solid var(--border);
-  }
-  .q-reveal-row.normal { border-right-color: var(--teal); }
-  .q-reveal-row.imposter { border-right-color: var(--accent); }
-  .q-reveal-label { font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; font-weight: 600; }
-  .q-reveal-text { font-size: 1rem; font-weight: 700; word-break: break-word; }
-
-  /* ── VOTING ── */
-  .vote-list { display: flex; flex-direction: column; gap: 8px; }
-  .vote-item {
-    background: var(--surface2);
-    border: 2px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 12px 16px;
-    cursor: pointer;
-    font-size: 0.95rem;
-    font-weight: 600;
-    transition: all 0.15s;
-    text-align: right;
-  }
-  .vote-item.selected { border-color: var(--accent); background: rgba(230,57,70,0.12); color: var(--accent2); }
-
-  /* ── RESULTS ── */
-  .imposter-reveal { text-align: center; margin: 12px 0 16px; }
-  .imposter-reveal .label { color: var(--muted); font-size: 0.85rem; margin-bottom: 2px; }
-  .imposter-reveal .name { font-size: 1.8rem; font-weight: 900; color: var(--accent2); word-break: break-word; }
-  .outcome-box {
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
-    margin-bottom: 16px;
-    text-align: center;
-    font-size: 0.95rem;
-    font-weight: 700;
-  }
-  .outcome-success { background: rgba(6,214,160,0.12); color: var(--teal); border: 1px solid var(--teal); }
-  .outcome-fail    { background: rgba(230,57,70,0.12);  color: var(--accent2); border: 1px solid var(--accent); }
-
-  .scores-table { width: 100%; border-collapse: collapse; }
-  .scores-table th, .scores-table td { padding: 8px 10px; text-align: right; font-size: 0.88rem; }
-  .scores-table th { color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border); }
-  .scores-table tr:not(:last-child) td { border-bottom: 1px solid rgba(42,42,64,0.4); }
-  .score-round { color: var(--teal); }
-  .score-total { color: var(--gold); font-weight: 700; }
-  .badge-imposter { background: rgba(230,57,70,0.2); color: var(--accent2); border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; margin-right: 4px; }
-
-  .category-box {
+  .room-banner {
     background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    padding: 12px;
-    margin-bottom: 10px;
-  }
-  .category-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: 700;
-    color: var(--gold);
-    margin-bottom: 6px;
-    font-size: 0.95rem;
-  }
-  .category-questions-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: 6px;
-    padding-right: 6px;
-    border-right: 2px solid var(--border);
-  }
-  .q-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 10px;
     font-size: 0.85rem;
-    color: var(--text);
+    margin-bottom: 14px;
+    line-height: 1.5;
+    flex-shrink: 0;
   }
-  .empty-state { color: var(--muted); font-size: 0.88rem; text-align: center; padding: 16px; }
-  .import-export-row { display: flex; gap: 8px; margin-bottom: 12px; flex-shrink: 0; }
-  #import-file { display: none; }
 
+  /* ── MODAL SYSTEM ── */
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(5, 5, 10, 0.85);
+    background: rgba(5,5,10,0.85);
     backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    display: flex;
+    z-index: 10000;
+    display: none;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s ease;
     padding: 20px;
   }
-  .modal-overlay.active { opacity: 1; pointer-events: auto; }
+  .modal-overlay.active { display: flex; }
   .modal-box {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    max-width: 360px;
-    width: 100%;
     padding: 24px;
+    width: 100%;
+    max-width: 360px;
     box-shadow: var(--shadow);
-    transform: scale(0.9);
-    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     text-align: center;
+    animation: modalSlideUp 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
-  .modal-overlay.active .modal-box { transform: scale(1); }
-  .modal-icon { font-size: 2.5rem; margin-bottom: 10px; }
-  .modal-text { font-size: 1rem; font-weight: 600; line-height: 1.6; margin-bottom: 20px; color: var(--text); }
-  .modal-buttons { display: flex; gap: 8px; justify-content: center; }
-  .modal-btn { padding: 10px 18px; font-size: 0.88rem; border-radius: var(--radius-sm); font-weight: 700; cursor: pointer; border: none; }
-  .modal-btn-confirm { background: var(--accent); color: white; }
-  .modal-btn-cancel { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
-  
-  .room-code-badge {
+  @keyframes modalSlideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-icon { font-size: 2.2rem; margin-bottom: 12px; }
+  .modal-text { font-size: 1.05rem; font-weight: 600; margin-bottom: 18px; color: var(--text); }
+  .modal-input {
+    width: 100%;
     background: var(--surface2);
-    border: 1px dashed var(--gold);
-    color: var(--gold);
-    font-size: 1.2rem;
-    font-weight: 700;
-    padding: 8px 16px;
+    border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    display: inline-flex;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 12px 14px;
+    outline: none;
+    text-align: right;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .modal-input:focus { border-color: var(--accent); }
+  .modal-buttons { display: flex; gap: 10px; justify-content: center; }
+
+  /* ── ALERTS ── */
+  #custom-alert {
+    position: fixed;
+    top: 24px; left: 50%;
+    transform: translateX(-50%) translateY(-40px);
+    background: rgba(19,19,31,0.95);
+    border: 1px solid var(--border);
+    padding: 12px 20px;
+    border-radius: 40px;
+    box-shadow: var(--shadow);
+    z-index: 999999;
+    display: flex;
     align-items: center;
     gap: 10px;
-    margin: 10px 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
   }
+  #custom-alert.active { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+  /* ── CHAT & MESSAGES ── */
+  .chat-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .msg {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    background: rgba(255,255,255,0.03);
+    padding: 6px 10px;
+    border-radius: 8px;
+    word-break: break-word;
+    position: relative;
+    cursor: pointer;
+  }
+  .msg:hover { background: rgba(255,255,255,0.06); }
+  .msg-system { background: rgba(255,210,102,0.08); color: var(--gold); border-right: 3px solid var(--gold); }
+  .msg-me { background: rgba(6,214,160,0.08); border-right: 3px solid var(--teal); }
+  .msg-reply { background: rgba(123,45,139,0.15); border-right: 3px solid var(--purple); }
+
+  /* ── TREE LIBRARY DESIGN ── */
+  .tree-category {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .tree-cat-header {
+    background: rgba(255,255,255,0.02);
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 700;
+  }
+  .tree-children {
+    margin-right: 14px;
+    padding-top: 6px;
+    border-right: 2px dashed var(--border);
+    padding-right: 10px;
+  }
+  .badge-btn {
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    background: var(--accent);
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    margin-right: 5px;
+    font-family: inherit;
+  }
+  .badge-add { background: var(--teal); color: #000; font-weight: 700; }
+  .empty-state { color: var(--muted); text-align: center; padding: 20px 0; font-size: 0.9rem; }
 </style>
 </head>
 <body>
 
-<div class="app">
-
-  <div id="screen-menu" class="screen active">
-    <div class="card" style="justify-content: center;">
-      <div style="text-align:center;">
-        <div style="font-size:3.5rem; margin-bottom:12px;">🎭</div>
-        <div class="game-title">بيننا دخيل</div>
-        <div class="game-subtitle">تطوير احترافي للعب أوفلاين وأونلاين</div>
-      </div>
-      <div class="input-row" style="margin-top: 10px;">
-        <input type="text" id="global-player-name" placeholder="اكتب اسمك أولاً...">
-      </div>
-      <button class="btn btn-primary" onclick="selectGameMode('offline')">🕹️ لعب أوفلاين (جهاز واحد)</button>
-      <button class="btn btn-teal btn-gap" onclick="selectGameMode('online-create')">🏠 إنشاء غرفة أونلاين</button>
-      <button class="btn btn-gold btn-gap" onclick="selectGameMode('online-join')">👥 انضمام لغرفة أونلاين</button>
-      <button class="btn btn-secondary btn-gap" onclick="showScreen('screen-library')">📚 مكتبة الفئات والأسئلة</button>
-    </div>
-  </div>
-
-  <div id="screen-join-room" class="screen">
-    <div class="card" style="justify-content: center;">
-      <button class="btn btn-secondary back-btn" onclick="showScreen('screen-menu')">← رجوع</button>
-      <h2>انضمام للغرفة</h2>
-      <div class="input-row">
-        <input type="text" id="join-room-code" placeholder="أدخل كود الغرفة المكون من 5 أرقام...">
-      </div>
-      <button class="btn btn-primary" onclick="joinOnlineRoom()">انضمام الآن 🚀</button>
-    </div>
-  </div>
-
-  <div id="screen-players" class="screen">
-    <div class="card">
-      <button class="btn btn-secondary back-btn" id="lobby-back-btn" onclick="exitLobby()">← مغادرة</button>
-      <div class="section-title"><span>👥</span> غرفة الانتظار (<span id="lobby-mode-text">أوفلاين</span>)</div>
-      
-      <div id="online-room-info" style="display:none; text-align:center; margin-bottom:12px;">
-        <div>كود الغرفة الخاص بك:</div>
-        <div class="room-code-badge">
-          <span id="display-room-code">00000</span>
-          <button class="btn btn-secondary btn-sm" style="padding:4px 8px;" onclick="copyRoomCode()">نسخ 📋</button>
-        </div>
-        <div id="host-settings" style="margin-top:10px; display:none; border:1px solid var(--border); padding:10px; border-radius:var(--radius-sm);">
-          <div style="font-size:0.85rem; color:var(--gold); margin-bottom:6px;">إعدادات الـ Host:</div>
-          <div style="display:flex; gap:6px; align-items:center; font-size:0.8rem;">
-            <span>وقت الإجابة/التصويت:</span>
-            <input type="number" id="host-timer-input" value="30" style="padding:4px; max-width:60px; text-align:center;">
-            <span>ثانية</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="input-row" id="offline-add-player-row">
-        <input type="text" id="player-input" placeholder="اسم اللاعب..." onkeydown="if(event.key==='Enter')addPlayer()">
-        <button class="btn btn-primary btn-sm" onclick="addPlayer()">إضافة</button>
-      </div>
-
-      <div class="scrollable-content">
-        <div id="player-list" class="player-list"></div>
-      </div>
-
-      <div style="flex-shrink: 0;">
-        <div style="color:var(--muted); font-size:0.85rem; margin-bottom:12px; text-align: center;">
-          الحد الأدنى: 4 لاعبين — لديك <span id="player-count" style="color:var(--gold); font-weight:700;">0</span>
-        </div>
-        <button id="start-btn" class="btn btn-primary" onclick="clickStartGame()" disabled>🎮 ابدأ اللعبة!</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="screen-pass" class="screen">
-    <div class="card" style="justify-content: center; text-align:center;">
-      <div style="font-size:3rem; margin-bottom:12px;">📱</div>
-      <div class="pass-label">أعطِ الهاتف لـ</div>
-      <div class="pass-name" id="pass-name">—</div>
-      <button class="btn btn-primary" onclick="onReady()">جاهز ✓</button>
-    </div>
-  </div>
-
-  <div id="screen-question" class="screen">
-    <div class="card" style="justify-content: center;">
-      <div id="question-timer-div" class="game-timer" style="display:none;">الوقت المتبقي: <span id="q-timer-num">30</span> ثانية</div>
-      <div style="text-align:center; color:var(--muted); font-size:0.9rem; margin-bottom:4px;">سؤالك السري 🤫</div>
-      <div style="text-align:center; font-size:0.85rem; color:var(--gold); margin-bottom:14px;">الفئة الحالية: <span id="current-cat-display">—</span></div>
-      
-      <div class="question-box hidden-q" id="q-box" onclick="revealQuestion()">
-        <div class="blur-text" id="q-text">—</div>
-        <div class="tap-hint">اضغط للكشف عن سؤالك</div>
-      </div>
-      
-      <div id="online-answer-input-area" style="display:none; margin-top:10px;">
-        <div style="font-size:0.85rem; margin-bottom:6px; color:var(--muted);">اكتب إجابتك الذكية والمموّهة هنا:</div>
-        <div class="input-row">
-          <input type="text" id="online-player-answer" placeholder="إجابتك المموهة...">
-          <button class="btn btn-teal btn-sm" onclick="submitOnlineAnswer()">إرسال</button>
-        </div>
-      </div>
-      
-      <button class="btn btn-secondary" id="q-next-btn" onclick="nextAfterQuestion()" style="margin-top:12px; display:none;">التالي ←</button>
-    </div>
-  </div>
-
-  <div id="screen-waiting" class="screen">
-    <div class="card" style="justify-content: center; text-align:center;">
-      <div style="font-size:3rem; margin-bottom:12px;">⏳</div>
-      <h2>الرجاء الانتظار...</h2>
-      <div class="game-subtitle" id="waiting-screen-msg">جاري انتظار باقي اللاعبين لإتمام الخطوة الحالية.</div>
-    </div>
-  </div>
-
-  <div id="screen-discuss" class="screen">
-    <div class="card">
-      <div class="big-emoji" style="margin:0;">🗣️</div>
-      <h2>قولوا إجاباتكم للنقاش!</h2>
-      <div class="instruction-box" style="margin-bottom:8px;">
-        كل لاعب يذكر إجابته بناءً على السؤال السري الموجه له من فئة (<strong id="discuss-cat-display" style="color:var(--gold);"></strong>).
-      </div>
-      
-      <div class="scrollable-content" id="discuss-scroll-area">
-        <div id="online-answers-list" class="answers-block"></div>
-      </div>
-      
-      <button class="btn btn-primary" id="discuss-action-btn" onclick="showReveal()">كشف الأسئلة ←</button>
-    </div>
-  </div>
-
-  <div id="screen-reveal" class="screen">
-    <div class="card">
-      <div style="text-align: center; flex-shrink: 0;">
-        <div class="big-emoji" style="margin:0;">🎭</div>
-        <h2>الأسئلة الحالية والنقاش...</h2>
-      </div>
-      
-      <div class="scrollable-content" id="reveal-scroll-area">
-        <div class="q-reveal-row normal">
-          <div class="q-reveal-label">📗 سؤال اللاعبين العاديين</div>
-          <div class="q-reveal-text" id="reveal-qa">—</div>
-        </div>
-        
-        <div class="q-reveal-row imposter" id="reveal-imposter-question-row">
-          <div class="q-reveal-label">🔴 سؤال الدخيل</div>
-          <div class="q-reveal-text" id="reveal-qb">—</div>
-        </div>
-
-        <!-- عرض الإجابات لتسهيل النقاش المتزامن مع الشات -->
-        <div id="reveal-answers-list" class="answers-block" style="margin-bottom:12px;"></div>
-        
-        <!-- نظام الشات السحابي المتطور مع الردود -->
-        <div id="online-chat-section" style="display: none;">
-          <div style="font-size:0.9rem; font-weight:700; margin-top:14px; color:var(--teal);">💬 شات النقاش السريع (اضغط على رسالة للرد):</div>
-          <div class="chat-box-container">
-            <div id="chat-messages" class="chat-messages"></div>
-            
-            <!-- شريط معاينة الرد قبل الإرسال -->
-            <div id="chat-reply-bar" class="chat-reply-bar">
-              <span id="chat-reply-text">الرد على: </span>
-              <button style="background:none; border:none; color:var(--accent); font-weight:bold; cursor:pointer;" onclick="cancelReply()">✕ إلغاء</button>
-            </div>
-
-            <div class="input-row" style="margin:0; padding:4px; background:var(--surface);">
-              <input type="text" id="chat-input" placeholder="اكتب رسالة للنقاش..." onkeydown="if(event.key==='Enter')sendChatMessage()">
-              <button class="btn btn-teal btn-sm" style="padding:6px 12px;" onclick="sendChatMessage()">إرسال</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <button class="btn btn-primary" id="reveal-action-btn" onclick="startVoting()">🗳️ بدء التصويت السري</button>
-    </div>
-  </div>
-
-  <div id="screen-vote-pass" class="screen">
-    <div class="card" style="justify-content: center; text-align:center;">
-      <div style="font-size:2.5rem; margin-bottom:12px;">🗳️</div>
-      <div class="pass-label">دور التصويت السري لـ</div>
-      <div class="pass-name" id="vote-pass-name">—</div>
-      <button class="btn btn-primary" onclick="showVoteScreen()">جاهز للتصويت ✓</button>
-    </div>
-  </div>
-
-  <div id="screen-vote" class="screen">
-    <div class="card">
-      <div id="vote-timer-div" class="game-timer" style="display:none;">الوقت المتبقي للتصويت: <span id="v-timer-num">30</span> ثانية</div>
-      <div style="text-align:center; color:var(--muted); font-size:0.9rem; margin-bottom:14px; flex-shrink:0;">
-        من هو الدخيل برأيك؟ 🤔
-      </div>
-      
-      <div class="scrollable-content">
-        <div class="vote-list" id="vote-list"></div>
-      </div>
-      
-      <button class="btn btn-primary" id="vote-confirm-btn" onclick="confirmVote()" disabled>تأكيد التصويت ✓</button>
-    </div>
-  </div>
-
-  <div id="screen-results" class="screen">
-    <div class="card">
-      <div class="big-emoji" id="result-emoji">🎉</div>
-      <h2>النتائج</h2>
-      
-      <div class="imposter-reveal">
-        <div class="label">الدخيل كان...</div>
-        <div class="name" id="result-imposter">—</div>
-      </div>
-
-      <div class="q-reveal-row imposter" style="text-align: right; margin-bottom:12px;">
-        <div class="q-reveal-label">🔴 سؤال الدخيل المكتوم كان:</div>
-        <div class="q-reveal-text" id="result-imposter-q-display">—</div>
-      </div>
-      
-      <div id="outcome-box" class="outcome-box"></div>
-      
-      <div class="scrollable-content">
-        <table class="scores-table">
-          <thead><tr><th>اللاعب</th><th>الجولة</th><th>المجموع</th></tr></thead>
-          <tbody id="scores-body"></tbody>
-        </table>
-      </div>
-      
-      <div style="flex-shrink: 0;">
-        <button class="btn btn-teal" id="result-next-round-btn" onclick="newRound()">🔄 جولة جديدة</button>
-        <button class="btn btn-secondary btn-gap" id="result-reset-game-btn" onclick="newGame()">🏠 إعادة تصفير اللعبة</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="screen-library" class="screen">
-    <div class="card">
-      <button class="btn btn-secondary back-btn" onclick="showScreen('screen-menu')">← رجوع</button>
-      <div class="section-title"><span>📚</span> مكتبة الفئات</div>
-
-      <div class="import-export-row">
-        <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="exportLibrary()">📥 تصدير</button>
-        <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="document.getElementById('import-file').click()">📤 استيراد</button>
-        <input type="file" id="import-file" accept=".json" onchange="importLibrary(event)">
-      </div>
-
-      <div class="scrollable-content">
-        <div id="lib-list"></div>
-      </div>
-
-      <div style="flex-shrink: 0;">
-        <hr class="divider">
-        <h3>📁 إضافة فئة جديدة</h3>
-        <div class="input-row">
-          <input type="text" id="new-category-name" placeholder="مثال: مسلسلات وأفلام">
-          <button class="btn btn-gold btn-sm" onclick="addCategory()">إنشاء</button>
-        </div>
-
-        <h3>➕ إضافة سؤال لفئة</h3>
-        <div class="custom-dropdown" id="category-dropdown">
-          <div class="dropdown-select" onclick="toggleDropdown()">اختر الفئة المستهدفة...</div>
-          <div class="dropdown-options" id="dropdown-options-box"></div>
-          <input type="hidden" id="select-category-target" value="">
-        </div>
-        
-        <div class="input-row">
-          <input type="text" id="new-question-text" placeholder="مثال: شخصية غنية جداً">
-          <button class="btn btn-teal btn-sm" onclick="addQuestionToCategory()">إضافة</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
+<div id="custom-alert">
+  <span id="alert-icon">🔔</span>
+  <span id="alert-text">...</span>
 </div>
 
-<div id="custom-modal" class="modal-overlay">
+<div class="modal-overlay" id="custom-prompt-modal">
   <div class="modal-box">
-    <div id="modal-icon" class="modal-icon">⚠️</div>
-    <div id="modal-text" class="modal-text">هذا نص التنبيه المخصص.</div>
+    <div class="modal-icon" id="custom-prompt-icon">📝</div>
+    <div class="modal-text" id="custom-prompt-title">إدخال بيانات جديدة</div>
+    <input type="text" class="modal-input" id="custom-prompt-input" placeholder="...">
     <div class="modal-buttons">
-      <button id="modal-cancel-btn" class="modal-btn modal-btn-cancel" onclick="closeCustomModal(false)">إلغاء</button>
-      <button id="modal-confirm-btn" class="modal-btn modal-btn-confirm" onclick="closeCustomModal(true)">حسناً</button>
+      <button class="btn btn-primary btn-sm" id="custom-prompt-save" style="min-width: 80px;">حفظ</button>
+      <button class="btn btn-secondary btn-sm" id="custom-prompt-cancel" style="min-width: 80px;">إلغاء</button>
     </div>
   </div>
+</div>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-icon" id="modal-icon">🛑</div>
+    <div class="modal-text" id="modal-text">هل أنت متأكد؟</div>
+    <div class="modal-buttons">
+      <button class="btn btn-primary btn-sm" id="modal-yes-btn">نعم</button>
+      <button class="btn btn-secondary btn-sm" id="modal-no-btn">تراجع</button>
+    </div>
+  </div>
+</div>
+
+<div class="app">
+  <div class="screen active" id="screen-menu">
+    <div class="card" style="justify-content: center; text-align: center;">
+      <div class="game-title">بيننا دخيل</div>
+      <div class="game-subtitle">النسخة المتقدمة • الإصدار الذكي 🎭</div>
+      <div class="input-row">
+        <input type="text" id="main-player-name" placeholder="اكتب اسمك المستعار هنا...">
+      </div>
+      <button class="btn btn-primary btn-gap" onclick="goToLobbySetup('offline')">🎮 للعب أوفلاين (جهاز واحد)</button>
+      <button class="btn btn-teal btn-gap" onclick="goToLobbySetup('online-host')">🏠 إنشاء غرفة أونلاين</button>
+      <div class="divider"></div>
+      <div class="input-row" style="margin-bottom: 8px;">
+        <input type="text" id="join-room-code" placeholder="كود الغرفة المكون من 4 رموز...">
+      </div>
+      <button class="btn btn-secondary" onclick="joinOnlineRoom()">🔑 انضمام لغرفة قائمة</button>
+      <div class="divider"></div>
+      <button class="btn btn-gold" onclick="showScreen('screen-library')">📚 إدارة مكتبة الأسئلة والفئات</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-library">
+    <div class="card" style="display: flex; flex-direction: column; height: 100%; overflow: hidden;">
+      <button class="btn btn-secondary back-btn" onclick="showScreen('screen-menu')">⬅️ عودة للقائمة</button>
+      <h2 style="flex-shrink: 0; margin-bottom: 12px;">إدارة الفئات والمجموعات</h2>
+      
+      <div class="scrollable-content" id="lib-list" style="flex: 1; overflow-y: auto; margin-bottom: 12px;"></div>
+      
+      <div style="flex-shrink: 0; background: var(--surface); padding-top: 8px; border-top: 1px solid var(--border);">
+        <div class="card" style="padding: 12px; margin-bottom: 8px; background: var(--surface2); height: auto; box-shadow: none;">
+          <h3 style="font-size: 0.85rem; color: var(--gold); margin-bottom: 6px;">➕ إنشاء فئة جديدة كلياً:</h3>
+          <div class="input-row" style="margin-bottom: 0;">
+            <input type="text" id="new-category-input" placeholder="اسم الفئة الفنية الكبرى...">
+            <button class="btn btn-primary" style="width: auto; padding: 10px 14px;" onclick="addCategory()">حفظ</button>
+          </div>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px;">
+          <button class="btn btn-secondary btn-sm" style="flex: 1; padding: 11px;" onclick="exportLibrary()">📥 تصدير JSON</button>
+          <button class="btn btn-secondary btn-sm" style="flex: 1; padding: 11px; position: relative;">
+            📤 استيراد JSON
+            <input type="file" accept=".json" onchange="importLibrary(event)" style="position: absolute; inset: 0; opacity: 0; cursor: pointer;">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
-const firebaseConfig = {
-  databaseURL: "https://the-intruder-among-us-default-rtdb.firebaseio.com" 
-};
-if (typeof firebase !== 'undefined') {
-  firebase.initializeApp(firebaseConfig);
-}
-
-const defaultLibrary = [
-  {
-    category: "أنمي وكرتون",
-    questions: [
-      "شخصية غنية جداً وتمتلك نفوذ",
-      "شخصية فقيرة وتكافح من أجل لقمة العيش",
-      "شخصية ذكية جداً وتخطط بعبقرية",
-      "شخصية غبية ومضحكة وتسبب المشاكل",
-      "شخصية تمتلك قوة خارقة مدمرة",
-      "شخصية عادية لا تملك أي قوة وتعتمد على أدواتها"
-    ]
-  },
-  {
-    category: "أفلام ومسلسلات",
-    questions: [
-      "شخصية شريرة مرعبة والجميع يخافها",
-      "شخصية بطولية تضحي من أجل الآخرين",
-      "شخصية غامضة لا تتحدث كثيراً",
-      "شخصية ثرثارة وكوميدية طوال الوقت"
-    ]
-  },
-  {
-    category: "أسلوب حياة وعادات",
-    questions: [
-      "شخصية نشيطة جداً تستيقظ مبكراً وتعمل دائماً",
-      "شخصية كسولة جداً وتنام طوال اليوم وتكره العمل",
-      "شخصية تعشق تناول الطعام والحلويات بكثرة",
-      "شخصية تتبع نظاماً غذائياً صارماً وتكره الدهون"
-    ]
-  }
-];
-
+// الحالة والبيانات الافتراضية
 let state = {
-  library: JSON.parse(localStorage.getItem('imp_categories_library')) || defaultLibrary,
-  gameMode: 'offline', 
-  roomCode: '',
-  myPlayerName: '',
+  myPlayerName: "",
+  gameMode: "offline",
+  roomCode: "",
   players: [],
   scores: {},
-  imposterIdx: -1,
-  currentCategoryName: "",
-  questionNormal: "",
-  questionImposter: "",
-  passOrder: [],
-  passIdx: 0,
-  voteOrder: [],
-  voteIdx: 0,
-  votes: {}, 
-  answers: {}, 
-  currentVoteSelection: null,
-  timerDuration: 30, 
-  readyToVoteCount: 0
+  library: [
+    {
+      category: "📂 مأكولات ومشروبات",
+      subcategories: [
+        { name: "شاورما 🌯", questions: ["شاورما دجاج", "شاورما لحم"] },
+        { name: "إفطار 🍳", questions: ["فول مدمس", "فلافل سخنة"] }
+      ]
+    },
+    {
+      category: "📂 تكنولوجيا وعاب",
+      subcategories: [
+        { name: "ألعاب الفيديو 🎮", questions: ["ببجي موبايل", "كول اوف ديوتي"] }
+      ]
+    }
+  ]
 };
 
-let dbRef = null;
-let timerInterval = null;
-let modalCallback = null;
-let initialPlayersCount = 0; 
-let currentReplyTarget = null; // يحمل كائن الرسالة التي يتم الرد عليها حالياً
+// تهيئة وإدارة الـ Custom Input Modal بدلاً من الـ prompt الافتراضية
+let activePromptCallback = null;
 
-function saveLibrary() {
-  localStorage.setItem('imp_categories_library', JSON.stringify(state.library));
+function showCustomPrompt(title, placeholder, icon, callback) {
+  document.getElementById('custom-prompt-title').textContent = title;
+  const inputEl = document.getElementById('custom-prompt-input');
+  inputEl.value = "";
+  inputEl.placeholder = placeholder;
+  document.getElementById('custom-prompt-icon').textContent = icon;
+  
+  document.getElementById('custom-prompt-modal').classList.add('active');
+  inputEl.focus();
+  
+  activePromptCallback = callback;
 }
 
-function customAlert(text, icon = "⚠️", showCancel = false, callback = null) {
-  document.getElementById('modal-text').textContent = text;
-  document.getElementById('modal-icon').textContent = icon;
-  const cancelBtn = document.getElementById('modal-cancel-btn');
-  cancelBtn.style.display = showCancel ? "inline-block" : "none";
-  modalCallback = callback;
-  document.getElementById('custom-modal').classList.add('active');
-}
-
-function closeCustomModal(isConfirmed = true) {
-  document.getElementById('custom-modal').classList.remove('active');
-  if (isConfirmed && modalCallback) {
-    modalCallback();
+document.getElementById('custom-prompt-save').addEventListener('click', () => {
+  const val = document.getElementById('custom-prompt-input').value.trim();
+  document.getElementById('custom-prompt-modal').classList.remove('active');
+  if (activePromptCallback) {
+    activePromptCallback(val);
+    activePromptCallback = null;
   }
-  modalCallback = null;
-}
+});
 
+document.getElementById('custom-prompt-cancel').addEventListener('click', () => {
+  document.getElementById('custom-prompt-modal').classList.remove('active');
+  activePromptCallback = null;
+});
+
+// التنقل بين الشاشات
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  const target = document.getElementById(id);
+  if(target) target.classList.add('active');
   if (id === 'screen-library') renderLibrary();
-  if (id === 'screen-players') renderPlayerList();
 }
 
-function selectGameMode(mode) {
-  const nameInput = document.getElementById('global-player-name').value.trim();
-  if (!nameInput && (mode.startsWith('online'))) {
-    customAlert('يرجى كتابة اسمك أولاً للدخول في النمط الأونلاين!', '👤');
+// تنبيهات اللعبة المخصصة
+function customAlert(txt, icon = '🔔') {
+  document.getElementById('alert-icon').textContent = icon;
+  document.getElementById('alert-text').textContent = txt;
+  const alertEl = document.getElementById('custom-alert');
+  alertEl.classList.add('active');
+  setTimeout(() => alertEl.classList.remove('active'), 2500);
+}
+
+// إدارة وقراءة كاش الذاكرة المحلية للمكتبة
+function loadLibrary() {
+  const saved = localStorage.getItem('imposter_tree_lib');
+  if(saved) {
+    try { state.library = JSON.parse(saved); } catch(e) {}
+  }
+}
+function saveLibrary() {
+  localStorage.setItem('imposter_tree_lib', JSON.stringify(state.library));
+}
+
+// عرض شجرة الفئات والمجموعات
+function renderLibrary() {
+  const container = document.getElementById('lib-list');
+  if(!container) return;
+  
+  if(!state.library || state.library.length === 0) {
+    container.innerHTML = `<div class="empty-state">المكتبة فارغة حالياً! أضف فئة جديدة بالأسفل.</div>`;
     return;
   }
-  state.myPlayerName = nameInput;
-
-  if (mode === 'offline') {
-    state.gameMode = 'offline';
-    document.getElementById('lobby-mode-text').textContent = "أوفلاين";
-    document.getElementById('online-room-info').style.display = 'none';
-    document.getElementById('offline-add-player-row').style.display = 'flex';
-    document.getElementById('lobby-back-btn').textContent = "← رجوع";
-    state.players = [];
-    showScreen('screen-players');
-  } 
-  else if (mode === 'online-create') {
-    state.gameMode = 'online-host';
-    state.roomCode = Math.floor(10000 + Math.random() * 90000).toString(); 
-    document.getElementById('lobby-mode-text').textContent = "أونلاين (مُنشئ الغرفة)";
-    document.getElementById('online-room-info').style.display = 'block';
-    document.getElementById('display-room-code').textContent = state.roomCode;
-    document.getElementById('host-settings').style.display = 'block';
-    document.getElementById('offline-add-player-row').style.display = 'none';
-    document.getElementById('lobby-back-btn').textContent = "← إغلاق الغرفة";
-    
-    dbRef = firebase.database().ref('rooms/' + state.roomCode);
-    dbRef.remove(); 
-    
-    state.players = [state.myPlayerName];
-    state.scores = {};
-    state.scores[state.myPlayerName] = 0;
-    initialPlayersCount = 1;
-    
-    dbRef.set({
-      roomCode: state.roomCode,
-      hostName: state.myPlayerName,
-      status: 'waiting',
-      players: state.players,
-      scores: state.scores,
-      timerDuration: 30
-    });
-    
-    listenToRoomUpdates();
-    showScreen('screen-players');
-  } 
-  else if (mode === 'online-join') {
-    showScreen('screen-join-room');
-  }
-}
-
-function joinOnlineRoom() {
-  const code = document.getElementById('join-room-code').value.trim();
-  if (!code) { customAlert('الرجاء إدخل كود الغرفة', '✏️'); return; }
   
-  firebase.database().ref('rooms/' + code).once('value', (snapshot) => {
-    if (!snapshot.exists()) {
-      customAlert('عذراً، هذه الغرفة غير موجودة! تأكد من الكود الحرفي.', '❌');
-      return;
-    }
-    const roomData = snapshot.val();
-    if (roomData.status !== 'waiting') {
-      customAlert('عذراً، بدأت هذه اللعبة بالفعل ولا يمكنك الانضمام إليها حالياً.', '⏳');
-      return;
-    }
-    let currentPlayers = roomData.players || [];
-    if (currentPlayers.includes(state.myPlayerName)) {
-      customAlert('هذا الاسم مستخدم بالفعل داخل الغرفة، يرجى تغييره من القائمة الرئيسية.', '👤');
-      return;
+  container.innerHTML = state.library.map((catObj, cIdx) => {
+    let subHtml = "";
+    if(catObj.subcategories && catObj.subcategories.length > 0) {
+      subHtml = catObj.subcategories.map((sub, sIdx) => {
+        let qHtml = "";
+        if(sub.questions && sub.questions.length > 0) {
+          qHtml = sub.questions.map((q, qIdx) => `
+            <div style="font-size:0.85rem; padding:4px 8px; background:rgba(255,255,255,0.02); margin-top:3px; border-radius:4px; display:flex; justify-content:between; align-items:center;">
+              <span style="color:var(--text); font-weight:normal;">🔹 ${q}</span>
+              <button class="list-item-del" style="font-size:0.8rem;" onclick="deleteQuestion(${cIdx}, ${sIdx}, ${qIdx})">🗑️</button>
+            </div>
+          `).join('');
+        } else {
+          qHtml = `<div class="empty-state" style="padding:4px 0; font-size:0.75rem;">لا توجد كلمات/أسئلة هنا.</div>`;
+        }
+        
+        return `
+          <div style="background:rgba(255,255,255,0.03); padding:8px; border-radius:6px; margin-bottom:8px;">
+            <div style="display:flex; justify-content:between; align-items:center; margin-bottom:4px;">
+              <strong style="color:var(--gold); font-size:0.9rem;">📦 ${sub.name}</strong>
+              <div>
+                <button class="badge-btn badge-add" onclick="promptAddQuestion(${cIdx}, ${sIdx})">➕ كلمة</button>
+                <button class="list-item-del" onclick="deleteSubcategory(${cIdx}, ${sIdx})">🗑️</button>
+              </div>
+            </div>
+            <div style="padding-right:10px; border-right:1px dotted var(--border);">
+              ${qHtml}
+            </div>
+          </div>
+        `;
+      }).join('');
+    } else {
+      subHtml = `<div class="empty-state" style="font-size:0.8rem;">لا توجد مجموعات داخل هذه الفئة.</div>`;
     }
     
-    state.gameMode = 'online-guest';
-    state.roomCode = code;
-    dbRef = firebase.database().ref('rooms/' + code);
-    
-    currentPlayers.push(state.myPlayerName);
-    dbRef.child('players').set(currentPlayers);
-    
-    dbRef.child('scores/' + state.myPlayerName).set(0);
-    
-    document.getElementById('lobby-mode-text').textContent = "أونلاين (عضو)";
-    document.getElementById('online-room-info').style.display = 'block';
-    document.getElementById('display-room-code').textContent = state.roomCode;
-    document.getElementById('host-settings').style.display = 'none';
-    document.getElementById('offline-add-player-row').style.display = 'none';
-    document.getElementById('lobby-back-btn').textContent = "← مغادرة الغرفة";
-    
-    listenToRoomUpdates();
-    showScreen('screen-players');
-  });
-}
-
-function exitLobby() {
-  if (state.gameMode === 'online-host') {
-    customAlert("هل أنت متأكد من رغبتك في إغلاق الغرفة؟ سيتم طرد جميع اللاعبين.", "⚠️", true, () => {
-      dbRef.remove();
-      detachRoomListener();
-      showScreen('screen-menu');
-    });
-  } else if (state.gameMode === 'online-guest') {
-    customAlert("هل تريد مغادرة الغرفة السحابية الحالية؟", "⚠️", true, () => {
-      let filtered = state.players.filter(p => p !== state.myPlayerName);
-      dbRef.child('players').set(filtered);
-      dbRef.child('scores/' + state.myPlayerName).remove();
-      detachRoomListener();
-      showScreen('screen-menu');
-    });
-  } else {
-    showScreen('screen-menu');
-  }
-}
-
-function detachRoomListener() {
-  if (dbRef) dbRef.off();
-  dbRef = null;
-}
-
-function listenToRoomUpdates() {
-  dbRef.on('value', (snapshot) => {
-    const data = snapshot.val();
-    if (!data) {
-      if (state.gameMode === 'online-guest') {
-        customAlert('تم إنهاء اللعبة وطرد اللاعبين بسبب خروج أحد الأعضاء أو إغلاق الـ Host للغرفة.', '🛑');
-        detachRoomListener();
-        showScreen('screen-menu');
-      }
-      return;
-    }
-    
-    if (!data.players || !data.players.includes(state.myPlayerName)) {
-      customAlert('لقد تم طردك من الغرفة بواسطة الـ Host أو انتهت الجولة الحالية.', '❌');
-      detachRoomListener();
-      showScreen('screen-menu');
-      return;
-    }
-
-    if (data.status !== 'waiting' && data.players.length < initialPlayersCount) {
-      customAlert('خرج أحد اللاعبين أثناء اللعب! تم إلغاء الجولة لتأمين نزاهة الغرفة وطرد الجميع.', '🛑');
-      if (state.gameMode === 'online-host') {
-        dbRef.remove();
-      }
-      detachRoomListener();
-      showScreen('screen-menu');
-      return;
-    }
-    
-    state.players = data.players || [];
-    state.scores = data.scores || {};
-    state.timerDuration = data.timerDuration || 30;
-    state.imposterIdx = data.imposterIdx !== undefined ? data.imposterIdx : -1;
-    state.currentCategoryName = data.currentCategoryName || "";
-    state.questionNormal = data.questionNormal || "";
-    state.questionImposter = data.questionImposter || "";
-    state.answers = data.answers || {};
-    state.votes = data.votes || {};
-    state.readyToVoteCount = data.readyToVoteCount || 0;
-    
-    if (data.status === 'waiting') {
-      initialPlayersCount = state.players.length; 
-    }
-
-    if (document.getElementById('screen-players').classList.contains('active')) {
-      renderPlayerList();
-    }
-    
-    if (data.status === 'question-phase') {
-      if (!document.getElementById('screen-question').classList.contains('active') && !document.getElementById('screen-waiting').classList.contains('active')) {
-        startOnlineQuestionPhase();
-      }
-    } 
-    else if (data.status === 'discuss-phase') {
-      if (!document.getElementById('screen-discuss').classList.contains('active')) {
-        startOnlineDiscussPhase();
-      }
-    }
-    else if (data.status === 'reveal-phase') {
-      if (!document.getElementById('screen-reveal').classList.contains('active')) {
-        startOnlineRevealPhase();
-      }
-      renderChatMessages(data.chat);
-    }
-    else if (data.status === 'vote-phase') {
-      if (!document.getElementById('screen-vote').classList.contains('active') && !document.getElementById('screen-waiting').classList.contains('active')) {
-        startOnlineVotePhase();
-      }
-    }
-    else if (data.status === 'results-phase') {
-      if (!document.getElementById('screen-results').classList.contains('active')) {
-        displayFinalCalculatedResults();
-      }
-    }
-  });
-}
-
-function kickPlayer(name) {
-  if (state.gameMode !== 'online-host') return;
-  if (name === state.myPlayerName) return;
-  
-  customAlert(`هل أنت متأكد من طرد اللاعب [${name}]؟`, "🛑", true, () => {
-    let updated = state.players.filter(p => p !== name);
-    dbRef.child('players').set(updated);
-    dbRef.child('scores/' + name).remove();
-  });
-}
-
-function copyRoomCode() {
-  navigator.clipboard.writeText(state.roomCode);
-  customAlert('تم نسخ كود الغرفة إلى الحافظة بنجاح! شاركه مع أصدقائك.', '📋');
-}
-
-function renderPlayerList() {
-  const el = document.getElementById('player-list');
-  if (!state.players.length) { 
-    el.innerHTML = '<div class="empty-state">لم تُضف لاعبين بعد...</div>'; 
-  } else {
-    el.innerHTML = state.players.map((p, i) => {
-      let deleteBtn = '';
-      if (state.gameMode === 'offline') {
-        deleteBtn = `<button class="list-item-del" onclick="removePlayer(${i})">✕</button>`;
-      } else if (state.gameMode === 'online-host' && p !== state.myPlayerName) {
-        deleteBtn = `<button class="list-item-del" onclick="kickPlayer('${p}')" style="font-size:0.8rem;" title="طرد">🚷</button>`;
-      }
-      return `
-        <div class="list-item">
-          <span style="word-break: break-all; padding-left: 8px;">${esc(p)} ${p === state.myPlayerName ? '<small style="color:var(--teal)">(أنت)</small>':''}</span>
-          ${deleteBtn}
-        </div>`;
-    }).join('');
-  }
-  
-  document.getElementById('player-count').textContent = state.players.length;
-  
-  if (state.gameMode === 'online-guest') {
-    document.getElementById('start-btn').disabled = true;
-    document.getElementById('start-btn').textContent = "بانتظار الـ Host لبدء اللعبة...⏳";
-  } else {
-    document.getElementById('start-btn').disabled = state.players.length < 4;
-    document.getElementById('start-btn').textContent = "🎮 ابدأ اللعبة!";
-  }
-}
-
-function addPlayer() {
-  if (state.gameMode !== 'offline') return;
-  const inp = document.getElementById('player-input');
-  const name = inp.value.trim();
-  if (!name) return;
-  if (state.players.includes(name)) { customAlert('هذا الاسم موجود بالفعل!', '👤'); return; }
-  state.players.push(name);
-  inp.value = '';
-  inp.focus();
-  renderPlayerList();
-}
-
-function removePlayer(i) {
-  if (state.gameMode !== 'offline') return;
-  state.players.splice(i, 1);
-  renderPlayerList();
-}
-
-function clickStartGame() {
-  if (state.gameMode === 'online-host') {
-    const chosenTimer = parseInt(document.getElementById('host-timer-input').value) || 30;
-    dbRef.child('timerDuration').set(chosenTimer);
-  }
-  
-  const validCategories = state.library.filter(c => c.questions.length >= 2);
-  if (validCategories.length === 0) {
-    customAlert("يجب أن تحتوي فئة واحدة على الأقل على (سؤالين) لتوزيع الأسئلة بشكل عادل بين اللاعبين والدخيل!", "⚠️");
-    showScreen('screen-library');
-    return;
-  }
-
-  if (state.gameMode === 'offline') {
-    state.players.forEach(p => { if (!(p in state.scores)) state.scores[p] = 0; });
-    startOfflineRound();
-  } else {
-    const n = state.players.length;
-    initialPlayersCount = n; 
-    const impIdx = Math.floor(Math.random() * n);
-    const chosenCat = validCategories[Math.floor(Math.random() * validCategories.length)];
-    const shuffledQuestions = shuffle([...chosenCat.questions]);
-    
-    dbRef.update({
-      status: 'question-phase',
-      imposterIdx: impIdx,
-      currentCategoryName: chosenCat.category,
-      questionNormal: shuffledQuestions[0],
-      questionImposter: shuffledQuestions[1],
-      answers: {},
-      votes: {},
-      chat: {}, 
-      readyToVoteCount: 0
-    });
-  }
-}
-
-// =================== النمط الأوفلاين (OFFLINE) ===================
-function startOfflineRound() {
-  const validCategories = state.library.filter(c => c.questions.length >= 2);
-  const n = state.players.length;
-  state.imposterIdx = Math.floor(Math.random() * n);
-  
-  const chosenCat = validCategories[Math.floor(Math.random() * validCategories.length)];
-  state.currentCategoryName = chosenCat.category;
-  
-  const shuffledQuestions = shuffle([...chosenCat.questions]);
-  state.questionNormal = shuffledQuestions[0];
-  state.questionImposter = shuffledQuestions[1];
-
-  state.passOrder = shuffle([...Array(n).keys()]);
-  state.passIdx = 0;
-  state.votes = {};
-  showOfflinePassScreen();
-}
-
-function showOfflinePassScreen() {
-  const idx = state.passOrder[state.passIdx];
-  document.getElementById('pass-name').textContent = state.players[idx];
-  showScreen('screen-pass');
-}
-
-function onReady() {
-  const idx = state.passOrder[state.passIdx];
-  const isImposter = idx === state.imposterIdx;
-  const q = isImposter ? state.questionImposter : state.questionNormal;
-  
-  document.getElementById('current-cat-display').textContent = state.currentCategoryName;
-  document.getElementById('online-answer-input-area').style.display = 'none';
-  document.getElementById('question-timer-div').style.display = 'none';
-  
-  const qBox = document.getElementById('q-box');
-  qBox.classList.remove('revealed');
-  qBox.classList.add('hidden-q');
-  document.getElementById('q-text').textContent = q;
-  document.getElementById('q-next-btn').style.display = 'none';
-  showScreen('screen-question');
-}
-
-function revealQuestion() {
-  const qBox = document.getElementById('q-box');
-  qBox.classList.add('revealed');
-  qBox.classList.remove('hidden-q');
-  if (state.gameMode === 'offline') {
-    document.getElementById('q-next-btn').style.display = 'block';
-  }
-}
-
-function nextAfterQuestion() {
-  state.passIdx++;
-  if (state.passIdx < state.passOrder.length) {
-    showOfflinePassScreen();
-  } else {
-    document.getElementById('discuss-cat-display').textContent = state.currentCategoryName;
-    document.getElementById('online-answers-list').innerHTML = `<p style="color:var(--muted); text-align:center;">في الوضع الأوفلاين، يقوم كل لاعب الآن بالإفصاح عن إجابته شفهياً أمام الحاضرين بالترتيب!</p>`;
-    showScreen('screen-discuss');
-  }
-}
-
-// =================== النمط الأونلاين (ONLINE REALTIME) ===================
-function startOnlineQuestionPhase() {
-  clearInterval(timerInterval);
-  document.getElementById('current-cat-display').textContent = state.currentCategoryName;
-  document.getElementById('online-answer-input-area').style.display = 'block';
-  document.getElementById('question-timer-div').style.display = 'block';
-  document.getElementById('q-next-btn').style.display = 'none';
-  document.getElementById('online-player-answer').value = '';
-  
-  const myIdx = state.players.indexOf(state.myPlayerName);
-  const isImposter = myIdx === state.imposterIdx;
-  const q = isImposter ? state.questionImposter : state.questionNormal;
-  
-  const qBox = document.getElementById('q-box');
-  qBox.classList.remove('revealed');
-  qBox.classList.add('hidden-q');
-  document.getElementById('q-text').textContent = q;
-  
-  showScreen('screen-question');
-  startCountdown(state.timerDuration, 'q-timer-num', () => {
-    submitOnlineAnswer(true);
-  });
-}
-
-function submitOnlineAnswer(isAuto = false) {
-  clearInterval(timerInterval);
-  let ansText = document.getElementById('online-player-answer').value.trim();
-  if (!ansText && isAuto) ansText = "لم يكتب إجابة في الوقت المحدد 😴";
-  if (!ansText && !isAuto) { customAlert('يرجى كتابة أي إجابة مموهة قبل الإرسال!', '✏️'); return; }
-  
-  dbRef.child('answers/' + state.myPlayerName).set(ansText);
-  document.getElementById('waiting-screen-msg').textContent = "بانتظار أن يكتب بقية اللاعبين إجاباتهم السحرية...";
-  showScreen('screen-waiting');
-  
-  if (state.gameMode === 'online-host') {
-    checkAnswersCompletion();
-  }
-}
-
-function checkAnswersCompletion() {
-  dbRef.child('answers').on('value', function checkAns(snap) {
-    const ansData = snap.val() || {};
-    if (Object.keys(ansData).length === state.players.length) {
-      dbRef.child('answers').off('value', checkAns);
-      dbRef.child('status').set('discuss-phase');
-    }
-  });
-}
-
-function startOnlineDiscussPhase() {
-  document.getElementById('discuss-cat-display').textContent = state.currentCategoryName;
-  
-  if (state.gameMode === 'online-host') {
-    document.getElementById('discuss-action-btn').textContent = "توجيه الجميع لكشف الأسئلة 📢";
-    document.getElementById('discuss-action-btn').disabled = false;
-  } else {
-    document.getElementById('discuss-action-btn').textContent = "بانتظار الهوست لكشف الأسئلة... ⏳";
-    document.getElementById('discuss-action-btn').disabled = true;
-  }
-  showScreen('screen-discuss');
-}
-
-function startOnlineRevealPhase() {
-  document.getElementById('reveal-qa').textContent = state.questionNormal;
-  
-  const myIdx = state.players.indexOf(state.myPlayerName);
-  if (myIdx === state.imposterIdx) {
-    document.getElementById('reveal-qb').textContent = state.questionImposter;
-  } else {
-    document.getElementById('reveal-qb').textContent = "🔒 مخفي ومكتوم حتى انتهاء التصويت النهائي!";
-  }
-  document.getElementById('reveal-imposter-question-row').style.display = 'block'; 
-
-  // بناء قائمة الإجابات في صفحة الكشف لتسهيل ربط الأسئلة
-  const revealAnswersContainer = document.getElementById('reveal-answers-list');
-  revealAnswersContainer.innerHTML = state.players.map(p => {
-    const ans = state.answers[p] || "بدون إجابة";
     return `
-      <div class="answer-card">
-        <strong style="color:var(--gold);">${esc(p)}:</strong> <span>${esc(ans)}</span>
-      </div>`;
-  }).join('');
-  
-  // تفعيل الشات والردود في صفحة الكشف
-  document.getElementById('online-chat-section').style.display = 'block';
-  document.getElementById('chat-messages').innerHTML = '';
-  document.getElementById('chat-input').value = '';
-  cancelReply();
-
-  if (state.gameMode === 'online-host') {
-    document.getElementById('reveal-action-btn').textContent = "🗳️ فتح التصويت السري للجميع";
-    document.getElementById('reveal-action-btn').disabled = false;
-  } else {
-    document.getElementById('reveal-action-btn').textContent = "بانتظار الهوست لفتح التصويت... ⏳";
-    document.getElementById('reveal-action-btn').disabled = true;
-  }
-  showScreen('screen-reveal');
-}
-
-// ── إدارة نظام الشات الفوري والردود ──
-function setReplyTarget(senderName, textContent) {
-  currentReplyTarget = { sender: senderName, text: textContent };
-  const replyBar = document.getElementById('chat-reply-bar');
-  const replyText = document.getElementById('chat-reply-text');
-  
-  replyText.textContent = `رد على [${senderName}]: "${textContent.substring(0, 20)}${textContent.length > 20 ? '...' : ''}"`;
-  replyBar.style.display = 'flex';
-  document.getElementById('chat-input').focus();
-}
-
-function cancelReply() {
-  currentReplyTarget = null;
-  document.getElementById('chat-reply-bar').style.display = 'none';
-}
-
-function sendChatMessage() {
-  const inp = document.getElementById('chat-input');
-  const msg = inp.value.trim();
-  if (!msg) return;
-  
-  const msgRef = dbRef.child('chat').push();
-  const messagePayload = {
-    sender: state.myPlayerName,
-    text: msg,
-    timestamp: firebase.database.ServerValue.TIMESTAMP
-  };
-
-  if (currentReplyTarget) {
-    messagePayload.replyTo = currentReplyTarget;
-  }
-  
-  msgRef.set(messagePayload);
-  inp.value = '';
-  cancelReply();
-}
-
-function renderChatMessages(chatData) {
-  const chatMessagesBox = document.getElementById('chat-messages');
-  if (!chatData) return;
-  
-  const sortedMsgs = Object.values(chatData).sort((a, b) => a.timestamp - b.timestamp);
-  
-  chatMessagesBox.innerHTML = sortedMsgs.map(m => {
-    let replyMarkup = '';
-    if (m.replyTo) {
-      replyMarkup = `
-        <div class="chat-reply-preview">
-          ↪️ رداً على <strong>${esc(m.replyTo.sender)}</strong>: ${esc(m.replyTo.text)}
-        </div>`;
-    }
-    
-    // عند الضغط على الرسالة يتم استدعاء الـ Reply
-    return `
-      <div class="chat-msg-row" onclick="setReplyTarget('${esc(m.sender)}', '${esc(m.text)}')">
-        ${replyMarkup}
-        <span class="chat-msg-sender">${esc(m.sender)}:</span>
-        <span>${esc(m.text)}</span>
+      <div class="tree-category">
+        <div class="tree-cat-header">
+          <span>${catObj.category}</span>
+          <div>
+            <button class="badge-btn badge-add" onclick="promptAddSubcategory(${cIdx})">➕ مجموعة</button>
+            <button class="list-item-del" style="color:var(--accent);" onclick="deleteCategoryFromTree(${cIdx})">🗑️ فئة</button>
+          </div>
+        </div>
+        <div class="tree-children" style="padding:10px;">
+          ${subHtml}
+        </div>
       </div>
     `;
   }).join('');
-  
-  chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
 }
 
-function startOnlineVotePhase() {
-  clearInterval(timerInterval);
-  document.getElementById('vote-timer-div').style.display = 'block';
-  state.currentVoteSelection = null;
-  
-  const vl = document.getElementById('vote-list');
-  vl.innerHTML = state.players
-    .filter(p => p !== state.myPlayerName)
-    .map(p => `<div class="vote-item" onclick="selectVote(this,'${esc(p)}')">${esc(p)}</div>`)
-    .join('');
-    
-  document.getElementById('vote-confirm-btn').disabled = true;
-  showScreen('screen-vote');
-  
-  startCountdown(state.timerDuration, 'v-timer-num', () => {
-    const eligible = state.players.filter(p => p !== state.myPlayerName);
-    state.currentVoteSelection = eligible[Math.floor(Math.random() * eligible.length)];
-    confirmVote();
-  });
-}
-
-// =================== شاشات كشف الحسابات المشتركة ===================
-function showReveal() {
-  if (state.gameMode === 'offline') {
-    document.getElementById('reveal-qa').textContent = state.questionNormal;
-    document.getElementById('reveal-imposter-question-row').style.display = 'none'; 
-    document.getElementById('reveal-action-btn').textContent = "🗳️ بدء التصويت السري التناوبي";
-    document.getElementById('reveal-action-btn').disabled = false;
-    document.getElementById('reveal-answers-list').innerHTML = '';
-    document.getElementById('online-chat-section').style.display = 'none';
-    showScreen('screen-reveal');
-  } else {
-    if (state.gameMode === 'online-host') {
-      dbRef.child('status').set('reveal-phase');
-    }
-  }
-}
-
-function startVoting() {
-  if (state.gameMode === 'offline') {
-    state.voteOrder = shuffle([...Array(state.players.length).keys()]);
-    state.voteIdx = 0;
-    state.currentVoteSelection = null;
-    showOfflineVotePass();
-  } else {
-    if (state.gameMode === 'online-host') {
-      dbRef.child('status').set('vote-phase');
-    }
-  }
-}
-
-function showOfflineVotePass() {
-  const idx = state.voteOrder[state.voteIdx];
-  document.getElementById('vote-pass-name').textContent = state.players[idx];
-  document.getElementById('vote-timer-div').style.display = 'none';
-  showScreen('screen-vote-pass');
-}
-
-function showVoteScreen() {
-  const voterIdx = state.voteOrder[state.voteIdx];
-  const voterName = state.players[voterIdx];
-  state.currentVoteSelection = null;
-  const vl = document.getElementById('vote-list');
-  vl.innerHTML = state.players
-    .filter(p => p !== voterName)
-    .map(p => `<div class="vote-item" onclick="selectVote(this,'${esc(p)}')">${esc(p)}</div>`)
-    .join('');
-  document.getElementById('vote-confirm-btn').disabled = true;
-  showScreen('screen-vote');
-}
-
-function selectVote(el, name) {
-  document.querySelectorAll('.vote-item').forEach(v => v.classList.remove('selected'));
-  el.classList.add('selected');
-  state.currentVoteSelection = name;
-  document.getElementById('vote-confirm-btn').disabled = false;
-}
-
-function confirmVote() {
-  clearInterval(timerInterval);
-  if (state.gameMode === 'offline') {
-    const voterIdx = state.voteOrder[state.voteIdx];
-    const voterName = state.players[voterIdx];
-    state.votes[voterName] = state.currentVoteSelection;
-    state.voteIdx++;
-    if (state.voteIdx < state.voteOrder.length) {
-      showOfflineVotePass();
-    } else {
-      calcOfflineAndDisplayResults();
-    }
-  } else {
-    dbRef.child('votes/' + state.myPlayerName).set(state.currentVoteSelection);
-    document.getElementById('waiting-screen-msg').textContent = "تم تسجيل صوتك بنجاح! بانتظار إتمام بقية الأعضاء لعملية التصويت السري...";
-    showScreen('screen-waiting');
-    
-    if (state.gameMode === 'online-host') {
-      checkVotesCompletion();
-    }
-  }
-}
-
-function checkVotesCompletion() {
-  dbRef.child('votes').on('value', function checkVot(snap) {
-    const votData = snap.val() || {};
-    if (Object.keys(votData).length === state.players.length) {
-      dbRef.child('votes').off('value', checkVot);
-      dbRef.child('status').set('results-phase');
-    }
-  });
-}
-
-// =================== الحسابات الإحصائية ونظام النقاط الدقيق ===================
-function calcOfflineAndDisplayResults() {
-  const n = state.players.length;
-  const imposterName = state.players[state.imposterIdx];
-  
-  let V = 0;
-  state.players.forEach(p => { if (p !== imposterName && state.votes[p] === imposterName) V++; });
-  const roundScores = {};
-  state.players.forEach(p => roundScores[p] = 0);
-  const success = V >= (n / 2); 
-  
-  if (success) {
-    state.players.forEach(p => {
-      if (p === imposterName) roundScores[p] = 0;
-      else if (state.votes[p] === imposterName) roundScores[p] = V;
-      else roundScores[p] = 1;
-    });
-  } else {
-    const incorrectVotes = (n - 1) - V;
-    roundScores[imposterName] = incorrectVotes;
-  }
-  
-  state.players.forEach(p => state.scores[p] = (state.scores[p] || 0) + roundScores[p]);
-  renderFinalUIElements(imposterName, success, V, roundScores);
-}
-
-function displayFinalCalculatedResults() {
-  const n = state.players.length;
-  const imposterName = state.players[state.imposterIdx];
-  
-  let V = 0;
-  state.players.forEach(p => { if (p !== imposterName && state.votes[p] === imposterName) V++; });
-  const roundScores = {};
-  state.players.forEach(p => roundScores[p] = 0);
-  const success = V >= (n / 2);
-  
-  if (success) {
-    state.players.forEach(p => {
-      if (p === imposterName) roundScores[p] = 0;
-      else if (state.votes[p] === imposterName) roundScores[p] = V;
-      else roundScores[p] = 1;
-    });
-  } else {
-    const incorrectVotes = (n - 1) - V;
-    roundScores[imposterName] = incorrectVotes;
-  }
-  
-  if (state.gameMode === 'online-host') {
-    state.players.forEach(p => {
-      let accumulated = (state.scores[p] || 0) + roundScores[p];
-      dbRef.child('scores/' + p).set(accumulated);
-    });
-  }
-  
-  renderFinalUIElements(imposterName, success, V, roundScores);
-}
-
-function renderFinalUIElements(imposterName, success, V, roundScores) {
-  document.getElementById('result-imposter').textContent = imposterName;
-  document.getElementById('result-imposter-q-display').textContent = state.questionImposter;
-  
-  const outBox = document.getElementById('outcome-box');
-  if (success) {
-    document.getElementById('result-emoji').textContent = '🎉';
-    outBox.className = 'outcome-box outcome-success';
-    outBox.textContent = `✅ نجح الفريق في كشف الجاسوس! صوّت ${V} لاعب بشكل صحيح.`;
-  } else {
-    document.getElementById('result-emoji').textContent = '😈';
-    outBox.className = 'outcome-box outcome-fail';
-    outBox.textContent = `❌ فاز الدخيل المخادع! لم يحصّل الفريق أغلبية الأصوات المطلوب تحقيقها.`;
-  }
-  
-  const sorted = [...state.players].sort((a,b) => (state.scores[b] || 0) - (state.scores[a] || 0));
-  const tbody = document.getElementById('scores-body');
-  tbody.innerHTML = sorted.map(p => {
-    const isImp = p === imposterName;
-    return `<tr>
-      <td style="word-break:break-all;">${esc(p)} ${isImp ? '<span class="badge-imposter">إمبوستر</span>' : ''}</td>
-      <td class="score-round">+${roundScores[p]}</td>
-      <td class="score-total">${state.scores[p] || 0}</td>
-    </tr>`;
-  }).join('');
-  
-  if (state.gameMode === 'online-guest') {
-    document.getElementById('result-next-round-btn').style.display = 'none';
-    document.getElementById('result-reset-game-btn').style.display = 'none';
-  } else {
-    document.getElementById('result-next-round-btn').style.display = 'block';
-    document.getElementById('result-reset-game-btn').style.display = 'block';
-  }
-  
-  showScreen('screen-results');
-}
-
-function newRound() {
-  if (state.gameMode === 'offline') {
-    startOfflineRound();
-  } else if (state.gameMode === 'online-host') {
-    clickStartGame();
-  }
-}
-
-function newGame() {
-  customAlert("هل أنت متأكد من تصفير النقاط والعودة للقائمة الرئيسية؟", "⚠️", true, () => {
-    if (state.gameMode === 'online-host') {
-      dbRef.remove();
-      detachRoomListener();
-    } else if (state.gameMode === 'online-guest') {
-      detachRoomListener();
-    }
-    state.scores = {};
-    state.players = [];
-    showScreen('screen-menu');
-  });
-}
-
-function startCountdown(seconds, displayId, onFinish) {
-  clearInterval(timerInterval);
-  let timeLeft = seconds;
-  document.getElementById(displayId).textContent = timeLeft;
-  
-  timerInterval = setInterval(() => {
-    timeLeft--;
-    document.getElementById(displayId).textContent = timeLeft;
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      onFinish();
-    }
-  }, 1000);
-}
-
-// =================== إدارة المبيعات والدروب داون للمكتبة الكلاسيكية ===================
-function toggleDropdown() {
-  const dropdown = document.getElementById('category-dropdown');
-  const optionsBox = document.getElementById('dropdown-options-box');
-  const selectBtn = dropdown.querySelector('.dropdown-select');
-  if (dropdown.classList.contains('open') || dropdown.classList.contains('open-up')) {
-    dropdown.classList.remove('open', 'open-up'); return;
-  }
-  const rect = selectBtn.getBoundingClientRect();
-  dropdown.classList.add('open');
-  optionsBox.style.top = (rect.bottom + 4) + 'px';
-  optionsBox.style.left = rect.left + 'px';
-  optionsBox.style.width = rect.width + 'px';
-}
-
-function selectDropdownOption(idx, name) {
-  document.getElementById('select-category-target').value = idx;
-  const displayEl = document.querySelector('#category-dropdown .dropdown-select');
-  displayEl.textContent = name;
-  displayEl.style.color = 'var(--gold)';
-  document.getElementById('category-dropdown').classList.remove('open', 'open-up');
-}
-
-document.addEventListener('click', function(e) {
-  const dropdown = document.getElementById('category-dropdown');
-  if (dropdown && !dropdown.contains(e.target)) dropdown.classList.remove('open', 'open-up');
-});
-
-function renderLibrary() {
-  const el = document.getElementById('lib-list');
-  const optionsBox = document.getElementById('dropdown-options-box');
-  if (!state.library.length) { 
-    el.innerHTML = '<div class="empty-state">المكتبة فارغة تماماً. قم بإنشاء فئة جديدة أدناه!</div>'; return; 
-  }
-  el.innerHTML = state.library.map((cat, catIdx) => `
-    <div class="category-box">
-      <div class="category-header">
-        <span>📁 ${esc(cat.category)} (${cat.questions.length})</span>
-        <button class="list-item-del" onclick="deleteCategory(${catIdx})">✕</button>
-      </div>
-      <div class="category-questions-list">
-        ${cat.questions.length === 0 ? '<div style="color:var(--muted); font-size:0.8rem;">لا توجد أسئلة بعد.</div>' : 
-          cat.questions.map((q, qIdx) => `
-            <div class="q-item">
-              <span>• ${esc(q)}</span>
-              <button class="list-item-del" onclick="deleteQuestion(${catIdx}, ${qIdx})" style="font-size:0.8rem;">✕</button>
-            </div>
-          `).join('')
-        }
-      </div>
-    </div>
-  `).join('');
-  optionsBox.innerHTML = state.library.map((cat, idx) => `
-    <div class="dropdown-option" onclick="selectDropdownOption('${idx}', '${esc(cat.category)}')">📁 ${esc(cat.category)}</div>
-  `).join('');
-}
-
+// العمليات على الفئات والمجموعات باستخدام نظام الـ Input Modal الحديث
 function addCategory() {
-  const input = document.getElementById('new-category-name');
-  const name = input.value.trim();
-  if (!name) return;
-  state.library.push({ category: name, questions: [] });
-  saveLibrary();
-  input.value = '';
-  renderLibrary();
+  const input = document.getElementById('new-category-input');
+  const val = input.value.trim();
+  if(!val) { customAlert('يرجى كتابة اسم الفئة أولاً!', '⚠️'); return; }
+  state.library.push({ category: "📂 " + val, subcategories: [] });
+  input.value = "";
+  saveLibrary(); renderLibrary();
+  customAlert('تم إضافة الفئة الكبرى بنجاح!', '✅');
 }
 
-function deleteCategory(idx) {
-  customAlert("هل أنت متأكد من حذف هذه الفئة بالكامل؟", "🗑️", true, () => {
-    state.library.splice(idx, 1); saveLibrary(); renderLibrary();
+function promptAddSubcategory(cIdx) {
+  showCustomPrompt('إنشاء مجموعة داخل الفئة', 'اسم المجموعة (مثال: سيارات رياضية 🏎️)...', '📦', (name) => {
+    if(!name) return;
+    state.library[cIdx].subcategories.push({ name: name, questions: [] });
+    saveLibrary(); renderLibrary();
+    customAlert('تم إضافة المجموعة بنجاح!', '✅');
   });
 }
 
-function addQuestionToCategory() {
-  const selectIdx = document.getElementById('select-category-target').value;
-  const input = document.getElementById('new-question-text');
-  const qText = input.value.trim();
-  if (selectIdx === "" || !qText) return;
-  state.library[selectIdx].questions.push(qText);
-  saveLibrary();
-  input.value = '';
-  renderLibrary();
+function promptAddQuestion(cIdx, sIdx) {
+  showCustomPrompt('إضافة كلمة سرية جديدة', 'اكتب الكلمة أو السؤال...', '🔹', (q) => {
+    if(!q) return;
+    state.library[cIdx].subcategories[sIdx].questions.push(q);
+    saveLibrary(); renderLibrary();
+    customAlert('تم حفظ الكلمة السرية بنجاح!', '✅');
+  });
 }
 
-function deleteQuestion(catIdx, qIdx) {
-  state.library[catIdx].questions.splice(qIdx, 1);
+// الحذف والمعالجة
+function deleteCategoryFromTree(cIdx) {
+  state.library.splice(cIdx, 1);
   saveLibrary(); renderLibrary();
 }
 
+function deleteSubcategory(cIdx, sIdx) {
+  state.library[cIdx].subcategories.splice(sIdx, 1);
+  saveLibrary(); renderLibrary();
+}
+
+function deleteQuestion(cIdx, sIdx, qIdx) {
+  state.library[cIdx].subcategories[sIdx].questions.splice(qIdx, 1);
+  saveLibrary(); renderLibrary();
+}
+
+// تصدير واستيراد
 function exportLibrary() {
   const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.library, null, 2));
-  const downloadAnchor = document.createElement('a');
-  downloadAnchor.setAttribute("href", dataStr); downloadAnchor.setAttribute("download", "imposter_library.json");
-  document.body.appendChild(downloadAnchor); downloadAnchor.click(); downloadAnchor.remove();
+  const dl = document.createElement('a');
+  dl.setAttribute("href", dataStr); dl.setAttribute("download", "imposter_tree_library.json");
+  document.body.appendChild(dl); dl.click(); dl.remove();
 }
 
 function importLibrary(event) {
@@ -1817,16 +782,17 @@ function importLibrary(event) {
   const reader = new FileReader();
   reader.onload = function(e) {
     try {
-      const importedData = JSON.parse(e.target.result);
-      if (Array.isArray(importedData)) {
-        state.library = importedData; saveLibrary(); renderLibrary();
-        customAlert('تم استيراد مكتبة الأسئلة بنجاح!', '✅');
+      const parsed = JSON.parse(e.target.result);
+      if (Array.isArray(parsed)) {
+        state.library = parsed; saveLibrary(); renderLibrary();
+        customAlert('تم استيراد قائمة الفئات والمجموعات بنجاح!', '✅');
       }
-    } catch (err) { customAlert('فشل قراءة الملف المختار.', '❌'); }
+    } catch (err) { customAlert('الملف غير صالح أو تالف!', '❌'); }
   };
   reader.readAsText(file);
 }
 
+// المساعدات الشاملة (Shuffler)
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -1834,17 +800,14 @@ function shuffle(arr) {
   }
   return arr;
 }
+
 function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-</script>
 
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js').then(reg => { reg.update(); });
-    });
-  }
+window.addEventListener('load', () => {
+  loadLibrary();
+});
 </script>
 </body>
 </html>
