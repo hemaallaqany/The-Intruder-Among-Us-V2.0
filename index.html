@@ -107,6 +107,7 @@
   .scrollable-content::-webkit-scrollbar { width: 4px; }
   .scrollable-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
+  /* ── TYPOGRAPHY ── */
   .game-title {
     font-size: 2.8rem;
     font-weight: 900;
@@ -136,6 +137,7 @@
   }
   .section-title span { font-size: 1.3rem; }
 
+  /* ── BUTTONS ── */
   .btn {
     display: block;
     width: 100%;
@@ -184,6 +186,7 @@
   .btn-gap { margin-top: 10px; }
   .back-btn { align-self: flex-start; margin-bottom: 14px; padding: 6px 12px; font-size: 0.85rem; }
 
+  /* ── INPUTS ── */
   .input-row {
     display: flex;
     gap: 8px;
@@ -205,6 +208,7 @@
   input[type="text"]:focus, input[type="number"]:focus { border-color: var(--accent); }
   input[type="text"]::placeholder { color: var(--muted); }
 
+  /* ── CUSTOM DROPDOWN ── */
   .custom-dropdown {
     position: relative;
     width: 100%;
@@ -237,6 +241,10 @@
     transform: rotate(180deg);
     color: var(--accent);
   }
+  .custom-dropdown.open-up .dropdown-select::after {
+    transform: rotate(180deg);
+    color: var(--accent);
+  }
   
   .dropdown-options {
     position: fixed;
@@ -250,7 +258,8 @@
     display: none;
     animation: dropdownFade 0.2s ease;
   }
-  .custom-dropdown.open .dropdown-options {
+  .custom-dropdown.open .dropdown-options,
+  .custom-dropdown.open-up .dropdown-options {
     display: block;
   }
   .dropdown-option {
@@ -270,6 +279,7 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  /* ── LISTS ── */
   .player-list { display: flex; flex-direction: column; gap: 8px; }
   .list-item {
     background: var(--surface2);
@@ -289,6 +299,7 @@
 
   .divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; flex-shrink: 0; }
 
+  /* ── PASS SCREEN ── */
   .pass-name {
     font-size: 2rem;
     font-weight: 900;
@@ -299,6 +310,7 @@
   }
   .pass-label { color: var(--muted); text-align: center; font-size: 1rem; }
 
+  /* ── TIMER ── */
   .game-timer {
     font-size: 1.2rem;
     font-weight: 700;
@@ -310,6 +322,7 @@
     border-radius: var(--radius-sm);
   }
 
+  /* ── QUESTION REVEAL ── */
   .question-box {
     background: var(--surface2);
     border: 2px dashed var(--border);
@@ -338,1106 +351,1480 @@
   .tap-hint {
     position: absolute;
     bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.75rem;
+    left: 50%; transform: translateX(-50%);
+    font-size: 0.78rem;
     color: var(--muted);
-    background: var(--surface);
-    padding: 2px 8px;
-    border-radius: 20px;
   }
+  .question-box.revealed .tap-hint { display: none; }
 
-  .custom-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-bottom: 14px;
-  }
-  .custom-grid-item {
+  /* ── DISCUSS SCREEN ── */
+  .big-emoji { font-size: 3rem; text-align: center; margin: 8px 0 12px; }
+  .instruction-box {
     background: var(--surface2);
-    border: 1px solid var(--border);
+    border-right: 4px solid var(--teal);
     border-radius: var(--radius-sm);
-    padding: 10px;
+    padding: 12px 14px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .answers-block {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
+    margin-top: 12px;
   }
-  .custom-grid-item label { font-size: 0.75rem; color: var(--muted); }
-
-  #custom-alert {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-100px);
+  .answer-card {
     background: var(--surface2);
-    border: 1px solid var(--border);
-    padding: 12px 20px;
-    border-radius: 40px;
-    box-shadow: var(--shadow);
-    z-index: 999999;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    pointer-events: none;
-    opacity: 0;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    border-right: 3px solid var(--gold);
+    font-size: 0.9rem;
   }
-  #custom-alert.active { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-  .chat-box {
-    background: var(--surface2);
+  /* ── CHAT SYSTEM SYSTEM ── */
+  .chat-box-container {
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    height: 150px;
+    background: var(--surface2);
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
+    height: 220px;
+    margin-top: 12px;
+    overflow: hidden;
   }
   .chat-messages {
     flex: 1;
     overflow-y: auto;
-    padding: 10px;
+    padding: 8px;
     display: flex;
     flex-direction: column;
     gap: 6px;
   }
-  .msg {
+  .chat-msg-row {
     font-size: 0.85rem;
     line-height: 1.4;
+    word-break: break-word;
     background: rgba(255,255,255,0.03);
     padding: 6px 10px;
-    border-radius: 8px;
-    word-break: break-word;
-    position: relative;
+    border-radius: 6px;
     cursor: pointer;
+    transition: background 0.2s;
   }
-  .msg:hover { background: rgba(255,255,255,0.06); }
-  .msg-system { background: rgba(255,210,102,0.08); color: var(--gold); border-right: 3px solid var(--gold); }
-  .msg-me { background: rgba(6,214,160,0.08); border-right: 3px solid var(--teal); }
-  .msg-reply { background: rgba(123,45,139,0.15); border-right: 3px solid var(--purple); }
+  .chat-msg-row:hover {
+    background: rgba(255,255,255,0.08);
+  }
+  .chat-msg-sender {
+    color: var(--gold);
+    font-weight: 700;
+    margin-left: 4px;
+  }
+  .chat-reply-preview {
+    background: rgba(0,0,0,0.2);
+    border-right: 3px solid var(--teal);
+    padding: 4px 8px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 4px;
+    border-radius: 4px;
+  }
+  .chat-reply-bar {
+    background: var(--surface2);
+    border-top: 1px solid var(--border);
+    padding: 6px 10px;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--teal);
+  }
 
-  .tree-category { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 12px; overflow: hidden; }
-  .tree-cat-header { background: rgba(255,255,255,0.02); padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; }
-  .tree-sub-list { padding: 8px 14px; border-top: 1px solid var(--border); background: rgba(0,0,0,0.1); display: flex; flex-direction: column; gap: 8px; }
-  .tree-sub-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px; }
-  .empty-state { text-align: center; color: var(--muted); padding: 30px 10px; font-size: 0.9rem; }
+  /* ── REVEAL SCREEN ── */
+  .q-reveal-row {
+    background: var(--surface2);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    border-right: 4px solid var(--border);
+  }
+  .q-reveal-row.normal { border-right-color: var(--teal); }
+  .q-reveal-row.imposter { border-right-color: var(--accent); }
+  .q-reveal-label { font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; font-weight: 600; }
+  .q-reveal-text { font-size: 1rem; font-weight: 700; word-break: break-word; }
+
+  /* ── VOTING ── */
+  .vote-list { display: flex; flex-direction: column; gap: 8px; }
+  .vote-item {
+    background: var(--surface2);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.15s;
+    text-align: right;
+  }
+  .vote-item.selected { border-color: var(--accent); background: rgba(230,57,70,0.12); color: var(--accent2); }
+
+  /* ── RESULTS ── */
+  .imposter-reveal { text-align: center; margin: 12px 0 16px; }
+  .imposter-reveal .label { color: var(--muted); font-size: 0.85rem; margin-bottom: 2px; }
+  .imposter-reveal .name { font-size: 1.8rem; font-weight: 900; color: var(--accent2); word-break: break-word; }
+  .outcome-box {
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+  .outcome-success { background: rgba(6,214,160,0.12); color: var(--teal); border: 1px solid var(--teal); }
+  .outcome-fail    { background: rgba(230,57,70,0.12);  color: var(--accent2); border: 1px solid var(--accent); }
+
+  .scores-table { width: 100%; border-collapse: collapse; }
+  .scores-table th, .scores-table td { padding: 8px 10px; text-align: right; font-size: 0.88rem; }
+  .scores-table th { color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border); }
+  .scores-table tr:not(:last-child) td { border-bottom: 1px solid rgba(42,42,64,0.4); }
+  .score-round { color: var(--teal); }
+  .score-total { color: var(--gold); font-weight: 700; }
+  .badge-imposter { background: rgba(230,57,70,0.2); color: var(--accent2); border-radius: 4px; padding: 1px 6px; font-size: 0.72rem; margin-right: 4px; }
+
+  .category-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+  .category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+  }
+  .category-questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 6px;
+    padding-right: 6px;
+    border-right: 2px solid var(--border);
+  }
+  .q-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+  .empty-state { color: var(--muted); font-size: 0.88rem; text-align: center; padding: 16px; }
+  .import-export-row { display: flex; gap: 8px; margin-bottom: 12px; flex-shrink: 0; }
+  #import-file { display: none; }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 5, 10, 0.85);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    padding: 20px;
+  }
+  .modal-overlay.active { opacity: 1; pointer-events: auto; }
+  .modal-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-width: 360px;
+    width: 100%;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    transform: scale(0.9);
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+  }
+  .modal-overlay.active .modal-box { transform: scale(1); }
+  .modal-icon { font-size: 2.5rem; margin-bottom: 10px; }
+  .modal-text { font-size: 1rem; font-weight: 600; line-height: 1.6; margin-bottom: 20px; color: var(--text); }
+  .modal-buttons { display: flex; gap: 8px; justify-content: center; }
+  .modal-btn { padding: 10px 18px; font-size: 0.88rem; border-radius: var(--radius-sm); font-weight: 700; cursor: pointer; border: none; }
+  .modal-btn-confirm { background: var(--accent); color: white; }
+  .modal-btn-cancel { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  
+  .room-code-badge {
+    background: var(--surface2);
+    border: 1px dashed var(--gold);
+    color: var(--gold);
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+  }
 </style>
 </head>
 <body>
 
-<div id="custom-alert">
-  <span id="custom-alert-icon">⚠️</span>
-  <span id="custom-alert-text">تنبيه!</span>
-</div>
-
 <div class="app">
-  <div class="screen active" id="screen-menu">
-    <div class="card" style="justify-content: center; text-align: center;">
-      <h1 class="game-title">بيننا دخيل</h1>
-      <p class="game-subtitle">النسخة المتقدمة بالفئات والمجموعات 🎭</p>
-      
-      <div class="input-row" style="margin-bottom: 20px;">
-        <input type="text" id="player-name-input" placeholder="اكتب اسمك المستعار هنا...">
-      </div>
 
-      <button class="btn btn-primary" onclick="startOfflineMode()">🎮 لعب محلي (جهاز واحد)</button>
-      <div style="margin-top: 12px; display: flex; gap: 8px;">
-        <button class="btn btn-teal" style="flex: 1;" onclick="createOnlineRoom()">✨ إنشاء غرفة</button>
-        <button class="btn btn-secondary" style="flex: 1; border-color: var(--teal);" onclick="showScreen('screen-join')">🚪 انضمام</button>
+  <div id="screen-menu" class="screen active">
+    <div class="card" style="justify-content: center;">
+      <div style="text-align:center;">
+        <div style="font-size:3.5rem; margin-bottom:12px;">🎭</div>
+        <div class="game-title">بيننا دخيل</div>
+        <div class="game-subtitle">تطوير احترافي للعب أوفلاين وأونلاين</div>
       </div>
-      
-      <div class="divider"></div>
-      <button class="btn btn-gold" onclick="showScreen('screen-library')">📚 إدارة مكتبة الأسئلة والفئات</button>
+      <div class="input-row" style="margin-top: 10px;">
+        <input type="text" id="global-player-name" placeholder="اكتب اسمك أولاً...">
+      </div>
+      <button class="btn btn-primary" onclick="selectGameMode('offline')">🕹️ لعب أوفلاين (جهاز واحد)</button>
+      <button class="btn btn-teal btn-gap" onclick="selectGameMode('online-create')">🏠 إنشاء غرفة أونلاين</button>
+      <button class="btn btn-gold btn-gap" onclick="selectGameMode('online-join')">👥 انضمام لغرفة أونلاين</button>
+      <button class="btn btn-secondary btn-gap" onclick="showScreen('screen-library')">📚 مكتبة الفئات والأسئلة</button>
     </div>
   </div>
 
-  <div class="screen" id="screen-join">
+  <div id="screen-join-room" class="screen">
+    <div class="card" style="justify-content: center;">
+      <button class="btn btn-secondary back-btn" onclick="showScreen('screen-menu')">← رجوع</button>
+      <h2>انضمام للغرفة</h2>
+      <div class="input-row">
+        <input type="text" id="join-room-code" placeholder="أدخل كود الغرفة المكون من 5 أرقام...">
+      </div>
+      <button class="btn btn-primary" onclick="joinOnlineRoom()">انضمام الآن 🚀</button>
+    </div>
+  </div>
+
+  <div id="screen-players" class="screen">
     <div class="card">
-      <button class="btn btn-secondary back-btn" onclick="showScreen('screen-menu')">⬅️ عودة</button>
-      <h2>الانضمام لغرفة أونلاين</h2>
-      <div class="scrollable-content" style="display:flex; flex-direction:column; justify-content:center;">
-        <div class="input-row">
-          <input type="text" id="join-room-code" placeholder="كود الغرفة المكون من 4 رموز...">
+      <button class="btn btn-secondary back-btn" id="lobby-back-btn" onclick="exitLobby()">← مغادرة</button>
+      <div class="section-title"><span>👥</span> غرفة الانتظار (<span id="lobby-mode-text">أوفلاين</span>)</div>
+      
+      <div id="online-room-info" style="display:none; text-align:center; margin-bottom:12px;">
+        <div>كود الغرفة الخاص بك:</div>
+        <div class="room-code-badge">
+          <span id="display-room-code">00000</span>
+          <button class="btn btn-secondary btn-sm" style="padding:4px 8px;" onclick="copyRoomCode()">نسخ 📋</button>
         </div>
-        <button class="btn btn-primary" onclick="joinOnlineRoom()">🔑 انضمام لغرفة قائمة</button>
+        <div id="host-settings" style="margin-top:10px; display:none; border:1px solid var(--border); padding:10px; border-radius:var(--radius-sm);">
+          <div style="font-size:0.85rem; color:var(--gold); margin-bottom:6px;">إعدادات الـ Host:</div>
+          <div style="display:flex; gap:6px; align-items:center; font-size:0.8rem;">
+            <span>وقت الإجابة/التصويت:</span>
+            <input type="number" id="host-timer-input" value="30" style="padding:4px; max-width:60px; text-align:center;">
+            <span>ثانية</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-row" id="offline-add-player-row">
+        <input type="text" id="player-input" placeholder="اسم اللاعب..." onkeydown="if(event.key==='Enter')addPlayer()">
+        <button class="btn btn-primary btn-sm" onclick="addPlayer()">إضافة</button>
+      </div>
+
+      <div class="scrollable-content">
+        <div id="player-list" class="player-list"></div>
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <div style="color:var(--muted); font-size:0.85rem; margin-bottom:12px; text-align: center;">
+          الحد الأدنى: 4 لاعبين — لديك <span id="player-count" style="color:var(--gold); font-weight:700;">0</span>
+        </div>
+        <button id="start-btn" class="btn btn-primary" onclick="clickStartGame()" disabled>🎮 ابدأ اللعبة!</button>
       </div>
     </div>
   </div>
 
-  <div class="screen" id="screen-setup-offline">
+  <div id="screen-pass" class="screen">
+    <div class="card" style="justify-content: center; text-align:center;">
+      <div style="font-size:3rem; margin-bottom:12px;">📱</div>
+      <div class="pass-label">أعطِ الهاتف لـ</div>
+      <div class="pass-name" id="pass-name">—</div>
+      <button class="btn btn-primary" onclick="onReady()">جاهز ✓</button>
+    </div>
+  </div>
+
+  <div id="screen-question" class="screen">
+    <div class="card" style="justify-content: center;">
+      <div id="question-timer-div" class="game-timer" style="display:none;">الوقت المتبقي: <span id="q-timer-num">30</span> ثانية</div>
+      <div style="text-align:center; color:var(--muted); font-size:0.9rem; margin-bottom:4px;">سؤالك السري 🤫</div>
+      <div style="text-align:center; font-size:0.85rem; color:var(--gold); margin-bottom:14px;">الفئة الحالية: <span id="current-cat-display">—</span></div>
+      
+      <div class="question-box hidden-q" id="q-box" onclick="revealQuestion()">
+        <div class="blur-text" id="q-text">—</div>
+        <div class="tap-hint">اضغط للكشف عن سؤالك</div>
+      </div>
+      
+      <div id="online-answer-input-area" style="display:none; margin-top:10px;">
+        <div style="font-size:0.85rem; margin-bottom:6px; color:var(--muted);">اكتب إجابتك الذكية والمموّهة هنا:</div>
+        <div class="input-row">
+          <input type="text" id="online-player-answer" placeholder="إجابتك المموهة...">
+          <button class="btn btn-teal btn-sm" onclick="submitOnlineAnswer()">إرسال</button>
+        </div>
+      </div>
+      
+      <button class="btn btn-secondary" id="q-next-btn" onclick="nextAfterQuestion()" style="margin-top:12px; display:none;">التالي ←</button>
+    </div>
+  </div>
+
+  <div id="screen-waiting" class="screen">
+    <div class="card" style="justify-content: center; text-align:center;">
+      <div style="font-size:3rem; margin-bottom:12px;">⏳</div>
+      <h2>الرجاء الانتظار...</h2>
+      <div class="game-subtitle" id="waiting-screen-msg">جاري انتظار باقي اللاعبين لإتمام الخطوة الحالية.</div>
+    </div>
+  </div>
+
+  <div id="screen-discuss" class="screen">
     <div class="card">
-      <button class="btn btn-secondary back-btn" onclick="showScreen('screen-menu')">⬅️ القائمة الرئيسية</button>
-      <h2>إعداد اللعب المحلي</h2>
+      <div class="big-emoji" style="margin:0;">🗣️</div>
+      <h2>قولوا إجاباتكم للنقاش!</h2>
+      <div class="instruction-box" style="margin-bottom:8px;">
+        كل لاعب يذكر إجابته بناءً على السؤال السري الموجه له من فئة (<strong id="discuss-cat-display" style="color:var(--gold);"></strong>).
+      </div>
+      
+      <div class="scrollable-content" id="discuss-scroll-area">
+        <div id="online-answers-list" class="answers-block"></div>
+      </div>
+      
+      <button class="btn btn-primary" id="discuss-action-btn" onclick="showReveal()">كشف الأسئلة ←</button>
+    </div>
+  </div>
+
+  <div id="screen-reveal" class="screen">
+    <div class="card">
+      <div style="text-align: center; flex-shrink: 0;">
+        <div class="big-emoji" style="margin:0;">🎭</div>
+        <h2>الأسئلة الحالية والنقاش...</h2>
+      </div>
+      
+      <div class="scrollable-content" id="reveal-scroll-area">
+        <div class="q-reveal-row normal">
+          <div class="q-reveal-label">📗 سؤال اللاعبين العاديين</div>
+          <div class="q-reveal-text" id="reveal-qa">—</div>
+        </div>
+        
+        <div class="q-reveal-row imposter" id="reveal-imposter-question-row">
+          <div class="q-reveal-label">🔴 سؤال الدخيل</div>
+          <div class="q-reveal-text" id="reveal-qb">—</div>
+        </div>
+
+        <!-- عرض الإجابات لتسهيل النقاش المتزامن مع الشات -->
+        <div id="reveal-answers-list" class="answers-block" style="margin-bottom:12px;"></div>
+        
+        <!-- نظام الشات السحابي المتطور مع الردود -->
+        <div id="online-chat-section" style="display: none;">
+          <div style="font-size:0.9rem; font-weight:700; margin-top:14px; color:var(--teal);">💬 شات النقاش السريع (اضغط على رسالة للرد):</div>
+          <div class="chat-box-container">
+            <div id="chat-messages" class="chat-messages"></div>
+            
+            <!-- شريط معاينة الرد قبل الإرسال -->
+            <div id="chat-reply-bar" class="chat-reply-bar">
+              <span id="chat-reply-text">الرد على: </span>
+              <button style="background:none; border:none; color:var(--accent); font-weight:bold; cursor:pointer;" onclick="cancelReply()">✕ إلغاء</button>
+            </div>
+
+            <div class="input-row" style="margin:0; padding:4px; background:var(--surface);">
+              <input type="text" id="chat-input" placeholder="اكتب رسالة للنقاش..." onkeydown="if(event.key==='Enter')sendChatMessage()">
+              <button class="btn btn-teal btn-sm" style="padding:6px 12px;" onclick="sendChatMessage()">إرسال</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button class="btn btn-primary" id="reveal-action-btn" onclick="startVoting()">🗳️ بدء التصويت السري</button>
+    </div>
+  </div>
+
+  <div id="screen-vote-pass" class="screen">
+    <div class="card" style="justify-content: center; text-align:center;">
+      <div style="font-size:2.5rem; margin-bottom:12px;">🗳️</div>
+      <div class="pass-label">دور التصويت السري لـ</div>
+      <div class="pass-name" id="vote-pass-name">—</div>
+      <button class="btn btn-primary" onclick="showVoteScreen()">جاهز للتصويت ✓</button>
+    </div>
+  </div>
+
+  <div id="screen-vote" class="screen">
+    <div class="card">
+      <div id="vote-timer-div" class="game-timer" style="display:none;">الوقت المتبقي للتصويت: <span id="v-timer-num">30</span> ثانية</div>
+      <div style="text-align:center; color:var(--muted); font-size:0.9rem; margin-bottom:14px; flex-shrink:0;">
+        من هو الدخيل برأيك؟ 🤔
+      </div>
       
       <div class="scrollable-content">
-        <div class="custom-grid">
-          <div class="custom-grid-item">
-            <label>عدد الجواسيس</label>
-            <input type="number" id="offline-spy-count" value="1" min="1">
-          </div>
-          <div class="custom-grid-item">
-            <label>عدد الدخلاء</label>
-            <input type="number" id="offline-imposter-count" value="1" min="0">
-          </div>
+        <div class="vote-list" id="vote-list"></div>
+      </div>
+      
+      <button class="btn btn-primary" id="vote-confirm-btn" onclick="confirmVote()" disabled>تأكيد التصويت ✓</button>
+    </div>
+  </div>
+
+  <div id="screen-results" class="screen">
+    <div class="card">
+      <div class="big-emoji" id="result-emoji">🎉</div>
+      <h2>النتائج</h2>
+      
+      <div class="imposter-reveal">
+        <div class="label">الدخيل كان...</div>
+        <div class="name" id="result-imposter">—</div>
+      </div>
+
+      <div class="q-reveal-row imposter" style="text-align: right; margin-bottom:12px;">
+        <div class="q-reveal-label">🔴 سؤال الدخيل المكتوم كان:</div>
+        <div class="q-reveal-text" id="result-imposter-q-display">—</div>
+      </div>
+      
+      <div id="outcome-box" class="outcome-box"></div>
+      
+      <div class="scrollable-content">
+        <table class="scores-table">
+          <thead><tr><th>اللاعب</th><th>الجولة</th><th>المجموع</th></tr></thead>
+          <tbody id="scores-body"></tbody>
+        </table>
+      </div>
+      
+      <div style="flex-shrink: 0;">
+        <button class="btn btn-teal" id="result-next-round-btn" onclick="newRound()">🔄 جولة جديدة</button>
+        <button class="btn btn-secondary btn-gap" id="result-reset-game-btn" onclick="newGame()">🏠 إعادة تصفير اللعبة</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-library" class="screen">
+    <div class="card">
+      <button class="btn btn-secondary back-btn" onclick="showScreen('screen-menu')">← رجوع</button>
+      <div class="section-title"><span>📚</span> مكتبة الفئات</div>
+
+      <div class="import-export-row">
+        <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="exportLibrary()">📥 تصدير</button>
+        <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="document.getElementById('import-file').click()">📤 استيراد</button>
+        <input type="file" id="import-file" accept=".json" onchange="importLibrary(event)">
+      </div>
+
+      <div class="scrollable-content">
+        <div id="lib-list"></div>
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <hr class="divider">
+        <h3>📁 إضافة فئة جديدة</h3>
+        <div class="input-row">
+          <input type="text" id="new-category-name" placeholder="مثال: مسلسلات وأفلام">
+          <button class="btn btn-gold btn-sm" onclick="addCategory()">إنشاء</button>
         </div>
 
-        <div class="custom-dropdown" id="drop-cat-offline">
-          <div class="dropdown-select" onclick="toggleDropdown('drop-cat-offline')">اختر الفئة الرئيسية</div>
-          <div class="dropdown-options" id="options-cat-offline"></div>
+        <h3>➕ إضافة سؤال لفئة</h3>
+        <div class="custom-dropdown" id="category-dropdown">
+          <div class="dropdown-select" onclick="toggleDropdown()">اختر الفئة المستهدفة...</div>
+          <div class="dropdown-options" id="dropdown-options-box"></div>
+          <input type="hidden" id="select-category-target" value="">
         </div>
-
-        <div class="custom-dropdown" id="drop-sub-offline" style="margin-bottom: 16px;">
-          <div class="dropdown-select" onclick="toggleDropdown('drop-sub-offline')">اختر المجموعة الفرعية</div>
-          <div class="dropdown-options" id="options-sub-offline"></div>
-        </div>
-
-        <div class="divider"></div>
-        <h3 class="section-title">👥 أسماء اللاعبين (<span id="offline-p-count">0</span>):</h3>
         
         <div class="input-row">
-          <input type="text" id="offline-player-name" placeholder="اسم لاعب جديد...">
-          <button class="btn btn-primary btn-sm" onclick="addOfflinePlayer()">➕ أضف</button>
-        </div>
-
-        <div class="player-list" id="offline-players-list"></div>
-      </div>
-
-      <button class="btn btn-teal" onclick="launchOfflineGame()">🚀 ابدأ توزيع الأدوار</button>
-    </div>
-  </div>
-
-  <div class="screen" id="screen-lobby-online">
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-shrink:0;">
-        <button class="btn btn-secondary btn-sm" onclick="leaveOnlineRoom()">🚪 مغادرة</button>
-        <div>غرفة: <span id="lobby-code-display" style="color:var(--gold); font-weight:900; font-size:1.2rem;">----</span></div>
-      </div>
-
-      <div class="scrollable-content">
-        <div id="host-controls" style="display:none; background:rgba(255,255,255,0.02); padding:10px; border-radius:var(--radius-sm); margin-bottom:12px; border:1px solid var(--border);">
-          <h3 style="font-size:0.85rem; color:var(--gold); margin-bottom:8px;">⚙️ إعدادات الغرفة (المضيف):</h3>
-          <div class="custom-grid" style="margin-bottom:8px;">
-            <div class="custom-grid-item">
-              <label>الجواسيس</label>
-              <input type="number" id="online-spy-count" value="1" min="1" onchange="updateOnlineSettings()">
-            </div>
-            <div class="custom-grid-item">
-              <label>الدخلاء</label>
-              <input type="number" id="online-imposter-count" value="1" min="0" onchange="updateOnlineSettings()">
-            </div>
-          </div>
-          <div class="custom-dropdown" id="drop-cat-online">
-            <div class="dropdown-select" onclick="toggleDropdown('drop-cat-online')">اختر الفئة أونلاين</div>
-            <div class="dropdown-options" id="options-cat-online"></div>
-          </div>
-          <div class="custom-dropdown" id="drop-sub-online">
-            <div class="dropdown-select" onclick="toggleDropdown('drop-sub-online')">اختر المجموعة أونلاين</div>
-            <div class="dropdown-options" id="options-sub-online"></div>
-          </div>
-        </div>
-
-        <div id="client-settings-view" style="background:rgba(0,0,0,0.2); padding:10px; border-radius:var(--radius-sm); font-size:0.85rem; margin-bottom:12px; border:1px solid var(--border);">
-          📌 الفئة المختارة: <span id="client-view-cat" style="color:var(--gold);">---</span> | المجموعة: <span id="client-view-sub" style="color:var(--teal);">---</span>
-        </div>
-
-        <h3 class="section-title">👥 المتواجدون الآن (<span id="online-p-count">0</span>):</h3>
-        <div class="player-list" id="online-players-list" style="margin-bottom:16px;"></div>
-
-        <h3 class="section-title">💬 المحادثة السريعة:</h3>
-        <div class="chat-box">
-          <div class="chat-messages" id="chat-messages"></div>
-        </div>
-        <div class="input-row" style="margin-bottom:0;">
-          <input type="text" id="chat-input" placeholder="اكتب رسالة سريعة...">
-          <button class="btn btn-teal btn-sm" onclick="sendChatMessage()">ارسل</button>
-        </div>
-      </div>
-
-      <button class="btn btn-teal" id="start-online-btn" style="display:none;" onclick="launchOnlineGame()">🚀 ابدأ اللعبة الآن</button>
-    </div>
-  </div>
-
-  <div class="screen" id="screen-pass">
-    <div class="card" style="justify-content: space-between;">
-      <h2>سري للغاية 🤫</h2>
-      <div style="margin: auto 0; text-align: center;">
-        <p class="pass-label">مرر الجهاز إلى اللاعب:</p>
-        <p class="pass-name" id="pass-player-name">---</p>
-      </div>
-      <button class="btn btn-primary" onclick="showRevealScreen()">👀 أنا جاهز لرؤية الكلمة</button>
-    </div>
-  </div>
-
-  <div class="screen" id="screen-reveal">
-    <div class="card" style="justify-content: space-between;">
-      <h2>دورك السري 🎭</h2>
-      <div class="scrollable-content" style="display:flex; flex-direction:column; justify-content:center; margin-bottom:0;">
-        <p style="text-align:center; color:var(--muted); font-size:0.95rem;">اضغط مع الاستمرار لرؤية الكلمة / الهوية:</p>
-        <div class="question-box hidden-q" id="reveal-box" onmousedown="revealWord(true)" onmouseup="revealWord(false)" ontouchstart="revealWord(true)" ontouchend="revealWord(false)">
-          <div class="blur-text" id="reveal-word-text">------</div>
-          <div class="tap-hint">اضغط مطولاً لرؤية الهوية 🛡️</div>
-        </div>
-        <p id="reveal-role-desc" style="text-align:center; font-weight:700; min-height:24px; color:var(--gold);"></p>
-      </div>
-      <button class="btn btn-primary" id="reveal-next-btn" onclick="nextPlayerPass()">التالي ⬅️</button>
-    </div>
-  </div>
-
-  <div class="screen" id="screen-playing">
-    <div class="card">
-      <h2>نقاش واكتشاف الدخيل 🔎</h2>
-      <div class="game-timer" id="game-timer-display">00:00</div>
-      
-      <div class="scrollable-content">
-        <div style="background:var(--surface2); border:1px solid var(--border); padding:12px; border-radius:var(--radius-sm); text-align:center; margin-bottom:14px;">
-          <p style="font-size:0.8rem; color:var(--muted); margin-bottom:4px;">تذكير بكلمتك السرية (خاص بك):</p>
-          <div style="font-size:1.1rem; font-weight:700; color:var(--gold);" id="playing-my-word">---</div>
-        </div>
-
-        <h3 class="section-title">👥 قائمة اللاعبين الحية:</h3>
-        <div class="player-list" id="playing-players-list"></div>
-      </div>
-
-      <button class="btn btn-primary" id="end-round-btn" style="display:none;" onclick="finishRoundHost()">📊 إنهاء الجولة ورؤية النتائج</button>
-    </div>
-  </div>
-
-  <div class="screen" id="screen-results">
-    <div class="card">
-      <h2>الهويات وكشف المستور 👁️</h2>
-      <div class="scrollable-content">
-        <div id="results-word-summary" style="background:rgba(255,255,255,0.02); border:1px solid var(--border); padding:12px; border-radius:var(--radius-sm); margin-bottom:14px; font-size:0.9rem; line-height:1.6;"></div>
-        <h3 class="section-title">🎭 هويات اللاعبين بالتفصيل:</h3>
-        <div class="player-list" id="results-players-list"></div>
-      </div>
-      <button class="btn btn-primary" id="results-next-btn" onclick="backToLobbyOrMenu()">🔄 العودة مجدداً</button>
-    </div>
-  </div>
-
-  <div class="screen" id="screen-library">
-    <div class="card">
-      <button class="btn btn-secondary back-btn" onclick="showScreen('screen-menu')">⬅️ عودة للقائمة</button>
-      <h2>إدارة الفئات والمجموعات</h2>
-      <div class="scrollable-content" id="lib-list"></div>
-      
-      <div style="flex-shrink: 0; background: var(--surface); padding-top: 8px; border-top: 1px solid var(--border);">
-        <div class="card" style="padding: 12px; margin-bottom: 8px; background: var(--surface2); height: auto; box-shadow: none;">
-          <h3 style="font-size: 0.85rem; color: var(--gold); margin-bottom: 6px;">➕ إنشاء فئة جديدة كلياً:</h3>
-          <div class="input-row" style="margin-bottom: 0;">
-            <input type="text" id="new-category-input" placeholder="اسم الفئة الفنية الكبرى...">
-            <button class="btn btn-primary" style="width: auto; padding: 10px 14px;" onclick="addCategory()">حفظ</button>
-          </div>
-        </div>
-        <div style="display: flex; gap: 8px; margin-bottom: 4px;">
-          <button class="btn btn-secondary btn-sm" style="flex: 1; padding: 11px;" onclick="exportLibrary()">📥 تصدير JSON</button>
-          <button class="btn btn-secondary btn-sm" style="flex: 1; padding: 11px; position: relative;">
-            📤 استيراد JSON
-            <input type="file" accept=".json" onchange="importLibrary(event)" style="position: absolute; inset: 0; opacity: 0; cursor: pointer;">
-          </button>
+          <input type="text" id="new-question-text" placeholder="مثال: شخصية غنية جداً">
+          <button class="btn btn-teal btn-sm" onclick="addQuestionToCategory()">إضافة</button>
         </div>
       </div>
     </div>
   </div>
 
+</div>
+
+<div id="custom-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div id="modal-icon" class="modal-icon">⚠️</div>
+    <div id="modal-text" class="modal-text">هذا نص التنبيه المخصص.</div>
+    <div class="modal-buttons">
+      <button id="modal-cancel-btn" class="modal-btn modal-btn-cancel" onclick="closeCustomModal(false)">إلغاء</button>
+      <button id="modal-confirm-btn" class="modal-btn modal-btn-confirm" onclick="closeCustomModal(true)">حسناً</button>
+    </div>
+  </div>
 </div>
 
 <script>
-// تهيئة Firebase برابط مشروعك المباشر والمصلح
 const firebaseConfig = {
-  databaseURL: "https://the-intruder-among-us-default-rtdb.firebaseio.com/"
+  databaseURL: "https://the-intruder-among-us-default-rtdb.firebaseio.com" 
 };
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+if (typeof firebase !== 'undefined') {
+  firebase.initializeApp(firebaseConfig);
+}
 
-let state = {
-  myPlayerName: "",
-  gameMode: "offline", 
-  roomCode: "",
-  players: [], 
-  library: [], 
-  
-  selectedCatIdx: null,
-  selectedSubIdx: null,
-  
-  spiesCount: 1,
-  impostersCount: 1,
-  
-  passIndex: 0,
-  assignments: [], 
-  gameWords: { normal: "", spy: "", imposter: "" },
-  
-  onlineSync: null, 
-  isHost: false,
-  timerInterval: null
-};
-
-// البيانات الافتراضية الصالحة والمؤمنة
-const defaultTreeLibrary = [
+const defaultLibrary = [
   {
-    category: "فواكه وخضروات 🍏",
-    subcategories: [
-      { name: "حمضيات", questions: ["ليمون", "برتقال", "يوسفي", "جريب فروت"] },
-      { name: "فواكه صيفية", questions: ["بطيخ", "شمان", "مانجو", "خوخ"] }
+    category: "أنمي وكرتون",
+    questions: [
+      "شخصية غنية جداً وتمتلك نفوذ",
+      "شخصية فقيرة وتكافح من أجل لقمة العيش",
+      "شخصية ذكية جداً وتخطط بعبقرية",
+      "شخصية غبية ومضحكة وتسبب المشاكل",
+      "شخصية تمتلك قوة خارقة مدمرة",
+      "شخصية عادية لا تملك أي قوة وتعتمد على أدواتها"
     ]
   },
   {
-    category: "وسائل مواصلات 🚗",
-    subcategories: [
-      { name: "مركبات برية", questions: ["سيارة", "شاحنة", "دراجة نارية", "حافلة"] },
-      { name: "وسائل طيران", questions: ["طائرة مدنية", "مروحية", "طائرة حربية", "منطاد"] }
+    category: "أفلام ومسلسلات",
+    questions: [
+      "شخصية شريرة مرعبة والجميع يخافها",
+      "شخصية بطولية تضحي من أجل الآخرين",
+      "شخصية غامضة لا تتحدث كثيراً",
+      "شخصية ثرثارة وكوميدية طوال الوقت"
+    ]
+  },
+  {
+    category: "أسلوب حياة وعادات",
+    questions: [
+      "شخصية نشيطة جداً تستيقظ مبكراً وتعمل دائماً",
+      "شخصية كسولة جداً وتنام طوال اليوم وتكره العمل",
+      "شخصية تعشق تناول الطعام والحلويات بكثرة",
+      "شخصية تتبع نظاماً غذائياً صارماً وتكره الدهون"
     ]
   }
 ];
 
-window.addEventListener('DOMContentLoaded', () => {
-  loadLibrary();
-  if(!state.library || state.library.length === 0) {
-    state.library = JSON.parse(JSON.stringify(defaultTreeLibrary));
-    saveLibrary();
-  }
-  renderLibrary();
-  setupDropdownClosing();
-});
+let state = {
+  library: JSON.parse(localStorage.getItem('imp_categories_library')) || defaultLibrary,
+  gameMode: 'offline', 
+  roomCode: '',
+  myPlayerName: '',
+  players: [],
+  scores: {},
+  imposterIdx: -1,
+  currentCategoryName: "",
+  questionNormal: "",
+  questionImposter: "",
+  passOrder: [],
+  passIdx: 0,
+  voteOrder: [],
+  voteIdx: 0,
+  votes: {}, 
+  answers: {}, 
+  currentVoteSelection: null,
+  timerDuration: 30, 
+  readyToVoteCount: 0
+};
 
-function customAlert(txt, icon="⚠️") {
-  document.getElementById('custom-alert-icon').innerText = icon;
-  document.getElementById('custom-alert-text').innerText = txt;
-  const el = document.getElementById('custom-alert');
-  el.classList.add('active');
-  setTimeout(() => el.classList.remove('active'), 2500);
+let dbRef = null;
+let timerInterval = null;
+let modalCallback = null;
+let initialPlayersCount = 0; 
+let currentReplyTarget = null; // يحمل كائن الرسالة التي يتم الرد عليها حالياً
+
+function saveLibrary() {
+  localStorage.setItem('imp_categories_library', JSON.stringify(state.library));
+}
+
+function customAlert(text, icon = "⚠️", showCancel = false, callback = null) {
+  document.getElementById('modal-text').textContent = text;
+  document.getElementById('modal-icon').textContent = icon;
+  const cancelBtn = document.getElementById('modal-cancel-btn');
+  cancelBtn.style.display = showCancel ? "inline-block" : "none";
+  modalCallback = callback;
+  document.getElementById('custom-modal').classList.add('active');
+}
+
+function closeCustomModal(isConfirmed = true) {
+  document.getElementById('custom-modal').classList.remove('active');
+  if (isConfirmed && modalCallback) {
+    modalCallback();
+  }
+  modalCallback = null;
 }
 
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  const target = document.getElementById(id);
-  if(target) target.classList.add('active');
-  closeAllDropdowns();
+  document.getElementById(id).classList.add('active');
+  if (id === 'screen-library') renderLibrary();
+  if (id === 'screen-players') renderPlayerList();
 }
 
-function setupDropdownClosing() {
-  document.addEventListener('click', (e) => {
-    if(!e.target.closest('.custom-dropdown')) {
-      closeAllDropdowns();
-    }
-  });
-}
-function closeAllDropdowns() {
-  document.querySelectorAll('.custom-dropdown').forEach(d => d.classList.remove('open'));
-}
-function toggleDropdown(id) {
-  const el = document.getElementById(id);
-  const isOpen = el.classList.contains('open');
-  closeAllDropdowns();
-  if(!isOpen) el.classList.add('open');
-}
-
-function loadLibrary() {
-  const saved = localStorage.getItem('imposter_tree_lib');
-  if(saved) {
-    try { state.library = JSON.parse(saved); } catch(e){}
-  }
-}
-function saveLibrary() {
-  localStorage.setItem('imposter_tree_lib', JSON.stringify(state.library));
-}
-
-function renderLibrary() {
-  const container = document.getElementById('lib-list');
-  if(!container) return;
-  if(!state.library || state.library.length === 0) {
-    container.innerHTML = `<div class="empty-state">المكتبة فارغة حالياً! أضف فئة جديدة بالأسفل.</div>`;
+function selectGameMode(mode) {
+  const nameInput = document.getElementById('global-player-name').value.trim();
+  if (!nameInput && (mode.startsWith('online'))) {
+    customAlert('يرجى كتابة اسمك أولاً للدخول في النمط الأونلاين!', '👤');
     return;
   }
-  container.innerHTML = state.library.map((catObj, cIdx) => {
-    let subHtml = "";
-    if(catObj.subcategories && catObj.subcategories.length > 0) {
-      subHtml = catObj.subcategories.map((sub, sIdx) => {
-        let qHtml = "";
-        if(sub.questions && sub.questions.length > 0) {
-          qHtml = sub.questions.map((q, qIdx) => `
-            <div style="font-size:0.85rem; padding:4px 8px; background:rgba(255,255,255,0.02); margin-top:3px; border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
-              <span style="color:var(--text); font-weight:normal;">🔹 ${q}</span>
-              <button class="list-item-del" style="font-size:0.8rem; padding:0 4px;" onclick="deleteQuestion(${cIdx},${sIdx},${qIdx})">❌</button>
-            </div>
-          `).join('');
-        }
-        return `
-          <div class="tree-sub-item">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong style="color:var(--teal); font-size:0.9rem;">📦 مجموعة: ${sub.name}</strong>
-              <button class="list-item-del" onclick="deleteSubcategory(${cIdx},${sIdx})">🗑️</button>
-            </div>
-            <div style="margin-top:6px; padding-left:6px; border-left:1px dashed var(--border);">
-              ${qHtml}
-              <div class="input-row" style="margin-top:6px; margin-bottom:0; gap:4px;">
-                <input type="text" id="add-q-input-${cIdx}-${sIdx}" placeholder="إضافة كلمة سرية..." style="padding:6px; font-size:0.8rem;">
-                <button class="btn btn-teal btn-sm" style="padding:6px 10px;" onclick="addQuestion(${cIdx},${sIdx})">➕</button>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-    } else {
-      subHtml = `<div class="empty-state" style="padding:10px;">لا توجد مجموعات فرعية هنا بعد.</div>`;
-    }
+  state.myPlayerName = nameInput;
 
-    return `
-      <div class="tree-category">
-        <div class="tree-cat-header">
-          <span style="font-weight:700; color:var(--gold);">📁 ${catObj.category}</span>
-          <button class="list-item-del" onclick="deleteCategory(${cIdx})">🗑️ حذف الفئة</button>
-        </div>
-        <div class="tree-sub-list">
-          ${subHtml}
-          <div style="background:rgba(255,255,255,0.01); padding:8px; border-radius:var(--radius-sm); border:1px dashed var(--border); margin-top:4px;">
-            <label style="font-size:0.75rem; color:var(--muted); display:block; margin-bottom:4px;">➕ إضافة مجموعة فرعية جديدة:</label>
-            <div class="input-row" style="margin-bottom:0; gap:4px;">
-              <input type="text" id="add-sub-input-${cIdx}" placeholder="اسم المجموعة..." style="padding:6px; font-size:0.8rem;">
-              <button class="btn btn-primary btn-sm" style="padding:6px 10px;" onclick="addSubcategory(${cIdx})">حفظ</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-function addCategory() {
-  const input = document.getElementById('new-category-input');
-  const val = input.value.trim();
-  if(!val) return;
-  state.library.push({ category: val, subcategories: [] });
-  input.value = ""; saveLibrary(); renderLibrary();
-  customAlert("تمت إضافة الفئة بنجاح!", "✅");
-}
-function deleteCategory(cIdx) {
-  state.library.splice(cIdx,1); saveLibrary(); renderLibrary();
-}
-function addSubcategory(cIdx) {
-  const input = document.getElementById(`add-sub-input-${cIdx}`);
-  const val = input.value.trim();
-  if(!val) return;
-  state.library[cIdx].subcategories.push({ name: val, questions: [] });
-  input.value = ""; saveLibrary(); renderLibrary();
-}
-function deleteSubcategory(cIdx, sIdx) {
-  state.library[cIdx].subcategories.splice(sIdx,1); saveLibrary(); renderLibrary();
-}
-function addQuestion(cIdx, sIdx) {
-  const input = document.getElementById(`add-q-input-${cIdx}-${sIdx}`);
-  const val = input.value.trim();
-  if(!val) return;
-  state.library[cIdx].subcategories[sIdx].questions.push(val);
-  input.value = ""; saveLibrary(); renderLibrary();
-}
-function deleteQuestion(cIdx, sIdx, qIdx) {
-  state.library[cIdx].subcategories[sIdx].questions.splice(qIdx, 1); saveLibrary(); renderLibrary();
-}
-function exportLibrary() {
-  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.library, null, 2));
-  const dl = document.createElement('a');
-  dl.setAttribute("href", dataStr); dl.setAttribute("download", "imposter_tree_library.json");
-  document.body.appendChild(dl); dl.click(); dl.remove();
-}
-function importLibrary(event) {
-  const file = event.target.files[0]; if(!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const parsed = JSON.parse(e.target.result);
-      if(Array.isArray(parsed)) {
-        state.library = parsed; saveLibrary(); renderLibrary();
-        customAlert('تم استيراد قائمة الفئات والمجموعات بنجاح!', '✅');
-      }
-    } catch(err){ customAlert('الملف غير صالح أو تالف!', '❌'); }
-  };
-  reader.readAsText(file);
-}
-
-function getPlayerNameInput() {
-  const input = document.getElementById('player-name-input');
-  let name = input.value.trim();
-  if(!name) {
-    name = "لاعب_" + Math.floor(1000 + Math.random()*9000);
-    input.value = name;
+  if (mode === 'offline') {
+    state.gameMode = 'offline';
+    document.getElementById('lobby-mode-text').textContent = "أوفلاين";
+    document.getElementById('online-room-info').style.display = 'none';
+    document.getElementById('offline-add-player-row').style.display = 'flex';
+    document.getElementById('lobby-back-btn').textContent = "← رجوع";
+    state.players = [];
+    showScreen('screen-players');
+  } 
+  else if (mode === 'online-create') {
+    state.gameMode = 'online-host';
+    state.roomCode = Math.floor(10000 + Math.random() * 90000).toString(); 
+    document.getElementById('lobby-mode-text').textContent = "أونلاين (مُنشئ الغرفة)";
+    document.getElementById('online-room-info').style.display = 'block';
+    document.getElementById('display-room-code').textContent = state.roomCode;
+    document.getElementById('host-settings').style.display = 'block';
+    document.getElementById('offline-add-player-row').style.display = 'none';
+    document.getElementById('lobby-back-btn').textContent = "← إغلاق الغرفة";
+    
+    dbRef = firebase.database().ref('rooms/' + state.roomCode);
+    dbRef.remove(); 
+    
+    state.players = [state.myPlayerName];
+    state.scores = {};
+    state.scores[state.myPlayerName] = 0;
+    initialPlayersCount = 1;
+    
+    dbRef.set({
+      roomCode: state.roomCode,
+      hostName: state.myPlayerName,
+      status: 'waiting',
+      players: state.players,
+      scores: state.scores,
+      timerDuration: 30
+    });
+    
+    listenToRoomUpdates();
+    showScreen('screen-players');
+  } 
+  else if (mode === 'online-join') {
+    showScreen('screen-join-room');
   }
-  state.myPlayerName = name;
-  return name;
 }
 
-function startOfflineMode() {
-  getPlayerNameInput();
-  state.gameMode = "offline";
-  state.isHost = true;
-  state.players = [state.myPlayerName];
+function joinOnlineRoom() {
+  const code = document.getElementById('join-room-code').value.trim();
+  if (!code) { customAlert('الرجاء إدخل كود الغرفة', '✏️'); return; }
   
-  showScreen('screen-setup-offline');
-  buildDropdownTree('offline');
-  renderOfflinePlayers();
-}
-
-function buildDropdownTree(prefix) {
-  const catOptions = document.getElementById(`options-cat-${prefix}`);
-  if(!catOptions) return;
-  
-  if(state.library.length === 0) {
-    catOptions.innerHTML = `<div class="dropdown-option">المكتبة فارغة!</div>`;
-    return;
-  }
-
-  catOptions.innerHTML = state.library.map((c, idx) => `
-    <div class="dropdown-option" onclick="selectCatTree('${prefix}', ${idx})">${c.category}</div>
-  `).join('');
-
-  if(prefix === 'offline') {
-    selectCatTree('offline', 0);
-  } else if(prefix === 'online' && state.isHost) {
-    selectCatTree('online', 0);
-  }
-}
-
-function selectCatTree(prefix, idx) {
-  state.selectedCatIdx = idx;
-  const catBox = document.getElementById(`drop-cat-${prefix}`);
-  if(catBox && state.library[idx]) {
-    catBox.querySelector('.dropdown-select').innerText = state.library[idx].category;
-  }
-  closeAllDropdowns();
-
-  const subOptions = document.getElementById(`options-sub-${prefix}`);
-  if(!subOptions) return;
-
-  const subs = state.library[idx] ? state.library[idx].subcategories : [];
-  if(!subs || subs.length === 0) {
-    subOptions.innerHTML = `<div class="dropdown-option">لا توجد مجموعات فرعية</div>`;
-    const subBox = document.getElementById(`drop-sub-${prefix}`);
-    if(subBox) subBox.querySelector('.dropdown-select').innerText = "لا توجد مجموعات";
-    state.selectedSubIdx = null;
-    if(prefix === 'online' && state.isHost) updateOnlineSettings();
-    return;
-  }
-
-  subOptions.innerHTML = subs.map((s, sIdx) => `
-    <div class="dropdown-option" onclick="selectSubTree('${prefix}', ${sIdx})">${s.name}</div>
-  `).join('');
-
-  selectSubTree(prefix, 0);
-}
-
-function selectSubTree(prefix, sIdx) {
-  state.selectedSubIdx = sIdx;
-  const subBox = document.getElementById(`drop-sub-${prefix}`);
-  if(subBox && state.library[state.selectedCatIdx] && state.library[state.selectedCatIdx].subcategories[sIdx]) {
-    subBox.querySelector('.dropdown-select').innerText = state.library[state.selectedCatIdx].subcategories[sIdx].name;
-  }
-  closeAllDropdowns();
-
-  if(prefix === 'online' && state.isHost) {
-    updateOnlineSettings();
-  }
-}
-
-function renderOfflinePlayers() {
-  document.getElementById('offline-p-count').innerText = state.players.length;
-  const list = document.getElementById('offline-players-list');
-  list.innerHTML = state.players.map((p, idx) => `
-    <div class="list-item">
-      <span>👤 ${p} ${idx === 0 ? '<small style="color:var(--gold);">(أنت)</small>':''}</span>
-      ${idx > 0 ? `<button class="list-item-del" onclick="removeOfflinePlayer(${idx})">❌</button>` : ''}
-    </div>
-  `).join('');
-}
-function addOfflinePlayer() {
-  const input = document.getElementById('offline-player-name');
-  const name = input.value.trim();
-  if(!name) return;
-  if(state.players.includes(name)) { customAlert("هذا الاسم موجود بالفعل!"); return; }
-  state.players.push(name);
-  input.value = ""; renderOfflinePlayers();
-}
-function removeOfflinePlayer(idx) {
-  state.players.splice(idx,1); renderOfflinePlayers();
-}
-
-function launchOfflineGame() {
-  const spiesInput = document.getElementById('offline-spy-count');
-  const imposterInput = document.getElementById('offline-imposter-count');
-  state.spiesCount = parseInt(spiesInput.value) || 1;
-  state.impostersCount = parseInt(imposterInput.value) || 0;
-
-  if(state.players.length < 3) { customAlert("يجب توفر 3 لاعبين على الأقل للعب!"); return; }
-  if((state.spiesCount + state.impostersCount) >= state.players.length) {
-    customAlert("عدد الأطوار الخاصة كبير جداً بالنسبة لعدد اللاعبين!"); return;
-  }
-
-  if(state.selectedCatIdx === null || state.selectedSubIdx === null) {
-    customAlert("الرجاء اختيار فئة ومجموعة صالحة أولاً!"); return;
-  }
-  const sub = state.library[state.selectedCatIdx].subcategories[state.selectedSubIdx];
-  if(!sub || !sub.questions || sub.questions.length < 2) {
-    customAlert("المجموعة المختار يجب أن تحتوي على كلمتين سرية على الأقل!"); return;
-  }
-
-  generateRoleAssignments(sub.questions);
-  state.passIndex = 0;
-  startPassSequence();
-}
-
-function generateRoleAssignments(questionsArray) {
-  let pool = [...questionsArray];
-  shuffle(pool);
-  const normalWord = pool[0];
-  const alternativeWord = pool[1]; 
-
-  state.gameWords = {
-    normal: normalWord,
-    spy: "أنت الجاسوس 🕵️‍♂️ (لا تملك كلمة)",
-    imposter: alternativeWord
-  };
-
-  let roles = [];
-  for(let i=0; i < state.spiesCount; i++) roles.push("spy");
-  for(let i=0; i < state.impostersCount; i++) roles.push("imposter");
-  while(roles.length < state.players.length) roles.push("normal");
-  shuffle(roles);
-
-  state.assignments = state.players.map((p, idx) => {
-    return { name: p, role: roles[idx], isDead: false };
+  firebase.database().ref('rooms/' + code).once('value', (snapshot) => {
+    if (!snapshot.exists()) {
+      customAlert('عذراً، هذه الغرفة غير موجودة! تأكد من الكود الحرفي.', '❌');
+      return;
+    }
+    const roomData = snapshot.val();
+    if (roomData.status !== 'waiting') {
+      customAlert('عذراً، بدأت هذه اللعبة بالفعل ولا يمكنك الانضمام إليها حالياً.', '⏳');
+      return;
+    }
+    let currentPlayers = roomData.players || [];
+    if (currentPlayers.includes(state.myPlayerName)) {
+      customAlert('هذا الاسم مستخدم بالفعل داخل الغرفة، يرجى تغييره من القائمة الرئيسية.', '👤');
+      return;
+    }
+    
+    state.gameMode = 'online-guest';
+    state.roomCode = code;
+    dbRef = firebase.database().ref('rooms/' + code);
+    
+    currentPlayers.push(state.myPlayerName);
+    dbRef.child('players').set(currentPlayers);
+    
+    dbRef.child('scores/' + state.myPlayerName).set(0);
+    
+    document.getElementById('lobby-mode-text').textContent = "أونلاين (عضو)";
+    document.getElementById('online-room-info').style.display = 'block';
+    document.getElementById('display-room-code').textContent = state.roomCode;
+    document.getElementById('host-settings').style.display = 'none';
+    document.getElementById('offline-add-player-row').style.display = 'none';
+    document.getElementById('lobby-back-btn').textContent = "← مغادرة الغرفة";
+    
+    listenToRoomUpdates();
+    showScreen('screen-players');
   });
 }
 
-function startPassSequence() {
-  if(state.gameMode === 'online') {
-    const myOnlineObj = state.assignments.find(a => a.name === state.myPlayerName);
-    state.passIndex = state.players.indexOf(state.myPlayerName);
-    showScreen('screen-reveal');
-    prepareRevealBox(myOnlineObj);
-    document.getElementById('reveal-next-btn').innerText = "الدخول لساحة النقاش 🎮";
-    return;
-  }
-
-  if(state.passIndex >= state.players.length) {
-    launchPlayingScreen();
-    return;
-  }
-  showScreen('screen-pass');
-  document.getElementById('pass-player-name').innerText = state.players[state.passIndex];
-}
-
-function showRevealScreen() {
-  showScreen('screen-reveal');
-  const currentObj = state.assignments[state.passIndex];
-  prepareRevealBox(currentObj);
-
-  if(state.passIndex === state.players.length - 1) {
-    document.getElementById('reveal-next-btn').innerText = "ابدأ النقاش التنافسي 🚀";
-  } else {
-    document.getElementById('reveal-next-btn').innerText = "تمت الرؤية، تمرير الجهاز ⬅️";
-  }
-}
-
-function prepareRevealBox(obj) {
-  const wordTxt = document.getElementById('reveal-word-text');
-  const roleDesc = document.getElementById('reveal-role-desc');
-  const box = document.getElementById('reveal-box');
-
-  box.classList.add('hidden-q');
-  box.classList.remove('revealed');
-  roleDesc.innerText = "";
-
-  let secureWord = "";
-  let roleTitle = "";
-
-  if(obj.role === 'normal') {
-    secureWord = state.gameWords.normal;
-    roleTitle = "أنت مواطن صالح 😇";
-  } else if(obj.role === 'spy') {
-    secureWord = state.gameWords.spy;
-    roleTitle = "أنت الجاسوس 🕵️‍♂️";
-  } else if(obj.role === 'imposter') {
-    secureWord = state.gameWords.imposter;
-    roleTitle = "أنت الدخيل 🎭 (لديك كلمة مختلفة!)";
-  }
-
-  box.dataset.word = secureWord;
-  box.dataset.roleTitle = roleTitle;
-  wordTxt.innerText = "••••••";
-}
-
-function revealWord(isPressed) {
-  const box = document.getElementById('reveal-box');
-  const wordTxt = document.getElementById('reveal-word-text');
-  const roleDesc = document.getElementById('reveal-role-desc');
-
-  if(isPressed) {
-    box.classList.remove('hidden-q');
-    box.classList.add('revealed');
-    wordTxt.innerText = box.dataset.word;
-    roleDesc.innerText = box.dataset.roleTitle;
-  } else {
-    box.classList.add('hidden-q');
-    box.classList.remove('revealed');
-    wordTxt.innerText = "••••••";
-    roleDesc.innerText = "";
-  }
-}
-
-function nextPlayerPass() {
-  if(state.gameMode === 'online') {
-    launchPlayingScreen();
-    return;
-  }
-  state.passIndex++;
-  startPassSequence();
-}
-
-function launchPlayingScreen() {
-  showScreen('screen-playing');
-  
-  const myObj = state.assignments.find(a => a.name === state.myPlayerName);
-  const pWordContainer = document.getElementById('playing-my-word');
-  if(myObj.role === 'normal') pWordContainer.innerText = state.gameWords.normal;
-  else if(myObj.role === 'spy') pWordContainer.innerText = "🕵️‍♂️ لا توجد كلمة (أنت الجاسوس)";
-  else if(myObj.role === 'imposter') pWordContainer.innerText = state.gameWords.imposter + " (دخيل)";
-
-  if(state.isHost) {
-    document.getElementById('end-round-btn').style.display = "block";
-  } else {
-    document.getElementById('end-round-btn').style.display = "none";
-  }
-
-  renderPlayingPlayersList();
-  startTimerCount(300); 
-}
-
-function startTimerCount(durationSeconds) {
-  clearInterval(state.timerInterval);
-  let timeRemaining = durationSeconds;
-  const display = document.getElementById('game-timer-display');
-
-  function updateVisual() {
-    let mins = Math.floor(timeRemaining / 60);
-    let secs = timeRemaining % 60;
-    display.innerText = (mins<10?"0":"")+mins + ":" + (secs<10?"0":"")+secs;
-    if(timeRemaining <= 0) {
-      clearInterval(state.timerInterval);
-      customAlert("انتهى وقت النقاش القانوني الرسمي!");
-    }
-    timeRemaining--;
-  }
-  updateVisual();
-  state.timerInterval = setInterval(updateVisual, 1000);
-}
-
-function renderPlayingPlayersList() {
-  const container = document.getElementById('playing-players-list');
-  container.innerHTML = state.assignments.map((p, idx) => {
-    return `
-      <div class="list-item" style="${p.isDead ? 'opacity:0.35; text-decoration:line-through;':''}">
-        <span>👤 ${p.name} ${p.name === state.myPlayerName ? '<small>(أنت)</small>':''} ${p.isDead?'(تم إقصاؤه 🟥)':''}</span>
-        ${state.isHost && !p.isDead ? `<button class="btn btn-secondary btn-sm" style="padding:4px 8px; font-size:0.75rem; color:var(--accent);" onclick="togglePlayerLifeHost(${idx})">إقصاء 🏹</button>` : ''}
-      </div>
-    `;
-  }).join('');
-}
-
-function togglePlayerLifeHost(idx) {
-  state.assignments[idx].isDead = !state.assignments[idx].isDead;
-  if(state.gameMode === 'online') {
-    db.ref('rooms/' + state.roomCode + '/assignments').set(state.assignments);
-  } else {
-    renderPlayingPlayersList();
-  }
-}
-
-function finishRoundHost() {
-  clearInterval(state.timerInterval);
-  if(state.gameMode === 'online') {
-    db.ref('rooms/' + state.roomCode + '/status').set('results');
-  } else {
-    showResultsScreen();
-  }
-}
-
-function showResultsScreen() {
-  showScreen('screen-results');
-  
-  const wordSummary = document.getElementById('results-word-summary');
-  wordSummary.innerHTML = `
-    🟢 كلمة المواطنين الصالحين: <strong style="color:var(--teal);">${state.gameWords.normal}</strong><br>
-    🔴 كلمة الدخلاء (الكلمة البديلة): <strong style="color:var(--accent2);">${state.gameWords.imposter}</strong>
-  `;
-
-  const container = document.getElementById('results-players-list');
-  container.innerHTML = state.assignments.map(p => {
-    let rTxt = "";
-    if(p.role === 'normal') rTxt = "🟢 مواطن صالح";
-    else if(p.role === 'spy') rTxt = "🕵️‍♂️ جاسوس علني";
-    else if(p.role === 'imposter') rTxt = "🎭 دخيل ذكي";
-
-    return `
-      <div class="list-item">
-        <span><strong>${p.name}</strong></span>
-        <span style="color:var(--gold);">${rTxt} ${p.isDead?'(ميت)':''}</span>
-      </div>
-    `;
-  }).join('');
-
-  const nextBtn = document.getElementById('results-next-btn');
-  if(state.gameMode === 'online') {
-    nextBtn.innerText = state.isHost ? "🔄 إعادة اللعب (تنظيف الغرفة)" : "⏳ بانتظار المضيف للملف...";
-    if(!state.isHost) nextBtn.disabled = true;
-    else nextBtn.disabled = false;
-  } else {
-    nextBtn.innerText = "🔄 عودة للقائمة الرئيسية";
-    nextBtn.disabled = false;
-  }
-}
-
-function backToLobbyOrMenu() {
-  if(state.gameMode === 'online') {
-    if(state.isHost) {
-      db.ref('rooms/' + state.roomCode).update({
-        status: 'lobby',
-        assignments: null
-      });
-    }
+function exitLobby() {
+  if (state.gameMode === 'online-host') {
+    customAlert("هل أنت متأكد من رغبتك في إغلاق الغرفة؟ سيتم طرد جميع اللاعبين.", "⚠️", true, () => {
+      dbRef.remove();
+      detachRoomListener();
+      showScreen('screen-menu');
+    });
+  } else if (state.gameMode === 'online-guest') {
+    customAlert("هل تريد مغادرة الغرفة السحابية الحالية؟", "⚠️", true, () => {
+      let filtered = state.players.filter(p => p !== state.myPlayerName);
+      dbRef.child('players').set(filtered);
+      dbRef.child('scores/' + state.myPlayerName).remove();
+      detachRoomListener();
+      showScreen('screen-menu');
+    });
   } else {
     showScreen('screen-menu');
   }
 }
 
-function generateRandomCode() {
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let c = "";
-  for(let i=0; i<4; i++) c += chars.charAt(Math.floor(Math.random()*chars.length));
-  return c;
+function detachRoomListener() {
+  if (dbRef) dbRef.off();
+  dbRef = null;
 }
 
-function createOnlineRoom() {
-  getPlayerNameInput();
-  state.gameMode = "online";
-  state.isHost = true;
-  state.roomCode = generateRandomCode();
-
-  // التأكد من رفع مكتبة الأسئلة الافتراضية إذا كانت قاعدة البيانات فارغة تماماً
-  const roomData = {
-    code: state.roomCode,
-    status: "lobby",
-    host: state.myPlayerName,
-    settings: {
-      spies: 1,
-      imposters: 0,
-      selectedCat: 0,
-      selectedSub: 0
-    },
-    players: {},
-    library: state.library
-  };
-  
-  roomData.players[state.myPlayerName] = { name: state.myPlayerName, active: true };
-
-  db.ref('rooms/' + state.roomCode).set(roomData)
-    .then(() => {
-      document.getElementById('lobby-code-display').innerText = state.roomCode;
-      document.getElementById('host-controls').style.display = "block";
-      document.getElementById('start-online-btn').style.display = "block";
-      document.getElementById('client-settings-view').style.display = "none";
-      
-      showScreen('screen-lobby-online');
-      buildDropdownTree('online');
-      attachOnlineListeners();
-    })
-    .catch(err => customAlert("فشل الاتصال بـ Firebase!"));
-}
-
-function joinOnlineRoom() {
-  getPlayerNameInput();
-  const codeIn = document.getElementById('join-room-code');
-  const code = codeIn.value.trim().toUpperCase();
-  if(!code) { customAlert("يرجى إدخال كود صالحة!"); return; }
-
-  db.ref('rooms/' + code).once('value', snapshot => {
-    if(!snapshot.exists()) {
-      customAlert("هذه الغرفة غير موجودة!"); return;
-    }
+function listenToRoomUpdates() {
+  dbRef.on('value', (snapshot) => {
     const data = snapshot.val();
-    if(data.status !== 'lobby') {
-      customAlert("عذراً، اللعبة بدأت بالفعل في هذه الغرفة!"); return;
+    if (!data) {
+      if (state.gameMode === 'online-guest') {
+        customAlert('تم إنهاء اللعبة وطرد اللاعبين بسبب خروج أحد الأعضاء أو إغلاق الـ Host للغرفة.', '🛑');
+        detachRoomListener();
+        showScreen('screen-menu');
+      }
+      return;
+    }
+    
+    if (!data.players || !data.players.includes(state.myPlayerName)) {
+      customAlert('لقد تم طردك من الغرفة بواسطة الـ Host أو انتهت الجولة الحالية.', '❌');
+      detachRoomListener();
+      showScreen('screen-menu');
+      return;
     }
 
-    state.gameMode = "online";
-    state.isHost = false;
-    state.roomCode = code;
-
-    db.ref('rooms/' + code + '/players/' + state.myPlayerName).set({
-      name: state.myPlayerName, active: true
-    }).then(() => {
-      document.getElementById('lobby-code-display').innerText = state.roomCode;
-      document.getElementById('host-controls').style.display = "none";
-      document.getElementById('start-online-btn').style.display = "none";
-      document.getElementById('client-settings-view').style.display = "block";
-
-      showScreen('screen-lobby-online');
-      attachOnlineListeners();
-    });
-  });
-}
-
-function attachOnlineListeners() {
-  if(state.onlineSync) state.onlineSync.off();
-  state.onlineSync = db.ref('rooms/' + state.roomCode);
-
-  state.onlineSync.on('value', snapshot => {
-    if(!snapshot.exists()) {
-      customAlert("تم إغلاق الغرفة من قبل السيرفر.");
-      leaveOnlineRoom(); return;
+    if (data.status !== 'waiting' && data.players.length < initialPlayersCount) {
+      customAlert('خرج أحد اللاعبين أثناء اللعب! تم إلغاء الجولة لتأمين نزاهة الغرفة وطرد الجميع.', '🛑');
+      if (state.gameMode === 'online-host') {
+        dbRef.remove();
+      }
+      detachRoomListener();
+      showScreen('screen-menu');
+      return;
     }
-    const data = snapshot.val();
-
-    if (data.library) {
-      state.library = data.library;
+    
+    state.players = data.players || [];
+    state.scores = data.scores || {};
+    state.timerDuration = data.timerDuration || 30;
+    state.imposterIdx = data.imposterIdx !== undefined ? data.imposterIdx : -1;
+    state.currentCategoryName = data.currentCategoryName || "";
+    state.questionNormal = data.questionNormal || "";
+    state.questionImposter = data.questionImposter || "";
+    state.answers = data.answers || {};
+    state.votes = data.votes || {};
+    state.readyToVoteCount = data.readyToVoteCount || 0;
+    
+    if (data.status === 'waiting') {
+      initialPlayersCount = state.players.length; 
     }
 
-    if(data.players) {
-      state.players = Object.keys(data.players);
-      renderOnlinePlayersList(data.players);
+    if (document.getElementById('screen-players').classList.contains('active')) {
+      renderPlayerList();
     }
-
-    if(data.settings) {
-      state.spiesCount = data.settings.spies || 1;
-      state.impostersCount = data.settings.imposters || 0;
-      state.selectedCatIdx = data.settings.selectedCat ?? null;
-      state.selectedSubIdx = data.settings.selectedSub ?? null;
-
-      if(!state.isHost) {
-        const catName = (state.library[state.selectedCatIdx]) ? state.library[state.selectedCatIdx].category : "لم يتم التحديد";
-        const subName = (state.library[state.selectedCatIdx] && state.library[state.selectedCatIdx].subcategories[state.selectedSubIdx]) 
-                        ? state.library[state.selectedCatIdx].subcategories[state.selectedSubIdx].name : "لم يتم التحديد";
-        document.getElementById('client-view-cat').innerText = catName;
-        document.getElementById('client-view-sub').innerText = subName;
+    
+    if (data.status === 'question-phase') {
+      if (!document.getElementById('screen-question').classList.contains('active') && !document.getElementById('screen-waiting').classList.contains('active')) {
+        startOnlineQuestionPhase();
+      }
+    } 
+    else if (data.status === 'discuss-phase') {
+      if (!document.getElementById('screen-discuss').classList.contains('active')) {
+        startOnlineDiscussPhase();
       }
     }
-
-    if(data.messages) {
-      renderChatMessages(data.messages);
-    }
-
-    if(data.gameWords) {
-      state.gameWords = data.gameWords;
-    }
-    if(data.assignments) {
-      state.assignments = data.assignments;
-    }
-
-    if(data.status === 'lobby') {
-      if(document.getElementById('screen-lobby-online').classList.contains('active') === false &&
-         document.getElementById('screen-menu').classList.contains('active') === false &&
-         document.getElementById('screen-join').classList.contains('active') === false) {
-         showScreen('screen-lobby-online');
+    else if (data.status === 'reveal-phase') {
+      if (!document.getElementById('screen-reveal').classList.contains('active')) {
+        startOnlineRevealPhase();
       }
-    } else if(data.status === 'reveal') {
-      const activeScreen = document.querySelector('.screen.active');
-      if(activeScreen && activeScreen.id !== 'screen-reveal' && activeScreen.id !== 'screen-playing' && activeScreen.id !== 'screen-results') {
-        startPassSequence();
+      renderChatMessages(data.chat);
+    }
+    else if (data.status === 'vote-phase') {
+      if (!document.getElementById('screen-vote').classList.contains('active') && !document.getElementById('screen-waiting').classList.contains('active')) {
+        startOnlineVotePhase();
       }
-    } else if(data.status === 'playing') {
-      const activeScreen = document.querySelector('.screen.active');
-      if(activeScreen && activeScreen.id === 'screen-reveal') {
-        launchPlayingScreen();
-      } else if(activeScreen && activeScreen.id === 'screen-playing') {
-        renderPlayingPlayersList();
+    }
+    else if (data.status === 'results-phase') {
+      if (!document.getElementById('screen-results').classList.contains('active')) {
+        displayFinalCalculatedResults();
       }
-    } else if(data.status === 'results') {
-      showResultsScreen();
     }
   });
 }
 
-function updateOnlineSettings() {
-  if(!state.isHost) return;
-  const spies = parseInt(document.getElementById('online-spy-count').value) || 1;
-  const imposters = parseInt(document.getElementById('online-imposter-count').value) || 0;
+function kickPlayer(name) {
+  if (state.gameMode !== 'online-host') return;
+  if (name === state.myPlayerName) return;
   
-  db.ref('rooms/' + state.roomCode + '/settings').set({
-    spies: spies,
-    imposters: imposters,
-    selectedCat: state.selectedCatIdx,
-    selectedSub: state.selectedSubIdx
+  customAlert(`هل أنت متأكد من طرد اللاعب [${name}]؟`, "🛑", true, () => {
+    let updated = state.players.filter(p => p !== name);
+    dbRef.child('players').set(updated);
+    dbRef.child('scores/' + name).remove();
   });
 }
 
-function renderOnlinePlayersList(playersObj) {
-  document.getElementById('online-p-count').innerText = Object.keys(playersObj).length;
-  const list = document.getElementById('online-players-list');
-  list.innerHTML = Object.keys(playersObj).map(k => `
-    <div class="list-item">
-      <span>👤 ${playersObj[k].name} ${playersObj[k].name === state.myPlayerName ? '<small style="color:var(--gold);">(أنت)</small>':''}</span>
-      ${state.isHost && playersObj[k].name !== state.myPlayerName ? `<button class="list-item-del" onclick="kickOnlinePlayer('${playersObj[k].name}')">❌</button>` : ''}
-    </div>
-  `).join('');
+function copyRoomCode() {
+  navigator.clipboard.writeText(state.roomCode);
+  customAlert('تم نسخ كود الغرفة إلى الحافظة بنجاح! شاركه مع أصدقائك.', '📋');
 }
 
-function kickOnlinePlayer(name) {
-  db.ref('rooms/' + state.roomCode + '/players/' + name).remove();
-}
-
-function leaveOnlineRoom() {
-  if(state.onlineSync) { state.onlineSync.off(); state.onlineSync = null; }
-  if(state.roomCode) {
-    if(state.isHost) {
-      db.ref('rooms/' + state.roomCode).remove();
-    } else {
-      db.ref('rooms/' + state.roomCode + '/players/' + state.myPlayerName).remove();
-    }
+function renderPlayerList() {
+  const el = document.getElementById('player-list');
+  if (!state.players.length) { 
+    el.innerHTML = '<div class="empty-state">لم تُضف لاعبين بعد...</div>'; 
+  } else {
+    el.innerHTML = state.players.map((p, i) => {
+      let deleteBtn = '';
+      if (state.gameMode === 'offline') {
+        deleteBtn = `<button class="list-item-del" onclick="removePlayer(${i})">✕</button>`;
+      } else if (state.gameMode === 'online-host' && p !== state.myPlayerName) {
+        deleteBtn = `<button class="list-item-del" onclick="kickPlayer('${p}')" style="font-size:0.8rem;" title="طرد">🚷</button>`;
+      }
+      return `
+        <div class="list-item">
+          <span style="word-break: break-all; padding-left: 8px;">${esc(p)} ${p === state.myPlayerName ? '<small style="color:var(--teal)">(أنت)</small>':''}</span>
+          ${deleteBtn}
+        </div>`;
+    }).join('');
   }
-  clearInterval(state.timerInterval);
-  state.roomCode = ""; state.isHost = false; state.gameMode = "offline";
-  showScreen('screen-menu');
+  
+  document.getElementById('player-count').textContent = state.players.length;
+  
+  if (state.gameMode === 'online-guest') {
+    document.getElementById('start-btn').disabled = true;
+    document.getElementById('start-btn').textContent = "بانتظار الـ Host لبدء اللعبة...⏳";
+  } else {
+    document.getElementById('start-btn').disabled = state.players.length < 4;
+    document.getElementById('start-btn').textContent = "🎮 ابدأ اللعبة!";
+  }
+}
+
+function addPlayer() {
+  if (state.gameMode !== 'offline') return;
+  const inp = document.getElementById('player-input');
+  const name = inp.value.trim();
+  if (!name) return;
+  if (state.players.includes(name)) { customAlert('هذا الاسم موجود بالفعل!', '👤'); return; }
+  state.players.push(name);
+  inp.value = '';
+  inp.focus();
+  renderPlayerList();
+}
+
+function removePlayer(i) {
+  if (state.gameMode !== 'offline') return;
+  state.players.splice(i, 1);
+  renderPlayerList();
+}
+
+function clickStartGame() {
+  if (state.gameMode === 'online-host') {
+    const chosenTimer = parseInt(document.getElementById('host-timer-input').value) || 30;
+    dbRef.child('timerDuration').set(chosenTimer);
+  }
+  
+  const validCategories = state.library.filter(c => c.questions.length >= 2);
+  if (validCategories.length === 0) {
+    customAlert("يجب أن تحتوي فئة واحدة على الأقل على (سؤالين) لتوزيع الأسئلة بشكل عادل بين اللاعبين والدخيل!", "⚠️");
+    showScreen('screen-library');
+    return;
+  }
+
+  if (state.gameMode === 'offline') {
+    state.players.forEach(p => { if (!(p in state.scores)) state.scores[p] = 0; });
+    startOfflineRound();
+  } else {
+    const n = state.players.length;
+    initialPlayersCount = n; 
+    const impIdx = Math.floor(Math.random() * n);
+    const chosenCat = validCategories[Math.floor(Math.random() * validCategories.length)];
+    const shuffledQuestions = shuffle([...chosenCat.questions]);
+    
+    dbRef.update({
+      status: 'question-phase',
+      imposterIdx: impIdx,
+      currentCategoryName: chosenCat.category,
+      questionNormal: shuffledQuestions[0],
+      questionImposter: shuffledQuestions[1],
+      answers: {},
+      votes: {},
+      chat: {}, 
+      readyToVoteCount: 0
+    });
+  }
+}
+
+// =================== النمط الأوفلاين (OFFLINE) ===================
+function startOfflineRound() {
+  const validCategories = state.library.filter(c => c.questions.length >= 2);
+  const n = state.players.length;
+  state.imposterIdx = Math.floor(Math.random() * n);
+  
+  const chosenCat = validCategories[Math.floor(Math.random() * validCategories.length)];
+  state.currentCategoryName = chosenCat.category;
+  
+  const shuffledQuestions = shuffle([...chosenCat.questions]);
+  state.questionNormal = shuffledQuestions[0];
+  state.questionImposter = shuffledQuestions[1];
+
+  state.passOrder = shuffle([...Array(n).keys()]);
+  state.passIdx = 0;
+  state.votes = {};
+  showOfflinePassScreen();
+}
+
+function showOfflinePassScreen() {
+  const idx = state.passOrder[state.passIdx];
+  document.getElementById('pass-name').textContent = state.players[idx];
+  showScreen('screen-pass');
+}
+
+function onReady() {
+  const idx = state.passOrder[state.passIdx];
+  const isImposter = idx === state.imposterIdx;
+  const q = isImposter ? state.questionImposter : state.questionNormal;
+  
+  document.getElementById('current-cat-display').textContent = state.currentCategoryName;
+  document.getElementById('online-answer-input-area').style.display = 'none';
+  document.getElementById('question-timer-div').style.display = 'none';
+  
+  const qBox = document.getElementById('q-box');
+  qBox.classList.remove('revealed');
+  qBox.classList.add('hidden-q');
+  document.getElementById('q-text').textContent = q;
+  document.getElementById('q-next-btn').style.display = 'none';
+  showScreen('screen-question');
+}
+
+function revealQuestion() {
+  const qBox = document.getElementById('q-box');
+  qBox.classList.add('revealed');
+  qBox.classList.remove('hidden-q');
+  if (state.gameMode === 'offline') {
+    document.getElementById('q-next-btn').style.display = 'block';
+  }
+}
+
+function nextAfterQuestion() {
+  state.passIdx++;
+  if (state.passIdx < state.passOrder.length) {
+    showOfflinePassScreen();
+  } else {
+    document.getElementById('discuss-cat-display').textContent = state.currentCategoryName;
+    document.getElementById('online-answers-list').innerHTML = `<p style="color:var(--muted); text-align:center;">في الوضع الأوفلاين، يقوم كل لاعب الآن بالإفصاح عن إجابته شفهياً أمام الحاضرين بالترتيب!</p>`;
+    showScreen('screen-discuss');
+  }
+}
+
+// =================== النمط الأونلاين (ONLINE REALTIME) ===================
+function startOnlineQuestionPhase() {
+  clearInterval(timerInterval);
+  document.getElementById('current-cat-display').textContent = state.currentCategoryName;
+  document.getElementById('online-answer-input-area').style.display = 'block';
+  document.getElementById('question-timer-div').style.display = 'block';
+  document.getElementById('q-next-btn').style.display = 'none';
+  document.getElementById('online-player-answer').value = '';
+  
+  const myIdx = state.players.indexOf(state.myPlayerName);
+  const isImposter = myIdx === state.imposterIdx;
+  const q = isImposter ? state.questionImposter : state.questionNormal;
+  
+  const qBox = document.getElementById('q-box');
+  qBox.classList.remove('revealed');
+  qBox.classList.add('hidden-q');
+  document.getElementById('q-text').textContent = q;
+  
+  showScreen('screen-question');
+  startCountdown(state.timerDuration, 'q-timer-num', () => {
+    submitOnlineAnswer(true);
+  });
+}
+
+function submitOnlineAnswer(isAuto = false) {
+  clearInterval(timerInterval);
+  let ansText = document.getElementById('online-player-answer').value.trim();
+  if (!ansText && isAuto) ansText = "لم يكتب إجابة في الوقت المحدد 😴";
+  if (!ansText && !isAuto) { customAlert('يرجى كتابة أي إجابة مموهة قبل الإرسال!', '✏️'); return; }
+  
+  dbRef.child('answers/' + state.myPlayerName).set(ansText);
+  document.getElementById('waiting-screen-msg').textContent = "بانتظار أن يكتب بقية اللاعبين إجاباتهم السحرية...";
+  showScreen('screen-waiting');
+  
+  if (state.gameMode === 'online-host') {
+    checkAnswersCompletion();
+  }
+}
+
+function checkAnswersCompletion() {
+  dbRef.child('answers').on('value', function checkAns(snap) {
+    const ansData = snap.val() || {};
+    if (Object.keys(ansData).length === state.players.length) {
+      dbRef.child('answers').off('value', checkAns);
+      dbRef.child('status').set('discuss-phase');
+    }
+  });
+}
+
+function startOnlineDiscussPhase() {
+  document.getElementById('discuss-cat-display').textContent = state.currentCategoryName;
+  
+  if (state.gameMode === 'online-host') {
+    document.getElementById('discuss-action-btn').textContent = "توجيه الجميع لكشف الأسئلة 📢";
+    document.getElementById('discuss-action-btn').disabled = false;
+  } else {
+    document.getElementById('discuss-action-btn').textContent = "بانتظار الهوست لكشف الأسئلة... ⏳";
+    document.getElementById('discuss-action-btn').disabled = true;
+  }
+  showScreen('screen-discuss');
+}
+
+function startOnlineRevealPhase() {
+  document.getElementById('reveal-qa').textContent = state.questionNormal;
+  
+  const myIdx = state.players.indexOf(state.myPlayerName);
+  if (myIdx === state.imposterIdx) {
+    document.getElementById('reveal-qb').textContent = state.questionImposter;
+  } else {
+    document.getElementById('reveal-qb').textContent = "🔒 مخفي ومكتوم حتى انتهاء التصويت النهائي!";
+  }
+  document.getElementById('reveal-imposter-question-row').style.display = 'block'; 
+
+  // بناء قائمة الإجابات في صفحة الكشف لتسهيل ربط الأسئلة
+  const revealAnswersContainer = document.getElementById('reveal-answers-list');
+  revealAnswersContainer.innerHTML = state.players.map(p => {
+    const ans = state.answers[p] || "بدون إجابة";
+    return `
+      <div class="answer-card">
+        <strong style="color:var(--gold);">${esc(p)}:</strong> <span>${esc(ans)}</span>
+      </div>`;
+  }).join('');
+  
+  // تفعيل الشات والردود في صفحة الكشف
+  document.getElementById('online-chat-section').style.display = 'block';
+  document.getElementById('chat-messages').innerHTML = '';
+  document.getElementById('chat-input').value = '';
+  cancelReply();
+
+  if (state.gameMode === 'online-host') {
+    document.getElementById('reveal-action-btn').textContent = "🗳️ فتح التصويت السري للجميع";
+    document.getElementById('reveal-action-btn').disabled = false;
+  } else {
+    document.getElementById('reveal-action-btn').textContent = "بانتظار الهوست لفتح التصويت... ⏳";
+    document.getElementById('reveal-action-btn').disabled = true;
+  }
+  showScreen('screen-reveal');
+}
+
+// ── إدارة نظام الشات الفوري والردود ──
+function setReplyTarget(senderName, textContent) {
+  currentReplyTarget = { sender: senderName, text: textContent };
+  const replyBar = document.getElementById('chat-reply-bar');
+  const replyText = document.getElementById('chat-reply-text');
+  
+  replyText.textContent = `رد على [${senderName}]: "${textContent.substring(0, 20)}${textContent.length > 20 ? '...' : ''}"`;
+  replyBar.style.display = 'flex';
+  document.getElementById('chat-input').focus();
+}
+
+function cancelReply() {
+  currentReplyTarget = null;
+  document.getElementById('chat-reply-bar').style.display = 'none';
 }
 
 function sendChatMessage() {
-  const input = document.getElementById('chat-input');
-  const txt = input.value.trim();
-  if(!txt) return;
-  const msgRef = db.ref('rooms/' + state.roomCode + '/messages').push();
-  msgRef.set({ sender: state.myPlayerName, text: txt });
-  input.value = "";
+  const inp = document.getElementById('chat-input');
+  const msg = inp.value.trim();
+  if (!msg) return;
+  
+  const msgRef = dbRef.child('chat').push();
+  const messagePayload = {
+    sender: state.myPlayerName,
+    text: msg,
+    timestamp: firebase.database.ServerValue.TIMESTAMP
+  };
+
+  if (currentReplyTarget) {
+    messagePayload.replyTo = currentReplyTarget;
+  }
+  
+  msgRef.set(messagePayload);
+  inp.value = '';
+  cancelReply();
 }
 
-function renderChatMessages(msgObj) {
-  const box = document.getElementById('chat-messages');
-  box.innerHTML = Object.keys(msgObj).map(k => {
-    const m = msgObj[k];
-    let typeClass = "msg-reply";
-    if(m.sender === "SYSTEM") typeClass = "msg-system";
-    else if(m.sender === state.myPlayerName) typeClass = "msg-me";
-    return `<div class="msg ${typeClass}"><strong>${m.sender}:</strong> ${m.text}</div>`;
+function renderChatMessages(chatData) {
+  const chatMessagesBox = document.getElementById('chat-messages');
+  if (!chatData) return;
+  
+  const sortedMsgs = Object.values(chatData).sort((a, b) => a.timestamp - b.timestamp);
+  
+  chatMessagesBox.innerHTML = sortedMsgs.map(m => {
+    let replyMarkup = '';
+    if (m.replyTo) {
+      replyMarkup = `
+        <div class="chat-reply-preview">
+          ↪️ رداً على <strong>${esc(m.replyTo.sender)}</strong>: ${esc(m.replyTo.text)}
+        </div>`;
+    }
+    
+    // عند الضغط على الرسالة يتم استدعاء الـ Reply
+    return `
+      <div class="chat-msg-row" onclick="setReplyTarget('${esc(m.sender)}', '${esc(m.text)}')">
+        ${replyMarkup}
+        <span class="chat-msg-sender">${esc(m.sender)}:</span>
+        <span>${esc(m.text)}</span>
+      </div>
+    `;
   }).join('');
-  box.scrollTop = box.scrollHeight;
+  
+  chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
 }
 
-function launchOnlineGame() {
-  if(!state.isHost) return;
-  if(state.players.length < 3) { customAlert("ي... لا يمكن بدء أونلاين بأقل من 3 لاعبين!"); return; }
-  if((state.spiesCount + state.impostersCount) >= state.players.length) {
-    customAlert("عدد الأطوار المتقدمة يتخطى عدد اللاعبين المشتركين!"); return;
-  }
-  if(state.selectedCatIdx === null || state.selectedSubIdx === null) {
-    customAlert("يرجى اختيار فئة ومجموعة للغرفة!"); return;
-  }
-  const sub = state.library[state.selectedCatIdx].subcategories[state.selectedSubIdx];
-  if(!sub || !sub.questions || sub.questions.length < 2) {
-    customAlert("المجموعة لا تحتوي على كلمات كافية!"); return;
-  }
-
-  generateRoleAssignments(sub.questions);
-
-  db.ref('rooms/' + state.roomCode).update({
-    status: 'reveal',
-    gameWords: state.gameWords,
-    assignments: state.assignments
+function startOnlineVotePhase() {
+  clearInterval(timerInterval);
+  document.getElementById('vote-timer-div').style.display = 'block';
+  state.currentVoteSelection = null;
+  
+  const vl = document.getElementById('vote-list');
+  vl.innerHTML = state.players
+    .filter(p => p !== state.myPlayerName)
+    .map(p => `<div class="vote-item" onclick="selectVote(this,'${esc(p)}')">${esc(p)}</div>`)
+    .join('');
+    
+  document.getElementById('vote-confirm-btn').disabled = true;
+  showScreen('screen-vote');
+  
+  startCountdown(state.timerDuration, 'v-timer-num', () => {
+    const eligible = state.players.filter(p => p !== state.myPlayerName);
+    state.currentVoteSelection = eligible[Math.floor(Math.random() * eligible.length)];
+    confirmVote();
   });
+}
+
+// =================== شاشات كشف الحسابات المشتركة ===================
+function showReveal() {
+  if (state.gameMode === 'offline') {
+    document.getElementById('reveal-qa').textContent = state.questionNormal;
+    document.getElementById('reveal-imposter-question-row').style.display = 'none'; 
+    document.getElementById('reveal-action-btn').textContent = "🗳️ بدء التصويت السري التناوبي";
+    document.getElementById('reveal-action-btn').disabled = false;
+    document.getElementById('reveal-answers-list').innerHTML = '';
+    document.getElementById('online-chat-section').style.display = 'none';
+    showScreen('screen-reveal');
+  } else {
+    if (state.gameMode === 'online-host') {
+      dbRef.child('status').set('reveal-phase');
+    }
+  }
+}
+
+function startVoting() {
+  if (state.gameMode === 'offline') {
+    state.voteOrder = shuffle([...Array(state.players.length).keys()]);
+    state.voteIdx = 0;
+    state.currentVoteSelection = null;
+    showOfflineVotePass();
+  } else {
+    if (state.gameMode === 'online-host') {
+      dbRef.child('status').set('vote-phase');
+    }
+  }
+}
+
+function showOfflineVotePass() {
+  const idx = state.voteOrder[state.voteIdx];
+  document.getElementById('vote-pass-name').textContent = state.players[idx];
+  document.getElementById('vote-timer-div').style.display = 'none';
+  showScreen('screen-vote-pass');
+}
+
+function showVoteScreen() {
+  const voterIdx = state.voteOrder[state.voteIdx];
+  const voterName = state.players[voterIdx];
+  state.currentVoteSelection = null;
+  const vl = document.getElementById('vote-list');
+  vl.innerHTML = state.players
+    .filter(p => p !== voterName)
+    .map(p => `<div class="vote-item" onclick="selectVote(this,'${esc(p)}')">${esc(p)}</div>`)
+    .join('');
+  document.getElementById('vote-confirm-btn').disabled = true;
+  showScreen('screen-vote');
+}
+
+function selectVote(el, name) {
+  document.querySelectorAll('.vote-item').forEach(v => v.classList.remove('selected'));
+  el.classList.add('selected');
+  state.currentVoteSelection = name;
+  document.getElementById('vote-confirm-btn').disabled = false;
+}
+
+function confirmVote() {
+  clearInterval(timerInterval);
+  if (state.gameMode === 'offline') {
+    const voterIdx = state.voteOrder[state.voteIdx];
+    const voterName = state.players[voterIdx];
+    state.votes[voterName] = state.currentVoteSelection;
+    state.voteIdx++;
+    if (state.voteIdx < state.voteOrder.length) {
+      showOfflineVotePass();
+    } else {
+      calcOfflineAndDisplayResults();
+    }
+  } else {
+    dbRef.child('votes/' + state.myPlayerName).set(state.currentVoteSelection);
+    document.getElementById('waiting-screen-msg').textContent = "تم تسجيل صوتك بنجاح! بانتظار إتمام بقية الأعضاء لعملية التصويت السري...";
+    showScreen('screen-waiting');
+    
+    if (state.gameMode === 'online-host') {
+      checkVotesCompletion();
+    }
+  }
+}
+
+function checkVotesCompletion() {
+  dbRef.child('votes').on('value', function checkVot(snap) {
+    const votData = snap.val() || {};
+    if (Object.keys(votData).length === state.players.length) {
+      dbRef.child('votes').off('value', checkVot);
+      dbRef.child('status').set('results-phase');
+    }
+  });
+}
+
+// =================== الحسابات الإحصائية ونظام النقاط الدقيق ===================
+function calcOfflineAndDisplayResults() {
+  const n = state.players.length;
+  const imposterName = state.players[state.imposterIdx];
+  
+  let V = 0;
+  state.players.forEach(p => { if (p !== imposterName && state.votes[p] === imposterName) V++; });
+  const roundScores = {};
+  state.players.forEach(p => roundScores[p] = 0);
+  const success = V >= (n / 2); 
+  
+  if (success) {
+    state.players.forEach(p => {
+      if (p === imposterName) roundScores[p] = 0;
+      else if (state.votes[p] === imposterName) roundScores[p] = V;
+      else roundScores[p] = 1;
+    });
+  } else {
+    const incorrectVotes = (n - 1) - V;
+    roundScores[imposterName] = incorrectVotes;
+  }
+  
+  state.players.forEach(p => state.scores[p] = (state.scores[p] || 0) + roundScores[p]);
+  renderFinalUIElements(imposterName, success, V, roundScores);
+}
+
+function displayFinalCalculatedResults() {
+  const n = state.players.length;
+  const imposterName = state.players[state.imposterIdx];
+  
+  let V = 0;
+  state.players.forEach(p => { if (p !== imposterName && state.votes[p] === imposterName) V++; });
+  const roundScores = {};
+  state.players.forEach(p => roundScores[p] = 0);
+  const success = V >= (n / 2);
+  
+  if (success) {
+    state.players.forEach(p => {
+      if (p === imposterName) roundScores[p] = 0;
+      else if (state.votes[p] === imposterName) roundScores[p] = V;
+      else roundScores[p] = 1;
+    });
+  } else {
+    const incorrectVotes = (n - 1) - V;
+    roundScores[imposterName] = incorrectVotes;
+  }
+  
+  if (state.gameMode === 'online-host') {
+    state.players.forEach(p => {
+      let accumulated = (state.scores[p] || 0) + roundScores[p];
+      dbRef.child('scores/' + p).set(accumulated);
+    });
+  }
+  
+  renderFinalUIElements(imposterName, success, V, roundScores);
+}
+
+function renderFinalUIElements(imposterName, success, V, roundScores) {
+  document.getElementById('result-imposter').textContent = imposterName;
+  document.getElementById('result-imposter-q-display').textContent = state.questionImposter;
+  
+  const outBox = document.getElementById('outcome-box');
+  if (success) {
+    document.getElementById('result-emoji').textContent = '🎉';
+    outBox.className = 'outcome-box outcome-success';
+    outBox.textContent = `✅ نجح الفريق في كشف الجاسوس! صوّت ${V} لاعب بشكل صحيح.`;
+  } else {
+    document.getElementById('result-emoji').textContent = '😈';
+    outBox.className = 'outcome-box outcome-fail';
+    outBox.textContent = `❌ فاز الدخيل المخادع! لم يحصّل الفريق أغلبية الأصوات المطلوب تحقيقها.`;
+  }
+  
+  const sorted = [...state.players].sort((a,b) => (state.scores[b] || 0) - (state.scores[a] || 0));
+  const tbody = document.getElementById('scores-body');
+  tbody.innerHTML = sorted.map(p => {
+    const isImp = p === imposterName;
+    return `<tr>
+      <td style="word-break:break-all;">${esc(p)} ${isImp ? '<span class="badge-imposter">إمبوستر</span>' : ''}</td>
+      <td class="score-round">+${roundScores[p]}</td>
+      <td class="score-total">${state.scores[p] || 0}</td>
+    </tr>`;
+  }).join('');
+  
+  if (state.gameMode === 'online-guest') {
+    document.getElementById('result-next-round-btn').style.display = 'none';
+    document.getElementById('result-reset-game-btn').style.display = 'none';
+  } else {
+    document.getElementById('result-next-round-btn').style.display = 'block';
+    document.getElementById('result-reset-game-btn').style.display = 'block';
+  }
+  
+  showScreen('screen-results');
+}
+
+function newRound() {
+  if (state.gameMode === 'offline') {
+    startOfflineRound();
+  } else if (state.gameMode === 'online-host') {
+    clickStartGame();
+  }
+}
+
+function newGame() {
+  customAlert("هل أنت متأكد من تصفير النقاط والعودة للقائمة الرئيسية؟", "⚠️", true, () => {
+    if (state.gameMode === 'online-host') {
+      dbRef.remove();
+      detachRoomListener();
+    } else if (state.gameMode === 'online-guest') {
+      detachRoomListener();
+    }
+    state.scores = {};
+    state.players = [];
+    showScreen('screen-menu');
+  });
+}
+
+function startCountdown(seconds, displayId, onFinish) {
+  clearInterval(timerInterval);
+  let timeLeft = seconds;
+  document.getElementById(displayId).textContent = timeLeft;
+  
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    document.getElementById(displayId).textContent = timeLeft;
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      onFinish();
+    }
+  }, 1000);
+}
+
+// =================== إدارة المبيعات والدروب داون للمكتبة الكلاسيكية ===================
+function toggleDropdown() {
+  const dropdown = document.getElementById('category-dropdown');
+  const optionsBox = document.getElementById('dropdown-options-box');
+  const selectBtn = dropdown.querySelector('.dropdown-select');
+  if (dropdown.classList.contains('open') || dropdown.classList.contains('open-up')) {
+    dropdown.classList.remove('open', 'open-up'); return;
+  }
+  const rect = selectBtn.getBoundingClientRect();
+  dropdown.classList.add('open');
+  optionsBox.style.top = (rect.bottom + 4) + 'px';
+  optionsBox.style.left = rect.left + 'px';
+  optionsBox.style.width = rect.width + 'px';
+}
+
+function selectDropdownOption(idx, name) {
+  document.getElementById('select-category-target').value = idx;
+  const displayEl = document.querySelector('#category-dropdown .dropdown-select');
+  displayEl.textContent = name;
+  displayEl.style.color = 'var(--gold)';
+  document.getElementById('category-dropdown').classList.remove('open', 'open-up');
+}
+
+document.addEventListener('click', function(e) {
+  const dropdown = document.getElementById('category-dropdown');
+  if (dropdown && !dropdown.contains(e.target)) dropdown.classList.remove('open', 'open-up');
+});
+
+function renderLibrary() {
+  const el = document.getElementById('lib-list');
+  const optionsBox = document.getElementById('dropdown-options-box');
+  if (!state.library.length) { 
+    el.innerHTML = '<div class="empty-state">المكتبة فارغة تماماً. قم بإنشاء فئة جديدة أدناه!</div>'; return; 
+  }
+  el.innerHTML = state.library.map((cat, catIdx) => `
+    <div class="category-box">
+      <div class="category-header">
+        <span>📁 ${esc(cat.category)} (${cat.questions.length})</span>
+        <button class="list-item-del" onclick="deleteCategory(${catIdx})">✕</button>
+      </div>
+      <div class="category-questions-list">
+        ${cat.questions.length === 0 ? '<div style="color:var(--muted); font-size:0.8rem;">لا توجد أسئلة بعد.</div>' : 
+          cat.questions.map((q, qIdx) => `
+            <div class="q-item">
+              <span>• ${esc(q)}</span>
+              <button class="list-item-del" onclick="deleteQuestion(${catIdx}, ${qIdx})" style="font-size:0.8rem;">✕</button>
+            </div>
+          `).join('')
+        }
+      </div>
+    </div>
+  `).join('');
+  optionsBox.innerHTML = state.library.map((cat, idx) => `
+    <div class="dropdown-option" onclick="selectDropdownOption('${idx}', '${esc(cat.category)}')">📁 ${esc(cat.category)}</div>
+  `).join('');
+}
+
+function addCategory() {
+  const input = document.getElementById('new-category-name');
+  const name = input.value.trim();
+  if (!name) return;
+  state.library.push({ category: name, questions: [] });
+  saveLibrary();
+  input.value = '';
+  renderLibrary();
+}
+
+function deleteCategory(idx) {
+  customAlert("هل أنت متأكد من حذف هذه الفئة بالكامل؟", "🗑️", true, () => {
+    state.library.splice(idx, 1); saveLibrary(); renderLibrary();
+  });
+}
+
+function addQuestionToCategory() {
+  const selectIdx = document.getElementById('select-category-target').value;
+  const input = document.getElementById('new-question-text');
+  const qText = input.value.trim();
+  if (selectIdx === "" || !qText) return;
+  state.library[selectIdx].questions.push(qText);
+  saveLibrary();
+  input.value = '';
+  renderLibrary();
+}
+
+function deleteQuestion(catIdx, qIdx) {
+  state.library[catIdx].questions.splice(qIdx, 1);
+  saveLibrary(); renderLibrary();
+}
+
+function exportLibrary() {
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.library, null, 2));
+  const downloadAnchor = document.createElement('a');
+  downloadAnchor.setAttribute("href", dataStr); downloadAnchor.setAttribute("download", "imposter_library.json");
+  document.body.appendChild(downloadAnchor); downloadAnchor.click(); downloadAnchor.remove();
+}
+
+function importLibrary(event) {
+  const file = event.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const importedData = JSON.parse(e.target.result);
+      if (Array.isArray(importedData)) {
+        state.library = importedData; saveLibrary(); renderLibrary();
+        customAlert('تم استيراد مكتبة الأسئلة بنجاح!', '✅');
+      }
+    } catch (err) { customAlert('فشل قراءة الملف المختار.', '❌'); }
+  };
+  reader.readAsText(file);
 }
 
 function shuffle(arr) {
@@ -1447,6 +1834,17 @@ function shuffle(arr) {
   }
   return arr;
 }
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').then(reg => { reg.update(); });
+    });
+  }
 </script>
 </body>
 </html>
